@@ -8,22 +8,24 @@ export async function GET(req) {
   const limit    = Number(searchParams.get('limit') || 5);
   const offset   = (page - 1) * limit;
 
+  // Base query with optional filtering
   let query = supabase
     .from('QnA')
-    .select('Q_ID, Q_Heading, Ans_summary, Published_At, Subcat_ID')
-    .order('Published_At', { ascending: false })
-    .range(offset, offset + limit - 1);
+    .select('Q_ID, Q_Heading, Ans_summary, Published_At, Subcat_ID', { count: 'exact' })
+    .order('Published_At', { ascending: false });
 
   if (subcatId) {
     query = query.eq('Subcat_ID', subcatId);
   }
 
-  const { data, error } = await query;
+  // Clone the query for counting before range limiting
+  const { data, count, error } = await query.range(offset, offset + limit - 1);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  // Format result
   const questions = data.map((q) => ({
     id: q.Q_ID,
     title: q.Q_Heading,
@@ -32,5 +34,10 @@ export async function GET(req) {
     published: q.Published_At,
   }));
 
-  return NextResponse.json(questions);
+  return NextResponse.json({
+    data: questions,
+    total: count, // total records in full result set
+    page,
+    limit,
+  });
 }

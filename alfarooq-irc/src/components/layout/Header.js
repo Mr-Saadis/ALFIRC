@@ -18,7 +18,7 @@ const Header = () => {
           </h1>
           <p className="text-[10px] text-gray-600 mt-[-2px] text-center ">
             Founded And Supervised By:<br />
-            Shaykh Muhammad Saalih Al-Munajjid
+            Shaykh Ahmad Bin Ihtisham
           </p>
         </div>
       </div>
