@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-primary: #3333cc;
+  --secondary: #f0f0f0;
 }
 
 @theme inline {
@@ -24,3 +26,38 @@ body {
   color: var(--foreground);
   font-family: Poppins, sans-serif;
 }
+@font-face {
+  font-family: 'UrduType';
+  src:url('/fonts/urdutype.ttf')  format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-nastaliq: 'Noto Nastaliq Urdu', serif;
+}
+
+
+@layer utilities {
+  .font-urdu {
+    font-family: var(--font-nastaliq);
+  }
+  .font-urdutype {
+    font-family: 'UrduType', sans-serif;
+  }
+  .font-poppins {
+    font-family: Poppins, sans-serif;
+  }
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+  .text-primary {
+    color: var(--color-primary);
+  }
+  .border-primary {
+    border-color: var(--color-primary);
+  }
+}
+
+
+

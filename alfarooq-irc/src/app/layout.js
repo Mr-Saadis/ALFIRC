@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono ,IBM_Plex_Sans,Poppins} from "next/font/google";
+import { Geist, Geist_Mono ,IBM_Plex_Sans,Poppins, Noto_Nastaliq_Urdu } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 
@@ -10,6 +10,11 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-Geist-Mono",
   subsets: ["latin"],
+});
+const notonastaliqurdurdu = Noto_Nastaliq_Urdu({
+  variable: "--font-Noto-Nastaliq-Urdu",
+  subsets: ["arabic"],
+  weight: [ "400", "500", "600", "700"],
 });
 const poppins = Poppins({
   variable: "--font-Poppins",

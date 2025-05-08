@@ -3,37 +3,39 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FaDownload, FaShare, FaBookmark, FaBook } from 'react-icons/fa';
-
-import { FiExternalLink, FiBook, } from 'react-icons/fi';
+import { FiExternalLink } from 'react-icons/fi';
 
 const AnswerCard = ({ answer }) => (
-  <li className="bg-white p-4 rounded-xl border-2 mt-1 mb-1 border-gray-100 dark:bg-gray-800 transition hover:bg-gray-100 dark:hover:bg-gray-700">
+  <li dir="rtl" className="bg-white p-4 rounded-xl border-2 mt-1 mb-1 border-gray-100 dark:bg-gray-800 transition hover:bg-gray-100 dark:hover:bg-gray-700">
     <Link
       href={`/api/questions/${answer.id}`}
       className="text-gray-900 dark:text-white font-semibold"
     >
       <div>
-        <div className="flex justify-between items-center mb-3">
-
-          <span className='text-[14px] text-[#111928] dark:text-[#111928] font-[600] leading-[21px]'>
-            {answer.title}</span>
-
-          <span className="text-[12px] text-[#6b7280] dark:text-[#6b7280] font-[700] leading-[18px]">
-            {new Date(answer.published).toLocaleDateString()}
+        <div className="flex flex-row-reverse justify-between items-center mb-3">
+          <span className="text-[12px] font-poppins text-[#6b7280] dark:text-[#6b7280] font-[500] leading-[18px]">
+            {new Date(answer.published).toLocaleDateString('ur-PK')}
+          </span>
+          <span className='text-primary text-[12px] dark:text-primary font-[600] leading-[10px]'>
+            سلسلہ نمبر : <span className='font-poppins'>{answer.id}</span>
           </span>
         </div>
-        <p className="text-gray-600 text-[12px] dark:text-gray-300 text-sm mb-3 line-clamp-3">
-          {answer.summary || 'No summary available.'}
+        <div className='text-[16px] text-[#111928] dark:text-[#111928] font-[600] leading-[30px] text-right'>
+          {answer.title}
+        </div>
+
+        <p className="text-gray-600 text-[14px] dark:text-gray-300 font-[500] mb-3 line-clamp-3 leading-[35px] text-right">
+          {answer.summary || 'کوئی خلاصہ دستیاب نہیں۔'}
         </p>
-        <div className="flex gap-4 text-sm text-gray-600 dark:text-gray-400">
-          <button className="flex items-center gap-2 hover:text-blue-600">
-            <FaBookmark /> Save
+        <div className="flex flex-row-reverse gap-4 font-[500] text-[12px] text-[#111928] dark:text-gray-400 justify-end">
+          <button className="flex flex-row-reverse items-center gap-2 hover:text-purple-600">
+            شیئر کریں <FaShare />
           </button>
-          <button className="flex items-center gap-2 hover:text-green-600">
-            <FaDownload /> Download
+          <button className="flex flex-row-reverse items-center gap-2 hover:text-[#1c9753]">
+            ڈاؤن لوڈ <FaDownload />
           </button>
-          <button className="flex items-center gap-2 hover:text-purple-600">
-            <FaShare /> Share
+          <button className="flex flex-row-reverse items-center gap-2 hover:text-blue-600">
+            محفوظ کریں <FaBookmark />
           </button>
         </div>
       </div>
@@ -45,15 +47,15 @@ const Pagination = ({ page, setPage, hasNext }) => {
   if (page === 1 && !hasNext) return null;
 
   return (
-    <div className="flex justify-center mt-6">
-      <ul className="flex bg-white rounded-full px-4 py-1 shadow-md border border-gray-100 items-center gap-2">
+    <div className="flex justify-center mt-6" dir="rtl">
+      <ul className="flex bg-white rounded-full px-4 py-1 shadow-md border border-gray-100 items-center gap-2 flex-row-reverse">
         <li>
           <button
             onClick={() => setPage((p) => Math.max(p - 1, 1))}
             disabled={page === 1}
-            className="px-2 text-gray-400 disabled:cursor-not-allowed"
+            className="px-2 font-poppins text-gray-400 hover:text-blue-800 disabled:cursor-not-allowed disabled:text-gray-400"
           >
-            ‹
+            ›
           </button>
         </li>
         {[page - 1, page, page + 1].filter((p) => p >= 1 && (p <= page || hasNext)).map((pg) => (
@@ -61,8 +63,8 @@ const Pagination = ({ page, setPage, hasNext }) => {
             <button
               onClick={() => setPage(pg)}
               className={`px-3 py-1 rounded-md text-sm font-semibold ${pg === page
-                  ? 'border-2 border-green-600 text-green-600'
-                  : 'text-gray-700'
+                ? 'border-2 border-primary text-primary'
+                : 'text-gray-700'
                 }`}
             >
               {pg}
@@ -72,15 +74,14 @@ const Pagination = ({ page, setPage, hasNext }) => {
         <li>
           <button
             onClick={() => setPage((p) => p + 1)}
-            disabled={hasNext===false}
-            className="px-2 text-gray-700 disabled:text-gray-400 disabled:cursor-not-allowed"
+            disabled={!hasNext}
+            className="px-2 font-poppins text-gray-700 hover:text-blue-800 disabled:text-gray-400 disabled:cursor-not-allowed"
           >
-            ›
+            ‹
           </button>
         </li>
       </ul>
     </div>
-
   );
 };
 
@@ -100,14 +101,14 @@ const NewAnswers = () => {
       try {
         const res = await fetch(`/api/questions/recent?page=${page}&limit=${limit}`);
         if (!res.ok) {
-          throw new Error('Failed to fetch answers');
+          throw new Error('جوابات حاصل نہیں ہو سکے');
         }
         const { data, total } = await res.json();
         setAnswers(data);
         setTotal(total);
         setHasNext(page * limit < total);
       } catch (err) {
-        setError(err.message || 'Failed to load answers. Please try again later.');
+        setError(err.message || 'جوابات لوڈ کرنے میں ناکامی۔ دوبارہ کوشش کریں۔');
       } finally {
         setLoading(false);
       }
@@ -117,25 +118,25 @@ const NewAnswers = () => {
   }, [page]);
 
   return (
-    <div className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md border border-grey-100 p-4 pt-8 pb-8 w-1/2 absolute">
-      <div className="flex justify-between items-center mb-4 pt-4 pb-4">
-        <h2 className="text-[21px] flex justify-between w-[180px] items-center font-[500] font-bold text-[#1c9753] dark:text-white">
-          <FaBook className="text-[28px]" /> New Answers
-        </h2>
-
-        <Link href="/en/latest">
-          <div className="bg-white flex items-center justify-between  w-[90px] h-[40px]  text-[15px] border-[#1c9753] text-[#1c9753] px-4 py-1.5 rounded-full text-sm font-medium hover:bg-[#1c9753]/10 transition cursor-pointer">
-            <FiExternalLink /> More
+    <div dir="rtl" className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-8 pb-8 w-1/2 absolute ">
+      <div className="flex flex-row-reverse justify-between items-center mb-4 pt-4 pb-4">
+        <Link href="/ur/latest">
+          <div className="bg-white flex items-center justify-around w-[90px] h-[40px] text-[15px] border-primary text-primary px-4 py-1.5 rounded-full text-sm font-medium hover:bg-blue-100 transition cursor-pointer">
+            <FiExternalLink /> مزید
           </div>
         </Link>
+        <h2 className="text-[21px] flex flex-row-reverse justify-between w-[140px] items-center font-[500] font-bold text-primary dark:text-white">
+          نئے جوابات <FaBook className="text-[28px]" />
+        </h2>
+
       </div>
 
       {loading ? (
-        <p className="text-center text-blue-500 font-medium">Loading...</p>
+        <p className="text-center text-blue-500 font-medium">لوڈ ہو رہا ہے...</p>
       ) : error ? (
         <p className="text-center text-red-500 font-medium">{error}</p>
       ) : answers.length === 0 ? (
-        <p className="text-center text-gray-500 font-medium">No answers available.</p>
+        <p className="text-center text-gray-500 font-medium">کوئی جواب دستیاب نہیں۔</p>
       ) : (
         <>
           <ul className="flex flex-col gap-4">

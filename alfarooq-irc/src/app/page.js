@@ -9,8 +9,8 @@ export default function Home() {
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">Welcome to Al-Farooq IRC</h1>
         <p className="text-gray-600 dark:text-gray-400 mb-4">Your one-stop solution for Islamic research.</p>
       </div>
-        <div className="flex justify-center">
-          <NewAnswers />
+        <div className="flex  font-urdutype justify-center">
+          <NewAnswers  />
         </div>
 
 
