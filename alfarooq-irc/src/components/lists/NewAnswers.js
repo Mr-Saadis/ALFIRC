@@ -91,7 +91,7 @@ const NewAnswers = () => {
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
   const [total, setTotal] = useState(0);
-  const limit = 1;
+  const limit = 4;
 
   useEffect(() => {
     const fetchAnswers = async () => {
@@ -117,7 +117,7 @@ const NewAnswers = () => {
   }, [page]);
 
   return (
-    <div className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md border border-grey-100 p-4 pt-8 pb-8 w-1/2 fixed">
+    <div className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md border border-grey-100 p-4 pt-8 pb-8 w-1/2 absolute">
       <div className="flex justify-between items-center mb-4 pt-4 pb-4">
         <h2 className="text-[21px] flex justify-between w-[180px] items-center font-[500] font-bold text-[#1c9753] dark:text-white">
           <FaBook className="text-[28px]" /> New Answers

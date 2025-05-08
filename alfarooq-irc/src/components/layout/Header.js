@@ -3,7 +3,7 @@ import { FaBars, FaGlobe, FaHeart } from 'react-icons/fa';
 
 const Header = () => {
   return (
-    <header className="flex items-center justify-between px-4 py-2 border-b shadow-sm bg-white">
+    <header className="flex items-center justify-between px-4 py-2  shadow-sm bg-white">
       {/* Left: Logo & Title */}
       <div className="flex items-center gap-3">
         {/* Menu Icon */}
