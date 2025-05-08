@@ -13,10 +13,10 @@ const Header = () => {
 
         {/* Logo & Text */}
         <div>
-          <h1 className="text-primary font-bold leading-tight text-center ">
+          <h1 className="text-primary font-poppins font-bold leading-tight text-center ">
             Al Farooq Islamic<br />Research Center
           </h1>
-          <p className="text-[10px] text-gray-600 mt-[-2px] text-center ">
+          <p className="text-[10px] text-gray-600 font-poppins mt-[-2px] text-center ">
             Founded And Supervised By:<br />
             Shaykh Ahmad Bin Ihtisham
           </p>

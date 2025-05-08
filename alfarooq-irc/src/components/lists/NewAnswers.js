@@ -125,18 +125,18 @@ const NewAnswers = () => {
             <FiExternalLink /> مزید
           </div>
         </Link>
-        <h2 className="text-[21px] flex flex-row-reverse justify-between w-[140px] items-center font-[500] font-bold text-primary dark:text-white">
+        <h2 className="text-[21px] flex flex-row-reverse justify-between w-[140px] items-center font-[500] text-primary dark:text-white">
           نئے جوابات <FaBook className="text-[28px]" />
         </h2>
 
       </div>
 
       {loading ? (
-        <p className="text-center text-blue-500 font-medium">لوڈ ہو رہا ہے...</p>
+        <p className="text-center text-primary font-medium">لوڈ ہو رہا ہے...</p>
       ) : error ? (
-        <p className="text-center text-red-500 font-medium">{error}</p>
+        <p className="text-center text-red-800 font-medium">{error}</p>
       ) : answers.length === 0 ? (
-        <p className="text-center text-gray-500 font-medium">کوئی جواب دستیاب نہیں۔</p>
+        <p className="text-center text-gray-800 font-medium">کوئی جواب دستیاب نہیں۔</p>
       ) : (
         <>
           <ul className="flex flex-col gap-4">
