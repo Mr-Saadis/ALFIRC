@@ -125,7 +125,7 @@ const NewAnswers = () => {
             <FiExternalLink /> مزید
           </div>
         </Link>
-        <h2 className="text-[21px] flex flex-row-reverse justify-between w-[140px] items-center font-[500] text-primary dark:text-white">
+        <h2 className="text-[21px] flex flex-row-reverse justify-between w-[140px] items-center font-[700] text-primary dark:text-white">
           نئے جوابات <FaBook className="text-[28px]" />
         </h2>
 
