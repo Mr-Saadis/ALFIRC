@@ -10,7 +10,7 @@ export default function Home() {
         <p className="text-gray-600 dark:text-gray-400 mb-4">Your one-stop solution for Islamic research.</p>
       </div>
         <div className="flex  font-urdutype justify-center">
-          <NewAnswers  />
+          <SelectedList />
         </div>
 
 
