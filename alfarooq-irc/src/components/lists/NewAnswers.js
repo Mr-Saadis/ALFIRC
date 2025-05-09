@@ -8,7 +8,7 @@ import { FiExternalLink } from 'react-icons/fi';
 const AnswerCard = ({ answer }) => (
   <li dir="rtl" className="bg-white p-4 rounded-xl border-2 mt-1 mb-1 border-gray-100 dark:bg-gray-800 transition hover:bg-gray-100 dark:hover:bg-gray-700">
     <Link
-      href={`/api/questions/${answer.id}`}
+      href={`/questions/${answer.id}`}
       className="text-gray-900 dark:text-white font-semibold"
     >
       <div>
