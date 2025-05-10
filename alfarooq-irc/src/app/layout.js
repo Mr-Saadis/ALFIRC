@@ -37,10 +37,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="urdu">
       <body
-        className={`${poppins.variable} ${poppins.variable} antialiased`}
+        className={` ${poppins.variable} ${poppins.variable} antialiased`}
       >
         <Header/>
+        <div className="bg-gray-50 min-h-screen">
+
         {children}
+        </div>
       </body>
     </html>
   );

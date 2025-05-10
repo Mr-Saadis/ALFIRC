@@ -24,19 +24,53 @@ const AnswerCard = ({ answer }) => (
           {answer.title}
         </div>
 
-        <p className="text-gray-600 text-[14px] dark:text-gray-300 font-[500] mb-3 line-clamp-3 leading-[35px] text-right">
-          {answer.summary || 'کوئی خلاصہ دستیاب نہیں۔'}
-        </p>
-        <div className="flex flex-row-reverse gap-4 font-[500] text-[12px] text-[#111928] dark:text-gray-400 justify-end">
-          <button className="flex flex-row-reverse items-center gap-2 hover:text-purple-600">
-            شیئر کریں <FaShare />
+        {answer.summary && (
+          <p className="text-gray-600 text-[14px] dark:text-gray-300 font-[500] mb-3 line-clamp-3 leading-[35px] text-right">
+            {answer.summary}
+          </p>
+        )}
+
+        <div className='flex justify-between items-center'>
+          <div className="flex flex-row-reverse gap-4 font-[500] text-[12px] text-[#111928] dark:text-gray-400 justify-end">
+            <button className="flex flex-row-reverse items-center gap-2 hover:text-purple-600">
+              شیئر کریں <FaShare />
+            </button>
+            <button className="flex flex-row-reverse items-center gap-2 hover:text-[#1c9753]">
+              ڈاؤن لوڈ <FaDownload />
+            </button>
+            <button className="flex flex-row-reverse items-center gap-2 hover:text-blue-600">
+              محفوظ کریں <FaBookmark />
+            </button>
+          </div>
+
+          {/* <Link href={``}>
+            {answer.Assign_T !== null && (
+              <div className="flex items-center gap-4 border border-[#FCE96A] bg-[#FDFDEA] px-3 py-1.5 rounded-full text-[13px] font-[500]">
+                {answer.Assign_T ? 'تحقیق و تخریج' : 'احکام و مسائل'}
+              </div>
+            )}
+          </Link>
+ */}
+
+
+          <button>
+            {answer.Assign_T !== null && (
+              <div
+                className={[
+                  "hover:shadow-md transition duration-300",
+                  answer.Assign_T
+                    ? "flex items-center gap-4 px-3 py-1.5  rounded-full text-[13px] font-[500] border border-[#FCE96A] bg-[#FDFDEA] text-gray-700 "
+                    : "flex items-center gap-4 px-3 py-1.5  rounded-full text-[13px] font-[500] border border-[#9FDCB4] bg-[#E7F6EC] text-[#063]",
+                ]}
+              >
+                {answer.Assign_T ? 'تحقیق و تخریج' : 'احکام و مسائل'}
+              </div>
+            )}
           </button>
-          <button className="flex flex-row-reverse items-center gap-2 hover:text-[#1c9753]">
-            ڈاؤن لوڈ <FaDownload />
-          </button>
-          <button className="flex flex-row-reverse items-center gap-2 hover:text-blue-600">
-            محفوظ کریں <FaBookmark />
-          </button>
+
+
+
+
         </div>
       </div>
     </Link>
