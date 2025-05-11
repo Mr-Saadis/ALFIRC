@@ -11,7 +11,7 @@ export async function GET(req) {
   // Base query with optional filtering
   let query = supabase
     .from('QnA')
-    .select('Q_ID, Q_Heading, Ans_summary, Published_At, Subcat_ID', { count: 'exact' })
+    .select('Q_ID, Q_Heading, Ans_summary, Published_At, Subcat_ID, Assign_T', { count: 'exact' })
     .order('Published_At', { ascending: false });
 
   if (subcatId) {
@@ -32,6 +32,7 @@ export async function GET(req) {
     summary: q.Ans_summary,
     subcatId: q.Subcat_ID,
     published: q.Published_At,
+    Assign_T: q.Assign_T,
   }));
 
   return NextResponse.json({

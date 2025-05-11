@@ -1,6 +1,6 @@
 import NewAnswers from "@/components/lists/NewAnswers";
 import SelectedList from "@/components/lists/SelectedList";
-import Image from "next/image";
+
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
         <p className="text-gray-600 dark:text-gray-400 mb-4">Your one-stop solution for Islamic research.</p>
       </div>
         <div className="flex  font-urdutype justify-center">
-          <SelectedList />
+          <NewAnswers />
         </div>
 
 
