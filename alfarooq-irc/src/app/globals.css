@@ -49,14 +49,6 @@ body {
   --font-nastaliq: 'Noto Nastaliq Urdu', serif;
 }
 
-.match {
-  background: rgba(255, 111, 0, 0.4);
-}
-.match[data-idx] {         /* or add a .current class */
-  background: rgba(1, 255, 56, 0.6);
-}
-
-
 @layer utilities {
   .font-urdu {
     font-family: var(--font-nastaliq);
