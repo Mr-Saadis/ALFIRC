@@ -6,8 +6,7 @@ export async function GET(req, { params }) {
   // await the params promise
   const { id } = await params;
 
-  // 1) Query Supabase
-  const { data, error } = await supabase
+    const { data, error } = await supabase
     .from('QnA')
     .select(`
       Q_ID,
@@ -17,14 +16,17 @@ export async function GET(req, { params }) {
       Q_User,
       Ans_summary,
       Assign_T,
-      Subcategory (
+      Subcategory!left (
         Subcat_ID,
         Subcat_Name,
-        Category ( Cat_ID, Cat_Name )
+        Category!left (
+          Cat_ID,
+          Cat_Name
+        )
       )
     `)
     .eq('Q_ID', id)
-    .single();
+    .single()
 
   // 2) Handle errors
   if (error) {
@@ -44,18 +46,20 @@ export async function GET(req, { params }) {
 
   // 3) Shape the payload
   const payload = {
-    Q_ID:         data.Q_ID,
-    Q_Heading:    data.Q_Heading,
-    Ans_Detailed: data.Ans_Detailed,
-    Published_At: data.Published_At,
-    Q_User:       data.Q_User,
-    Ans_Summary:  data.Ans_summary,
-    Assign_T:     data.Assign_T,
-    subcatId:     data.Subcategory.Subcat_ID,
-    subcatName:   data.Subcategory.Subcat_Name,
-    Cat_ID:       data.Subcategory.Category.Cat_ID,
-    Cat_Name:     data.Subcategory.Category.Cat_Name,
-  };
+  Q_ID:         data.Q_ID,
+  Q_Heading:    data.Q_Heading,
+  Ans_Detailed: data.Ans_Detailed,
+  Published_At: data.Published_At,
+  Q_User:       data.Q_User,
+  Ans_Summary:  data.Ans_summary,
+  Assign_T:     data.Assign_T,
+
+  // Use ?. and a default of null if missing
+  subcatId:    data.Subcategory?.Subcat_ID    ?? null,
+  subcatName:  data.Subcategory?.Subcat_Name  ?? null,
+  Cat_ID:      data.Subcategory?.Category?.Cat_ID   ?? null,
+  Cat_Name:    data.Subcategory?.Category?.Cat_Name ?? null,
+};
 
   return NextResponse.json(payload);
 }
