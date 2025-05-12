@@ -9,6 +9,7 @@ import ActionBar from '@/components/layout/ActionBar';
 import { getCopyableText } from '@/lib/getCopyableText'
 import { highlightHtml } from '@/lib/highlightHtml';
 import { toast } from 'sonner';
+import SimilarQuestions from '@/components/lists/questions/Similar';
 
 
 function formatAnsDetails(raw = '') {
@@ -303,17 +304,14 @@ export default function QuestionDetailPage() {
 
 
 
-
-        <button
-          onClick={handleCopy}
-          className="mt-4 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
-        >
-          {copySuccess ? 'Copied!' : 'Copy Text'}
-        </button>
-
-
-
       </article>
+{
+  (subcatId !==null) && (
+    <SimilarQuestions questionId={id} />
+  )
+}
+
+
     </article>
   );
 }
