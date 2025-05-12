@@ -8,6 +8,7 @@ import { FiHome, FiCalendar } from 'react-icons/fi';
 import ActionBar from '@/components/layout/ActionBar';
 import { getCopyableText } from '@/lib/getCopyableText'
 import { highlightHtml } from '@/lib/highlightHtml';
+import { toast } from 'sonner';
 
 
 function formatAnsDetails(raw = '') {
@@ -201,15 +202,16 @@ export default function QuestionDetailPage() {
           setCurrent={setCurrent}
           onCopy={() => {
             const a = getCopyableText(Ans_Detailed);
-            const b = Ans_Summary != null  ? `\n*جواب کا خلاصہ*\n${Ans_Summary}\n\n` : "\n\n";
+            const b = Ans_Summary != null ? `\n*جواب کا خلاصہ*\n${Ans_Summary}\n\n` : "\n\n";
             const combined = `سلسلہ نمبر : ${Q_ID}\n\n` + `${Q_Heading}` + b + a;
             // 2) wrap it in RLE … PDF
             const RLE = "\u202B"; // Right-to-Left Embedding
             const PDF = "\u202C"; // Pop Directional Formatting
             const rtlText = RLE + combined + PDF;
             navigator.clipboard.writeText(rtlText);
+            toast.success('Copied!')
           }}
-          
+
         /* …other props… */
         />
 

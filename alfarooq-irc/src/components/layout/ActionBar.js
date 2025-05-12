@@ -61,9 +61,9 @@ export default function ActionBar({
   }
 
   return (
-    <div className="sticky top-5 z-50 bottom-0 left-0 right-0 bg-transparent">
+    <div className="sticky top-5 z-50 mt-5 bottom-0 left-0 right-0 bg-transparent">
       {/* Top row */}
-      <div className="flex justify-around bg-white opacity-85 border rounded-[10px] border-gray-200 flex-row-reverse py-2">
+      <div className="flex justify-around bg-white opacity-85 border rounded-[10px] border-gray-200 flex-row-reverse py-4">
         <FiPrinter    className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={handlePrint} />
         <FiShare2     className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={handleShare} />
         {/* <FiType       className="text-xl cursor-pointer" onClick={onToggleFormat} /> */}
