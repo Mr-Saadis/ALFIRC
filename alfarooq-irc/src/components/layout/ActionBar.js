@@ -3,7 +3,7 @@ import { useState } from 'react'
 import {
   FiPrinter,
   FiDownload,
-  FiType,
+  FiCopy,
   FiBookmark,
   FiGlobe,
   FiSearch,
@@ -14,15 +14,16 @@ import {
 } from 'react-icons/fi'
 import { getCopyableText } from '@/lib/getCopyableText'
 
+
 export default function ActionBar({
-questionId,
+  questionId,
   query, setQuery,
   matches, current,
   goPrev, goNext,
   onCopy,
   setMatches, setCurrent,
 
-//   questionId,
+  question,
   ansDetailed,
   isFormatted,
   onToggleFormat,
@@ -30,10 +31,8 @@ questionId,
   onToggleBookmark
 }) {
   const [searchOpen, setSearchOpen] = useState(false)
- // const [query, setQuery]     = useState('')
-//   const [matches, setMatches] = useState(0)
-//   const [current, setCurrent] = useState(0)
   const baseInputId = `find-input-${questionId}`
+
 
   // ── handlers ──
   const handlePrint = () => window.print()
@@ -49,6 +48,7 @@ questionId,
     URL.revokeObjectURL(url)
   }
 
+  
 
   const handleShare = () => {
     const url = window.location.href
@@ -64,13 +64,13 @@ questionId,
     <div className="sticky top-5 z-50 bottom-0 left-0 right-0 bg-transparent">
       {/* Top row */}
       <div className="flex justify-around bg-white opacity-85 border rounded-[10px] border-gray-200 flex-row-reverse py-2">
-        <FiPrinter    className="text-xl cursor-pointer" onClick={handlePrint} />
-        <FiDownload   className="text-xl cursor-pointer" onClick={handleDownload} />
+        <FiPrinter    className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={handlePrint} />
+        <FiShare2     className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={handleShare} />
         {/* <FiType       className="text-xl cursor-pointer" onClick={onToggleFormat} /> */}
-        <FiBookmark   className={`text-xl cursor-pointer ${isBookmarked ? 'text-yellow-500' : ''}`} onClick={onToggleBookmark} />
+        <FiBookmark   className={`text-xl cursor-pointer hover:text-[#3333cc] ${isBookmarked ? 'text-yellow-500' : ''}`} onClick={onToggleBookmark} />
         {/* <FiGlobe      className="text-xl cursor-pointer" onClick={() => window.location.pathname = `/ur/questions/${questionId}`} /> */}
-        <FiSearch     className="text-xl transition-all cursor-pointer" onClick={() => setSearchOpen(o => !o)} />
-        <FiShare2     className="text-xl cursor-pointer" onClick={handleShare} />
+        <FiSearch     className="text-xl transition-all cursor-pointer hover:text-[#3333cc]" onClick={() => setSearchOpen(o => !o)} />
+        <FiCopy  className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={onCopy} />
       </div>
 
       {/* Search row */}
