@@ -8,6 +8,7 @@ import { FiHome, FiCalendar } from 'react-icons/fi';
 import ActionBar from '@/components/layout/ActionBar';
 import { getCopyableText } from '@/lib/getCopyableText'
 import { highlightHtml } from '@/lib/highlightHtml';
+import { toast } from 'sonner';
 
 
 function formatAnsDetails(raw = '') {
@@ -85,21 +86,21 @@ export default function QuestionDetailPage() {
     if (current <= matches - 1) setCurrent(c => c + 1);
   };
 
-useEffect(() => {
-  if (!contentRef.current) return;
-  const marks = contentRef.current.querySelectorAll('mark[data-idx]');
+  useEffect(() => {
+    if (!contentRef.current) return;
+    const marks = contentRef.current.querySelectorAll('mark[data-idx]');
 
-  marks.forEach(mark => {
-    const idx = Number(mark.getAttribute('data-idx'));
-    if (idx === current) {
-      mark.classList.add('bg-blue-400');
-      mark.classList.remove('bg-blue-200');
-    } else {
-      mark.classList.remove('bg-blue-400');
-      mark.classList.add('bg-blue-200');
-    }
-  });
-}, [current, html]);
+    marks.forEach(mark => {
+      const idx = Number(mark.getAttribute('data-idx'));
+      if (idx === current) {
+        mark.classList.add('bg-blue-400');
+        mark.classList.remove('bg-blue-200');
+      } else {
+        mark.classList.remove('bg-blue-400');
+        mark.classList.add('bg-blue-200');
+      }
+    });
+  }, [current, html]);
 
 
 
@@ -132,13 +133,9 @@ useEffect(() => {
     Cat_Name
   } = question;
 
-
   const handleCopy = () => {
-    const textToCopy = getCopyableText(Ans_Detailed);
-    navigator.clipboard.writeText(textToCopy).then(() => {
-      setCopySuccess(true);
-      setTimeout(() => setCopySuccess(false), 2000);
-    });
+    // 1) build your plain text exactly as you have it now
+
   };
 
 
@@ -192,6 +189,7 @@ useEffect(() => {
 
 
         <ActionBar
+          question={question}
           questionId={id}
           ansDetailed={rawHtml}
           query={query}
@@ -203,8 +201,17 @@ useEffect(() => {
           setMatches={setMatches}
           setCurrent={setCurrent}
           onCopy={() => {
-            navigator.clipboard.writeText(getCopyableText(rawHtml));
+            const a = getCopyableText(Ans_Detailed);
+            const b = Ans_Summary != null ? `\n*جواب کا خلاصہ*\n${Ans_Summary}\n\n` : "\n\n";
+            const combined = `سلسلہ نمبر : ${Q_ID}\n\n` + `${Q_Heading}` + b + a;
+            // 2) wrap it in RLE … PDF
+            const RLE = "\u202B"; // Right-to-Left Embedding
+            const PDF = "\u202C"; // Pop Directional Formatting
+            const rtlText = RLE + combined + PDF;
+            navigator.clipboard.writeText(rtlText);
+            toast.success('Copied!')
           }}
+
         /* …other props… */
         />
 

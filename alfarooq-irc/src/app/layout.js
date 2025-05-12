@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono ,IBM_Plex_Sans,Poppins, Noto_Nastaliq_Urdu } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-Poppins",
@@ -43,6 +44,7 @@ export default function RootLayout({ children }) {
         <div className="bg-gray-50 min-h-screen">
 
         {children}
+        <Toaster position="bottom-right" />
         </div>
       </body>
     </html>
