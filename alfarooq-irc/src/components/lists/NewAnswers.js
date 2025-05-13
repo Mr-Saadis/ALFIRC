@@ -133,6 +133,7 @@ const NewAnswers = () => {
       setLoading(true);
       setError(null);
       try {
+      
         const res = await fetch(`/api/questions/recent?page=${page}&limit=${limit}`);
         if (!res.ok) {
           throw new Error('جوابات حاصل نہیں ہو سکے');
