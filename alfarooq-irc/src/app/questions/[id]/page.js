@@ -134,12 +134,6 @@ export default function QuestionDetailPage() {
     Cat_Name
   } = question;
 
-  const handleCopy = () => {
-    // 1) build your plain text exactly as you have it now
-
-  };
-
-
 
 
   return (
