@@ -13,6 +13,8 @@ import {
   FiChevronDown
 } from 'react-icons/fi'
 import { getCopyableText } from '@/lib/getCopyableText'
+import { toast } from 'sonner'
+import { bookmarkAdd } from '@/lib/analytics'
 
 
 export default function ActionBar({
@@ -48,7 +50,16 @@ export default function ActionBar({
     URL.revokeObjectURL(url)
   }
 
-  
+  const Bookmarked = () => {
+  bookmarkAdd(questionId);
+    toast.success("Added to Bookmarks", {
+         // description: "Sunday, December 03, 2023 at 9:00 AM",
+          action: {
+            label: "Open",
+            onClick: () => console.log("Undo"),
+          },
+        })
+  }
 
   const handleShare = () => {
     const url = window.location.href
@@ -67,7 +78,7 @@ export default function ActionBar({
         <FiPrinter    className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={handlePrint} />
         <FiShare2     className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={handleShare} />
         {/* <FiType       className="text-xl cursor-pointer" onClick={onToggleFormat} /> */}
-        <FiBookmark   className={`text-xl cursor-pointer hover:text-[#3333cc] ${isBookmarked ? 'text-yellow-500' : ''}`} onClick={onToggleBookmark} />
+        <FiBookmark   className={`text-xl cursor-pointer hover:text-[#3333cc] ${isBookmarked ? 'text-yellow-500' : ''}`} onClick={Bookmarked} />
         {/* <FiGlobe      className="text-xl cursor-pointer" onClick={() => window.location.pathname = `/ur/questions/${questionId}`} /> */}
         <FiSearch     className="text-xl transition-all cursor-pointer hover:text-[#3333cc]" onClick={() => setSearchOpen(o => !o)} />
         <FiCopy  className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={onCopy} />

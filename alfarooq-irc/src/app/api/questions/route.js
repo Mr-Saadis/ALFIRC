@@ -7,6 +7,7 @@ export async function GET(req) {
   const page     = Number(searchParams.get('page') || 1);
   const limit    = Number(searchParams.get('limit') || 5);
   const offset   = (page - 1) * limit;
+    
 
   let query = supabase
     .from('QnA')

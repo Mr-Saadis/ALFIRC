@@ -9,6 +9,8 @@ import ActionBar from '@/components/layout/ActionBar';
 import { getCopyableText } from '@/lib/getCopyableText'
 import { highlightHtml } from '@/lib/highlightHtml';
 import { toast } from 'sonner';
+import SimilarQuestions from '@/components/lists/questions/Similar';
+import { recordAnonymousEvent, recordView } from '@/lib/analytics';
 
 
 function formatAnsDetails(raw = '') {
@@ -22,7 +24,7 @@ function formatAnsDetails(raw = '') {
     .replace(/\/(.+?)\//g,
       (_, url) => `<a href="/questions/${url}" class="text-primary hover:underline">${url}</a>`)
     .replace(/\_([\s\S]+?)\_/g,
-      (_, txt) => `<div class="text-primary bg-blue-50 p-4 rounded-3xl leading-[35px]">${txt}</div>`)
+      (_, txt) => `<div class="text-primary text-[20px] font-quran bg-blue-50 p-4 rounded-3xl leading-[35px]">${txt}</div>`)
     .replace(/\r?\n\r?\n/g, '</p><p>')
     .replace(/\r?\n/g, '<br/>');
 }
@@ -57,9 +59,15 @@ export default function QuestionDetailPage() {
         setQuestion(data);
         setRawHtml(f);
         setHtml(f);
+        recordAnonymousEvent();
+      //  console.log(data.Q_ID);
+       recordView(data.Q_ID);
       })
       .catch(err => setError(err.message))
       .finally(() => setLoading(false));
+
+
+
   }, [id]);
 
 
@@ -119,6 +127,13 @@ export default function QuestionDetailPage() {
     );
   }
 
+  // useEffect(() => {
+  //   // once the question data is loaded, record the view
+
+  // }, [question, id]);
+
+
+
   const {
     Q_ID,
     Q_Heading,
@@ -132,12 +147,6 @@ export default function QuestionDetailPage() {
     Cat_ID,
     Cat_Name
   } = question;
-
-  const handleCopy = () => {
-    // 1) build your plain text exactly as you have it now
-
-  };
-
 
 
 
@@ -303,17 +312,14 @@ export default function QuestionDetailPage() {
 
 
 
-
-        <button
-          onClick={handleCopy}
-          className="mt-4 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition"
-        >
-          {copySuccess ? 'Copied!' : 'Copy Text'}
-        </button>
-
-
-
       </article>
+      {
+        (subcatId !== null) && (
+          <SimilarQuestions questionId={id} />
+        )
+      }
+
+
     </article>
   );
 }

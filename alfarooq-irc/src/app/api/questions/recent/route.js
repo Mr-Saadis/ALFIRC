@@ -7,6 +7,7 @@ export async function GET(req) {
   const page     = Number(searchParams.get('page') || 1);
   const limit    = Number(searchParams.get('limit') || 5);
   const offset   = (page - 1) * limit;
+  
 
   // Base query with optional filtering
   let query = supabase
@@ -15,6 +16,7 @@ export async function GET(req) {
     .order('Published_At', { ascending: false });
 
   if (subcatId) {
+    
     query = query.eq('Subcat_ID', subcatId);
   }
 

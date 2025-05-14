@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FaDownload, FaShare, FaBookmark, FaBook } from 'react-icons/fa';
-import { FiExternalLink } from 'react-icons/fi';
+import { FiExternalLink,FiDownload,FiShare,FiBookmark } from 'react-icons/fi';
 
 const AnswerCard = ({ answer }) => (
   <li dir="rtl" className="bg-white p-4 rounded-xl border-2 mt-1 mb-1 border-gray-100 dark:bg-gray-800 transition hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -33,13 +33,13 @@ const AnswerCard = ({ answer }) => (
         <div className='flex justify-between items-center'>
           <div className="flex flex-row-reverse gap-4 font-[500] text-[12px] text-[#111928] dark:text-gray-400 justify-end">
             <button className="flex flex-row-reverse items-center gap-2 hover:text-purple-600">
-              شیئر کریں <FaShare />
+              شیئر کریں <FiShare />
             </button>
             <button className="flex flex-row-reverse items-center gap-2 hover:text-[#1c9753]">
-              ڈاؤن لوڈ <FaDownload />
+              ڈاؤن لوڈ <FiDownload />
             </button>
             <button className="flex flex-row-reverse items-center gap-2 hover:text-blue-600">
-              محفوظ کریں <FaBookmark />
+              محفوظ کریں <FiBookmark />
             </button>
           </div>
 
@@ -133,6 +133,7 @@ const NewAnswers = () => {
       setLoading(true);
       setError(null);
       try {
+      
         const res = await fetch(`/api/questions/recent?page=${page}&limit=${limit}`);
         if (!res.ok) {
           throw new Error('جوابات حاصل نہیں ہو سکے');
