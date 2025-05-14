@@ -29,17 +29,31 @@ export async function POST(req) {
   const ip_hash   = createHash('sha256').update(ip + user_agent).digest('hex')
 
   // 4) Insert into AnonymousUser
+  // const { error } = await supabase
+  //   .from('AnonymousUser')
+  //   .insert({
+  //     session_id,
+  //     url,
+  //     referrer,
+  //     user_agent,
+  //     ip_hash,
+  //     details: details ?? null
+  //   })
+
   const { error } = await supabase
-    .from('AnonymousUser')
-    .insert({
+  .from('AnonymousUser')
+  .upsert(
+    {
       session_id,
       url,
       referrer,
       user_agent,
       ip_hash,
       details: details ?? null
-    })
-
+    },
+    { onConflict: 'session_id' }
+  );
+  
   if (error) {
     console.error('[AnonymousUser][POST] Insert error:', error)
     return NextResponse.json({ error: error.message }, { status: 500 })
