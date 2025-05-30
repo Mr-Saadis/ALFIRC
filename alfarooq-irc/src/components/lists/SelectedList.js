@@ -3,12 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FaDownload, FaShare, FaBookmark, FaBook } from 'react-icons/fa';
-import { FiExternalLink } from 'react-icons/fi';
+import { FiExternalLink, FiGrid } from 'react-icons/fi';
+
 
 const SelectedAnswerCard = ({ answer }) => (
   <li dir="rtl" className="bg-white p-4 rounded-xl border-2 mt-1 mb-1 border-gray-100 dark:bg-gray-800 transition hover:bg-gray-100 dark:hover:bg-gray-700">
     <Link
-      href={`/api/questions/${answer.id}`}
+      href={`/questions/${answer.id}`}
       className="text-gray-900 dark:text-white font-semibold"
     >
       <div>
@@ -27,7 +28,7 @@ const SelectedAnswerCard = ({ answer }) => (
         <p className="text-gray-600 text-[14px] dark:text-gray-300 font-[500] mb-3 line-clamp-3 leading-[35px] text-right">
           {answer.summary || 'کوئی خلاصہ دستیاب نہیں۔'}
         </p>
-        <div className="flex flex-row-reverse gap-4 font-[500] text-[12px] text-[#111928] dark:text-gray-400 justify-end">
+        {/* <div className="flex flex-row-reverse gap-4 font-[500] text-[12px] text-[#111928] dark:text-gray-400 justify-end">
           <button className="flex flex-row-reverse items-center gap-2 hover:text-purple-600">
             شیئر کریں <FaShare />
           </button>
@@ -37,7 +38,7 @@ const SelectedAnswerCard = ({ answer }) => (
           <button className="flex flex-row-reverse items-center gap-2 hover:text-blue-600">
             محفوظ کریں <FaBookmark />
           </button>
-        </div>
+        </div> */}
       </div>
     </Link>
   </li>
@@ -119,12 +120,18 @@ const SelectedNewAnswers = () => {
   }, [page]);
 
   return (
-    <div dir="rtl" className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-8 pb-8 w-1/2 absolute ">
+    <div dir="rtl" className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-8 pb-8 min-w-full ">
       <div className="flex flex-row-reverse justify-between items-center mb-4 pt-4 pb-4">
         <Link href="/ur/latest">
-          <div className="bg-white flex items-center justify-around w-[90px] h-[40px] text-[15px] border-primary text-primary px-4 py-1.5 rounded-full text-sm font-medium hover:bg-blue-100 transition cursor-pointer">
+          <button
+                    className="inline-flex items-center  px-3 w-[90px] justify-center gap-3 py-1.5 border border-gray-300 rounded-full hover:bg-gray-100 transition"
+                  >
+                    <FiGrid className="text-lg text-blue-600" />
+                    مزید
+                  </button>
+          {/* <div className="bg-white flex items-center justify-around w-[90px] h-[40px] text-[15px] border-primary text-primary px-4 py-1.5 rounded-full text-sm font-medium hover:bg-blue-100 transition cursor-pointer">
             <FiExternalLink /> مزید
-          </div>
+          </div> */}
         </Link>
         <h2 className="text-[21px] flex flex-row-reverse justify-between w-[140px] items-center font-[700] text-primary dark:text-white">
         اہم سوالات<FaBook className="text-[28px]" />

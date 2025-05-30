@@ -3,14 +3,22 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FaDownload, FaShare, FaBookmark, FaBook } from 'react-icons/fa';
-import { FiExternalLink,FiDownload,FiShare,FiBookmark } from 'react-icons/fi';
+import { FiExternalLink,FiDownload,FiShare,FiBookmark, FiGrid } from 'react-icons/fi';
+import { Spinner } from "flowbite-react";
 
-const AnswerCard = ({ answer }) => (
-  <li dir="rtl" className="bg-white p-4 rounded-xl border-2 mt-1 mb-1 border-gray-100 dark:bg-gray-800 transition hover:bg-gray-100 dark:hover:bg-gray-700">
+const AnswerCard = ({ answer, isLoading, onClick }) => (
+  <li dir="rtl" className="relative bg-white p-4 rounded-xl border-2 mt-1 mb-1 border-gray-100 dark:bg-gray-800 transition hover:bg-gray-100 dark:hover:bg-gray-700">
+    {isLoading && (
+        <div className="absolute inset-0 bg-white/50 flex items-center justify-center rounded-xl">
+          <Spinner size="sm" />
+        </div>
+      )}
     <Link
       href={`/questions/${answer.id}`}
+      onClick={onClick}
       className="text-gray-900 dark:text-white font-semibold"
     >
+
       <div>
         <div className="flex flex-row-reverse justify-between items-center mb-3">
           <span className="text-[12px] font-poppins text-[#6b7280] dark:text-[#6b7280] font-[500] leading-[18px]">
@@ -32,7 +40,7 @@ const AnswerCard = ({ answer }) => (
 
         <div className='flex justify-between items-center'>
           <div className="flex flex-row-reverse gap-4 font-[500] text-[12px] text-[#111928] dark:text-gray-400 justify-end">
-            <button className="flex flex-row-reverse items-center gap-2 hover:text-purple-600">
+            {/* <button className="flex flex-row-reverse items-center gap-2 hover:text-purple-600">
               شیئر کریں <FiShare />
             </button>
             <button className="flex flex-row-reverse items-center gap-2 hover:text-[#1c9753]">
@@ -40,7 +48,7 @@ const AnswerCard = ({ answer }) => (
             </button>
             <button className="flex flex-row-reverse items-center gap-2 hover:text-blue-600">
               محفوظ کریں <FiBookmark />
-            </button>
+            </button> */}
           </div>
 
           {/* <Link href={``}>
@@ -67,10 +75,6 @@ const AnswerCard = ({ answer }) => (
               </div>
             )}
           </button>
-
-
-
-
         </div>
       </div>
     </Link>
@@ -126,6 +130,7 @@ const NewAnswers = () => {
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(true);
   const [total, setTotal] = useState(0);
+  const [loadingId, setLoadingId] = useState(null);
   const limit = 4;
 
   useEffect(() => {
@@ -133,7 +138,6 @@ const NewAnswers = () => {
       setLoading(true);
       setError(null);
       try {
-      
         const res = await fetch(`/api/questions/recent?page=${page}&limit=${limit}`);
         if (!res.ok) {
           throw new Error('جوابات حاصل نہیں ہو سکے');
@@ -153,12 +157,16 @@ const NewAnswers = () => {
   }, [page]);
 
   return (
-    <div dir="rtl" className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-8 pb-8 w-1/2 absolute ">
+    <div dir="rtl" className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-8 pb-8 min-w-full ">
       <div className="flex flex-row-reverse justify-between items-center mb-4 pt-4 pb-4">
         <Link href="/ur/latest">
-          <div className="bg-white flex items-center justify-around w-[90px] h-[40px] text-[15px] border-primary text-primary px-4 py-1.5 rounded-full text-sm font-medium hover:bg-blue-100 transition cursor-pointer">
+        <button className="inline-flex items-center  px-3 w-[90px] justify-center gap-3 py-1.5 border border-gray-300 rounded-full hover:bg-gray-100 transition" >
+             <FiGrid className="text-lg text-blue-600" />
+              مزید
+        </button>
+          {/* <div className="bg-white flex items-center justify-around w-[90px] h-[40px] text-[15px] border-primary text-primary px-4 py-1.5 rounded-full text-sm font-medium hover:bg-blue-100 transition cursor-pointer">
             <FiExternalLink /> مزید
-          </div>
+          </div> */}
         </Link>
         <h2 className="text-[21px] flex flex-row-reverse justify-between w-[140px] items-center font-[700] text-primary dark:text-white">
           نئے جوابات <FaBook className="text-[28px]" />
@@ -167,16 +175,28 @@ const NewAnswers = () => {
       </div>
 
       {loading ? (
-        <p className="text-center text-primary font-medium">لوڈ ہو رہا ہے...</p>
-      ) : error ? (
-        <p className="text-center text-red-800 font-medium">{error}</p>
-      ) : answers.length === 0 ? (
-        <p className="text-center text-gray-800 font-medium">کوئی جواب دستیاب نہیں۔</p>
-      ) : (
+          <div className="absolute inset-0 min-w-[350px] flex items-center justify-center rounded-2xl bg-white/50">
+            <Spinner
+              aria-label="Loading categories"
+              size="md"
+              className="text-blue-300 "
+            />
+          </div>
+        ) : error ? (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="text-red-500 text-lg">{error}</span>
+          </div>
+        ) : null}
+
+      {(
         <>
           <ul className="flex flex-col gap-4">
             {answers.map((answer) => (
-              <AnswerCard key={answer.id} answer={answer} />
+              <AnswerCard key={answer.id}
+               answer={answer}
+               isLoading={loadingId === answer.id}
+            onClick={() => setLoadingId(answer.id)}
+                />
             ))}
           </ul>
           <Pagination page={page} setPage={setPage} hasNext={hasNext} />

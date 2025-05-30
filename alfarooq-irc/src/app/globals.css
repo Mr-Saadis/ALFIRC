@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../../.flowbite-react/class-list.json";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -129,6 +131,16 @@ body {
   }
   .border-primary {
     border-color: var(--color-primary);
+  }
+  .no-scrollbar {
+    /* hide scrollbar in Firefox */
+    scrollbar-width: none;
+    /* hide scrollbar in IE 10+ */
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    /* hide scrollbar in Chrome/Safari/Edge */
+    display: none;
   }
 }
 

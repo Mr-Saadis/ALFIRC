@@ -1,15 +1,13 @@
 import React from 'react';
 import { FaBars, FaGlobe, FaHeart } from 'react-icons/fa';
 
+
 const Header = () => {
   return (
     <header className="flex items-center justify-between px-4 py-2  shadow-sm bg-white">
       {/* Left: Logo & Title */}
       <div className="flex items-center gap-3">
         {/* Menu Icon */}
-        <button className="text-primary text-lg">
-          <FaBars />
-        </button>
 
         {/* Logo & Text */}
         <div>
@@ -22,6 +20,8 @@ const Header = () => {
           </p>
         </div>
       </div>
+<div>
+  Search</div>
 
       {/* Right: Buttons */}
       <div className="flex items-center gap-3">
