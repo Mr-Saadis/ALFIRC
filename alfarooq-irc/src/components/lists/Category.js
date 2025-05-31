@@ -6,9 +6,9 @@ import { FiGrid, FiChevronDown, FiChevronUp } from 'react-icons/fi'
 import { Spinner } from 'flowbite-react'
 
 const TABS = [
-  { key: 'true',  label: 'اہم ترین'  },
-  { key: 'false', label: 'موضوعات'   },
-  { key: 'fav',   label: 'منتخب'     },
+  { key: 'false',   label: 'احکام و مسائل'     },
+  { key: 'true', label: 'تحقیق و تخریج'   },
+  // { key: 'true',  label: 'اہم ترین'  },
 ]
 
 function CategoryAccordion({ cat }) {
@@ -16,9 +16,12 @@ function CategoryAccordion({ cat }) {
 
   return (
     <li className="bg-white rounded-xl shadow-sm mb-4">
-      <div className="flex items-center justify-center p-4">
+      <div
+        onClick={() => setOpen(v => !v)} 
+       className="flex items-center justify-center p-4">
         <div className="flex flex-col w-full justify-center items-center gap-4">
           <Link
+          onClick={() => setOpen(v => !v)}
             href={`/categories/${cat.id}`}
             className="text-[16px] font-[600] text-[#111928] hover:text-blue-600 transition"
           >
@@ -45,7 +48,7 @@ function CategoryAccordion({ cat }) {
             <li key={sub.id}>
               <Link
                 href={`/categories/${cat.id}/subcategories/${sub.id}`}
-                className="flex justify-between flex-row-reverse pl-6 text-[16px] text-gray-700 hover:text-blue-600 transition"
+                className="flex justify-between flex-row-reverse pl-3 pr-3 items-center text-[16px] text-gray-700 p-1 rounded-[8px] hover:bg-gray-100 transition"
               >
                   {sub.name}{' '}  •
                 <span className="text-[14px] text-gray-500">
@@ -81,8 +84,8 @@ export default function CategoriesPage() {
   }, [activeTab])
 
   return (
-    <div className="relative max-w-5xl font-arabic mx-auto bg-white rounded-2xl shadow-md h-[600px] p-6 flex flex-col">
-      <div className="flex justify-between items-center mb-6">
+    <div className="relative max-w-5xl font-arabic mx-auto bg-white rounded-2xl shadow-md h-[600px] p-6 pt-12 flex flex-col">
+      <div className="flex justify-between flex-row-reverse items-center mb-6">
         <h1 className="text-2xl font-bold">زمرہ جات</h1>
         <button className="inline-flex items-center gap-1 px-3 py-1.5 border rounded-full hover:bg-gray-100 transition">
           <FiGrid className="text-lg text-blue-600" /> مزید
