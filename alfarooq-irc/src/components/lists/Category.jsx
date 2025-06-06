@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { FiGrid, FiChevronDown, FiChevronUp } from 'react-icons/fi'
 import { Spinner } from 'flowbite-react'
+import {useRouter} from 'next/navigation'
 
 const TABS = [
   { key: 'false',   label: 'احکام و مسائل'     },
   { key: 'true', label: 'تحقیق و تخریج'   },
   // { key: 'true',  label: 'اہم ترین'  },
 ]
+
 
 function CategoryAccordion({ cat }) {
   const [open, setOpen] = useState(false)
@@ -68,6 +70,8 @@ export default function CategoriesPage() {
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const router = useRouter();
+  
 
   useEffect(() => {
     setLoading(true)
@@ -84,21 +88,23 @@ export default function CategoriesPage() {
   }, [activeTab])
 
   return (
-    <div className="relative max-w-5xl font-arabic mx-auto bg-white rounded-2xl shadow-md h-[600px] p-6 pt-12 flex flex-col">
-      <div className="flex justify-between flex-row-reverse items-center mb-6">
+    <div className="relative max-w-sm font-arabic mx-auto bg-white rounded-2xl shadow-md h-[600px] p-6 pt-12 flex flex-col">
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">زمرہ جات</h1>
-        <button className="inline-flex items-center gap-1 px-3 py-1.5 border rounded-full hover:bg-gray-100 transition">
+        <button 
+        onClick= {() => router.push('/categories')}
+        className="inline-flex items-center gap-1 px-3 py-1.5 border rounded-full hover:bg-gray-100 transition">
           <FiGrid className="text-lg text-blue-600" /> مزید
         </button>
       </div>
 
-      <div className="flex justify-end mb-4">
-        <ul className="flex space-x-6 rtl:space-x-reverse border-b">
+      <div className="flex pr-2 justify-start mb-4">
+        <ul className="flex space-x-6 rtl:space-x-reverse flex-row-reverse border-b">
           {TABS.map(tab => (
             <li
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`cursor-pointer pb-2 ${
+              className={`cursor-pointer  pb-2 ${
                 activeTab === tab.key
                   ? 'border-b-2 border-blue-600 text-blue-600'
                   : 'text-gray-600 hover:text-gray-800'

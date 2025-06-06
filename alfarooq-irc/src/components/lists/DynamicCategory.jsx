@@ -115,12 +115,12 @@ export default function DynamicCategory() {
      
 
       {/* Categories Section */}
-      <aside className="relative max-w-md min-w-full font-arabic bg-white rounded-2xl shadow-md h-[600px] p-6 pt-12 flex flex-col overflow-hidden">
+      <aside className="relative max-w-sm min-w-sm font-arabic bg-white rounded-2xl shadow-md  p-6 pt-12 flex flex-col overflow-hidden">
         <div className="flex justify-between  items-center mb-6">
           <h1 className="text-2xl font-bold">زمرہ جات</h1>
         </div>
 
-        <div className="flex justify-end mb-4">
+        <div className="flex pr-2 justify-start mb-4">
           <ul className="flex space-x-6 rtl:space-x-reverse flex-row-reverse border-b">
             {TABS.map(tab => (
               <li
@@ -152,7 +152,7 @@ export default function DynamicCategory() {
         )}
 
         {!loading && !error && (
-          <ul className="overflow-y-auto max-h-[calc(100vh-12rem)] pr-2">
+          <ul className="overflow-y-auto max-h-[calc(100vh-12rem)] no-scrollbar pr-2">
             {categories.map(cat => (
               <CategoryAccordion
                 key={cat.id}
