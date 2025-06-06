@@ -3,8 +3,10 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "next-themes";
+import Navbar from "@/components/navbar";
 
 import Sidebar from "@/components/Sidebar";
+import QuickActionBar from "@/components/layout/QuickAction";
 
 
 const geistSans = Geist({
@@ -45,7 +47,9 @@ export default function RootLayout({ children }) {
       <body
         className={` ${poppins.variable} ${poppins.variable} antialiased`}
       >
-        <Header/>
+        {/* <Header/> */}
+         <Navbar/>
+        <QuickActionBar/>
          <Sidebar />
         {/* <ThemeProvider attribute="class" defaultTheme="light">  */}
         <main className="bg-gray-50 min-h-screen">
