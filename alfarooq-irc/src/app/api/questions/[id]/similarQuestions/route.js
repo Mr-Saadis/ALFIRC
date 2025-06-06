@@ -4,7 +4,7 @@ import { supabase }    from '@/lib/supabase'
 
 export async function GET(req, context) {
   const { params } = context
-  const { id }     = params
+  const { id }     = await params
 
   try {
     // 1) Find the subcategory of the requested question

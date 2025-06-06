@@ -2,6 +2,10 @@ import { Geist, Geist_Mono ,IBM_Plex_Sans,Poppins, Noto_Nastaliq_Urdu } from "ne
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "next-themes";
+
+import Sidebar from "@/components/Sidebar";
+
 
 const geistSans = Geist({
   variable: "--font-Poppins",
@@ -37,16 +41,19 @@ export const metadata = {
 export default function RootLayout({ children }) {
   
   return (
-    <html lang="urdu">
+    <html lang="ur">
       <body
         className={` ${poppins.variable} ${poppins.variable} antialiased`}
       >
         <Header/>
-        <div className="bg-gray-50 min-h-screen">
+         <Sidebar />
+        {/* <ThemeProvider attribute="class" defaultTheme="light">  */}
+        <main className="bg-gray-50 min-h-screen">
 
         {children}
         <Toaster position="bottom-right" />
-        </div>
+        </main>
+         {/* </ThemeProvider> */}
       </body>
     </html>
   );

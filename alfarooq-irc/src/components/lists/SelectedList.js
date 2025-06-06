@@ -1,79 +1,101 @@
+// src/components/SelectedNewAnswers.js
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
-import { FaDownload, FaShare, FaBookmark, FaBook } from 'react-icons/fa';
-import { FiExternalLink } from 'react-icons/fi';
+import { FiGrid } from 'react-icons/fi';
+import { FaBook } from 'react-icons/fa';
+import { Spinner } from 'flowbite-react';
 
-const SelectedAnswerCard = ({ answer }) => (
-  <li dir="rtl" className="bg-white p-4 rounded-xl border-2 mt-1 mb-1 border-gray-100 dark:bg-gray-800 transition hover:bg-gray-100 dark:hover:bg-gray-700">
+/* --------------------------------------------------------------------------
+ * Card (one selected answer)
+ * ------------------------------------------------------------------------ */
+const SelectedAnswerCard = ({ answer, onClick, isLoading }) => (
+  <li
+    dir="rtl"
+    className="relative bg-white p-4 rounded-xl border-2 mt-1 mb-1 border-gray-100 dark:bg-gray-800 transition hover:bg-gray-100 dark:hover:bg-gray-700"
+  >
+    {/* per-card loading overlay */}
+    {isLoading && (
+      <div className="absolute inset-0 bg-white/50 flex items-center justify-center rounded-xl">
+        <Spinner size="sm" />
+      </div>
+    )}
+
     <Link
-      href={`/api/questions/${answer.id}`}
+      href={`/questions/${answer.id}`}
+      onClick={onClick}
       className="text-gray-900 dark:text-white font-semibold"
     >
       <div>
+        {/* meta row */}
         <div className="flex flex-row-reverse justify-between items-center mb-3">
           <span className="text-[12px] font-poppins text-[#6b7280] dark:text-[#6b7280] font-[500] leading-[18px]">
             {new Date(answer.published).toLocaleDateString('ur-PK')}
           </span>
-          <span className='text-primary text-[12px] dark:text-primary font-[600] leading-[10px]'>
-            سلسلہ نمبر : <span className='font-poppins'>{answer.id}</span>
+          <span className="text-primary text-[12px] dark:text-primary font-[600] leading-[10px]">
+            سلسلہ نمبر : <span className="font-poppins">{answer.id}</span>
           </span>
         </div>
-        <div className='text-[16px] text-[#111928] dark:text-[#111928] font-[600] leading-[30px] text-right'>
+
+        {/* title */}
+        <div className="text-[16px] text-[#111928] dark:text-[#111928] font-[600] leading-[30px] text-right">
           {answer.title}
         </div>
 
-        <p className="text-gray-600 text-[14px] dark:text-gray-300 font-[500] mb-3 line-clamp-3 leading-[35px] text-right">
-          {answer.summary || 'کوئی خلاصہ دستیاب نہیں۔'}
-        </p>
-        <div className="flex flex-row-reverse gap-4 font-[500] text-[12px] text-[#111928] dark:text-gray-400 justify-end">
-          <button className="flex flex-row-reverse items-center gap-2 hover:text-purple-600">
-            شیئر کریں <FaShare />
-          </button>
-          <button className="flex flex-row-reverse items-center gap-2 hover:text-[#1c9753]">
-            ڈاؤن لوڈ <FaDownload />
-          </button>
-          <button className="flex flex-row-reverse items-center gap-2 hover:text-blue-600">
-            محفوظ کریں <FaBookmark />
-          </button>
-        </div>
+        {/* optional summary */}
+        {answer.summary && (
+          <p className="text-gray-600 text-[14px] dark:text-gray-300 font-[500] mb-3 line-clamp-3 leading-[35px] text-right">
+            {answer.summary}
+          </p>
+        )}
       </div>
     </Link>
   </li>
 );
 
+/* --------------------------------------------------------------------------
+ * Pagination
+ * ------------------------------------------------------------------------ */
 const Pagination = ({ page, setPage, hasNext }) => {
   if (page === 1 && !hasNext) return null;
 
   return (
     <div className="flex justify-center mt-6" dir="rtl">
       <ul className="flex bg-white rounded-full px-4 py-1 shadow-md border border-gray-100 items-center gap-2 flex-row-reverse">
+        {/* prev */}
         <li>
           <button
-            onClick={() => setPage((p) => Math.max(p - 1, 1))}
+            onClick={() => setPage(p => Math.max(p - 1, 1))}
             disabled={page === 1}
-            className="px-2 font-poppins text-gray-400 hover:text-blue-800 disabled:cursor-not-allowed disabled:text-gray-400"
+            className="px-2 font-poppins text-gray-400 hover:text-blue-800 disabled:text-gray-400 disabled:cursor-not-allowed"
           >
             ›
           </button>
         </li>
-        {[page - 1, page, page + 1].filter((p) => p >= 1 && (p <= page || hasNext)).map((pg) => (
-          <li key={pg}>
-            <button
-              onClick={() => setPage(pg)}
-              className={`px-3 py-1 rounded-md text-sm font-semibold ${pg === page
-                ? 'border-2 border-primary text-primary'
-                : 'text-gray-700'
+
+        {/* numbers */}
+        {[page - 1, page, page + 1]
+          .filter(p => p >= 1 && (p <= page || hasNext))
+          .map(pg => (
+            <li key={pg}>
+              <button
+                onClick={() => setPage(pg)}
+                className={`px-3 py-1 rounded-md text-sm font-semibold ${
+                  pg === page
+                    ? 'border-2 border-primary text-primary'
+                    : 'text-gray-700'
                 }`}
-            >
-              {pg}
-            </button>
-          </li>
-        ))}
+              >
+                {pg}
+              </button>
+            </li>
+          ))}
+
+        {/* next */}
         <li>
           <button
-            onClick={() => setPage((p) => p + 1)}
+            onClick={() => setPage(p => p + 1)}
             disabled={!hasNext}
             className="px-2 font-poppins text-gray-700 hover:text-blue-800 disabled:text-gray-400 disabled:cursor-not-allowed"
           >
@@ -85,66 +107,113 @@ const Pagination = ({ page, setPage, hasNext }) => {
   );
 };
 
+/* --------------------------------------------------------------------------
+ * Main component
+ * ------------------------------------------------------------------------ */
 const SelectedNewAnswers = () => {
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
-  const [hasNext, setHasNext] = useState(true);
-  const [total, setTotal] = useState(0);
+  const [error, setError]     = useState(null);
+  const [page, setPage]       = useState(1);
+  const [hasNext, setHasNext] = useState(false);
+  const [loadingId, setLoadingId] = useState(null);        // card-level spinner
   const limit = 4;
 
+  /* click handler for each card */
+  const handleCardClick = useCallback(id => {
+    setLoadingId(id);
+    // you could fire analytics here
+  }, []);
+
+  /* fetch whenever page changes */
   useEffect(() => {
-    const fetchAnswers = async () => {
+    let active = true;
+    const controller = new AbortController();
+
+    (async () => {
       setLoading(true);
       setError(null);
-      try {
-        const res = await fetch(`/api/questions/CombSelect?page=${page}&limit=${limit}`);
-        if (!res.ok) {
-          throw new Error('جوابات حاصل نہیں ہو سکے');
-        }
-        const { data, total } = await res.json();
-        setAnswers(data);
-        setTotal(total);
-        setHasNext(page * limit < total);
-        console.log(hasNext)
-      } catch (err) {
-        setError(err.message || 'جوابات لوڈ کرنے میں ناکامی۔ دوبارہ کوشش کریں۔');
-      } finally {
-        setLoading(false);
-      }
-    };
+      setAnswers([]);
+      setLoadingId(null);
 
-    fetchAnswers();
+      try {
+        const res = await fetch(
+          `/api/questions/CombSelect?page=${page}&limit=${limit}`,
+          { signal: controller.signal }
+        );
+        if (!res.ok) throw new Error('جوابات حاصل نہیں ہو سکے');
+
+        const { data, total } = await res.json();
+        if (!active) return;
+
+        setAnswers(data);
+        setHasNext(page * limit < total);
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          setError(err.message || 'جوابات لوڈ کرنے میں ناکامی۔ دوبارہ کوشش کریں۔');
+        }
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+
+    /* cleanup on unmount / page change */
+    return () => {
+      active = false;
+      controller.abort();
+    };
   }, [page]);
 
   return (
-    <div dir="rtl" className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-8 pb-8 w-1/2 absolute ">
+    <div
+      dir="rtl"
+      className="relative rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-8 pb-8 min-w-full"
+    >
+      {/* header */}
       <div className="flex flex-row-reverse justify-between items-center mb-4 pt-4 pb-4">
         <Link href="/ur/latest">
-          <div className="bg-white flex items-center justify-around w-[90px] h-[40px] text-[15px] border-primary text-primary px-4 py-1.5 rounded-full text-sm font-medium hover:bg-blue-100 transition cursor-pointer">
-            <FiExternalLink /> مزید
-          </div>
+          <button className="inline-flex items-center px-3 w-[90px] justify-center gap-3 py-1.5 border border-gray-300 rounded-full hover:bg-gray-100 transition">
+            <FiGrid className="text-lg text-blue-600" />
+            مزید
+          </button>
         </Link>
         <h2 className="text-[21px] flex flex-row-reverse justify-between w-[140px] items-center font-[700] text-primary dark:text-white">
-        اہم سوالات<FaBook className="text-[28px]" />
+          اہم سوالات <FaBook className="text-[28px]" />
         </h2>
-
       </div>
 
-      {loading ? (
-        <p className="text-center text-primary font-medium">لوڈ ہو رہا ہے...</p>
-      ) : error ? (
-        <p className="text-center text-red-800 font-medium">{error}</p>
-      ) : answers.length === 0 ? (
-        <p className="text-center text-gray-800 font-medium">کوئی جواب دستیاب نہیں۔</p>
-      ) : (
+      {/* overlay states */}
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white/50 rounded-2xl">
+          <Spinner aria-label="Loading selected answers" size="md" className="text-blue-300" />
+        </div>
+      )}
+      {!loading && error && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-red-500 text-lg">{error}</span>
+        </div>
+      )}
+
+      {/* content */}
+      {!loading && !error && (
         <>
-          <ul className="flex flex-col gap-4">
-            {answers.map((answer) => (
-              <SelectedAnswerCard key={answer.id} answer={answer} />
-            ))}
-          </ul>
+          {answers.length > 0 ? (
+            <ul className="flex flex-col gap-4">
+              {answers.map(ans => (
+                <SelectedAnswerCard
+                  key={ans.id}
+                  answer={ans}
+                  onClick={() => handleCardClick(ans.id)}
+                  isLoading={loadingId === ans.id}
+                />
+              ))}
+            </ul>
+          ) : (
+            <p className="text-center text-gray-700 dark:text-gray-300 font-medium">
+              کوئی جواب دستیاب نہیں۔
+            </p>
+          )}
+
           <Pagination page={page} setPage={setPage} hasNext={hasNext} />
         </>
       )}

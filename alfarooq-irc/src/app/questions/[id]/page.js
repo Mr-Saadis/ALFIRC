@@ -11,7 +11,7 @@ import { highlightHtml } from '@/lib/highlightHtml';
 import { toast } from 'sonner';
 import SimilarQuestions from '@/components/lists/questions/Similar';
 import { recordAnonymousEvent, recordView } from '@/lib/analytics';
-
+import { ScrollTop } from 'primereact/scrolltop';
 
 function formatAnsDetails(raw = '') {
   return raw
@@ -302,6 +302,8 @@ export default function QuestionDetailPage() {
           <div className="flex-1 h-[2px] bg-gray-200" />
         </div>
 
+          
+
 
 
         <div
@@ -309,6 +311,7 @@ export default function QuestionDetailPage() {
           className="prose prose-lg text-justify text-[16px] font-[400] leading-[35px] pr-4 pl-4 pt-6 whitespace-pre-line break-words"
           dangerouslySetInnerHTML={{ __html: html }}
         />
+      
 
 
 

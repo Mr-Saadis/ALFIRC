@@ -1,15 +1,8 @@
-// src/components/NewAnswers.js
 'use client';
 
 import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
-import {
-  FiExternalLink,
-  FiGrid,
-  FiDownload,
-  FiShare,
-  FiBookmark,
-} from 'react-icons/fi';
+import { FiGrid } from 'react-icons/fi';
 import { FaBook } from 'react-icons/fa';
 import { Spinner } from 'flowbite-react';
 
@@ -46,20 +39,6 @@ const AnswerCard = ({ answer, isLoading, onClick }) => (
           </p>
         )}
         <div className="flex justify-between items-center">
-          <div className="flex flex-row-reverse gap-4 font-[500] text-[12px] text-[#111928] dark:text-gray-400 justify-end">
-            {/* Uncomment icons below if needed */}
-            {/*
-            <button className="flex flex-row-reverse items-center gap-2 hover:text-purple-600">
-              شیئر کریں <FiShare />
-            </button>
-            <button className="flex flex-row-reverse items-center gap-2 hover:text-[#1c9753]">
-              ڈاؤن لوڈ <FiDownload />
-            </button>
-            <button className="flex flex-row-reverse items-center gap-2 hover:text-blue-600">
-              محفوظ کریں <FiBookmark />
-            </button>
-            */}
-          </div>
           <button>
             {answer.Assign_T !== null && (
               <div
@@ -123,13 +102,12 @@ const Pagination = ({ page, setPage, hasNext }) => {
   );
 };
 
-const NewAnswers = () => {
+const Cat_Subcat_Answers = ({ catId, subcatId, Assign_T }) => {
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(false);
-  const [total, setTotal] = useState(0);
   const [loadingId, setLoadingId] = useState(null);
   const limit = 4;
 
@@ -148,10 +126,12 @@ const NewAnswers = () => {
       setAnswers([]);
 
       try {
-        const response = await fetch(
-          `/api/questions/recent?page=${page}&limit=${limit}`,
-          { signal: controller.signal }
-        );
+        let url = `/api/questions/bySubcategory?page=${page}&limit=${limit}`;
+        if (catId) url += `&catId=${catId}`;
+        if (subcatId) url += `&subcatId=${subcatId}`;
+        if (Assign_T !== undefined) url += `&assign=${Assign_T}`;
+
+        const response = await fetch(url, { signal: controller.signal });
 
         if (!response.ok) {
           throw new Error('جوابات حاصل نہیں ہو سکے');
@@ -160,10 +140,9 @@ const NewAnswers = () => {
         const json = await response.json();
         if (!isActive) return; // avoid state updates if unmounted
 
-        const { data, total: totalCount } = json;
+        const { data, total } = json;
         setAnswers(data);
-        setTotal(totalCount);
-        setHasNext(page * limit < totalCount);
+        setHasNext(page * limit < total);
       } catch (err) {
         if (err.name !== 'AbortError') {
           setError(err.message || 'جوابات لوڈ کرنے میں ناکامی۔ دوبارہ کوشش کریں۔');
@@ -179,7 +158,7 @@ const NewAnswers = () => {
       isActive = false;
       controller.abort();
     };
-  }, [page]);
+  }, [page, catId, subcatId]);
 
   return (
     <div
@@ -238,4 +217,4 @@ const NewAnswers = () => {
   );
 };
 
-export default NewAnswers;
+export default Cat_Subcat_Answers;

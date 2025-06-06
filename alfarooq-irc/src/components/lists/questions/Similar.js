@@ -28,8 +28,6 @@ const AnswerCard = ({ answer }) => (
   </li>
 );
 
-
-
 export default function SimilarQuestions() {
   const { id } = useParams()
   const [list, setList] = useState([])
@@ -46,9 +44,7 @@ return (
         <h2 className="text-[18px] flex flex-row-reverse justify-between w-[140px] items-center font-[700] text-primary dark:text-white">
           متعلقہ سوالات <FaBook className="text-[28px]" />
         </h2>
-
       </div>
-
       {(
         <>
           <ul className="flex flex-col gap-1">

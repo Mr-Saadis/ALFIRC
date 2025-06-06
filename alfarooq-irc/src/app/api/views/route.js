@@ -7,8 +7,8 @@ import { randomUUID }   from 'crypto'
 
 export async function POST(req) {
   // 1) Resolve or create the anon_user_id cookie
-  const cookieStore  = cookies()
-  const existing     = cookieStore.get('anon_user_id')
+  const cookieStore  = await cookies()
+  const existing     = await cookieStore.get('anon_user_id')
   const session_id   = existing?.value || uuidv4()
 
   // 2) Parse JSON body
