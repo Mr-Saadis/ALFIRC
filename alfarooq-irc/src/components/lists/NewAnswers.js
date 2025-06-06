@@ -184,7 +184,7 @@ const NewAnswers = () => {
   return (
     <div
       dir="rtl"
-      className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-8 pb-8 min-w-full"
+      className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-4 pb-4 min-w-full"
     >
       {/* Header */}
       <div className="flex flex-row-reverse justify-between items-center mb-4 pt-4 pb-4">
@@ -194,8 +194,8 @@ const NewAnswers = () => {
             مزید
           </button>
         </Link>
-        <h2 className="text-[21px] flex flex-row-reverse justify-between w-[140px] items-center font-[700] text-primary dark:text-white">
-          نئے جوابات <FaBook className="text-[28px]" />
+        <h2 className="text-[19px] flex flex-row-reverse justify-between w-[120px] items-center font-[700] text-primary dark:text-white">
+          نئے جوابات <FaBook className="text-[25px]" />
         </h2>
       </div>
 

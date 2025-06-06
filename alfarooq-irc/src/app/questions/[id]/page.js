@@ -158,7 +158,7 @@ export default function QuestionDetailPage() {
         </Link>{' '}
         &gt;{' '}
         <Link
-          href={`/categories/${Cat_ID}/subcategories/${subcatId}`}
+          href={`/categories?assignT=${Assign_T}`}
           className="hover:text-[#3333cc]"
         >
           {Assign_T !== null && (
@@ -173,14 +173,14 @@ export default function QuestionDetailPage() {
         {subcatId != null && (
           <>
             <Link
-              href={`/categories/${Cat_ID}`}
+              href={`/categories?catID=${Cat_ID}&assignT=${Assign_T}`}
               className="hover:text-[#3333cc]"
             >
               {Cat_Name}
             </Link>{' '}
             &gt;{' '}
             <Link
-              href={`/categories/${Cat_ID}/subcategories/${subcatId}`}
+              href={`/categories/?catID=${Cat_ID}&subCatID=${subcatId}&assignT=${Assign_T}`}
               className="hover:text-[#3333cc]"
             >
               {subcatName}
