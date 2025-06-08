@@ -1,136 +1,97 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
 import {
-  Home as HomeIcon,
-  LayoutList,
-  Layers3,
-  BookOpen,
-  Folder,
   HelpCircle,
-  ThumbsUp,
-} from 'lucide-react';
+  Search as SearchIcon,
+} from "lucide-react";
 
-import Category from '@/components/lists/Category';
-import NewAnswers from '@/components/lists/NewAnswers';
-import SelectedList from '@/components/lists/SelectedList';
-
-/* -------------------------------------------------------------------------- */
-/*  Utility: Icon button with animated tooltip                                */
-/* -------------------------------------------------------------------------- */
-// function QuickAction({ href = '#', label, icon: Icon }) {
-//   const [showTooltip, setShowTooltip] = useState(false);
-
-//   return (
-//     <div
-//       className="relative group"
-//       onMouseEnter={() => setShowTooltip(true)}
-//       onMouseLeave={() => setShowTooltip(false)}
-//     >
-//       <Link
-//         href={href}
-//         aria-label={label}
-//         className="flex h-10 w-10 items-center justify-center rounded-lg border border-muted bg-background text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-//       >
-//         <Icon className="h-5 w-5" />
-//       </Link>
-
-//       {/* Animated tooltip */}
-//       <div
-//         className={`absolute top-1/2 right-full mr-2 -translate-y-1/2 whitespace-nowrap rounded-md bg-white px-3 py-1 text-xs text-gray-700 shadow-md z-50 transition-opacity duration-200 ease-in-out
-//           ${showTooltip ? 'opacity-100' : 'opacity-0'}
-//         `}
-//       >
-//         {label}
-//       </div>
-//     </div>
-//   );
-// }
+import Category from "@/components/lists/Category";
+import NewAnswers from "@/components/lists/NewAnswers";
+import SelectedList from "@/components/lists/SelectedList";
+import AskQuestionBtn from "@/components/navbar/AskQuestionBtn";
+import SearchBar from "@/components/navbar/SearchBar";
 
 /* -------------------------------------------------------------------------- */
-/*  Search bar – centered & responsive                                        */
+/*  Utility: simple card wrapper (JS‑safe, no TS types)                        */
 /* -------------------------------------------------------------------------- */
-function SearchBar() {
+function Card({ children }) {
   return (
-    <form
-      action="/search"
-      className="relative mx-auto flex w-full max-w-xl items-center"
-    >
-      <input
-        dir="rtl"
-        name="q"
-        placeholder="تلاش کریں …"
-        className="w-full rounded-full border border-muted bg-background px-4 py-2 pr-10 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/40"
-      />
-      <button
-        type="submit"
-        className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground hover:text-primary"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="h-5 w-5"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 104.65 4.65a7.5 7.5 0 0011.998 11.998z"
-          />
-        </svg>
-      </button>
-    </form>
+    <div className="w-full max-w-xl rounded-[1.25rem] border border-muted/40 bg-background p-6 shadow-sm backdrop-blur-sm sm:p-8 md:p-10">
+      {children}
+    </div>
   );
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Floating “Ask Question” button                                            */
+/*  Main page                                                                 */
 /* -------------------------------------------------------------------------- */
-function AskQuestionBtn() {
-  return (
-    <Link
-      href="/ask"
-      className="inline-flex items-center gap-1 rounded-full bg-primary px-6 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90"
-    >
-      سوال پوچھیں
-    </Link>
-  );
-}
-
-/* ========================================================================== */
-/*  Home page                                                                 */
-/* ========================================================================== */
 export default function HomePage() {
   return (
     <div dir="rtl" className="font-arabic">
-      <main className="mx-auto grid w-full max-w-7xl gap-4 px-4 py-6 lg:grid-cols-[300px_1fr]">
-        {/* Sidebar: Categories */}
+      {/* ---------------------------------------------------------------- */}
+      {/*  Hero – Search & Ask question cards                              */}
+      {/* ---------------------------------------------------------------- */}
+      <section className="mx-auto flex max-w-6xl flex-col gap-6 px-2 py-4 sm:px-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-8">
+        {/* Ask-question card */}
+        <Card>
+          <header className="text-center">
+            <h1 className="mb-4 flex items-center justify-center gap-2 text-2xl font-bold text-primary">
+              <HelpCircle className="h-6 w-6" />
+              نیا سوال پوچھیں
+            </h1>
+            <h2 className="text-base text-muted-foreground">
+              سمجھ نہیں آیا؟ مستند جواب حاصل کریں
+            </h2>
+          </header>
+
+          <div className="mt-6 flex justify-center">
+            <AskQuestionBtn />
+          </div>
+
+          <p className="mx-auto mt-6 max-w-xs text-center text-sm leading-relaxed text-muted-foreground">
+            اپنا سوال اردو یا رومن اردو میں تحریر کریں۔ غیر ضروری معلومات شامل نہ کریں۔ جواب ویب سائٹ اور ای‑میل دونوں پر موصول ہو گا۔
+          </p>
+        </Card>
+
+        {/* Search card */}
+        <Card>
+          <header className="mb-4 flex flex-col items-center gap-3 text-center">
+            <h1 className="flex items-center justify-center gap-2 text-2xl font-bold text-primary">
+              <SearchIcon className="h-6 w-6" />
+              جوابات تلاش کریں
+            </h1>
+            <h2 className="text-base text-muted-foreground">
+              آپ کو جواب تلاش کرنے سے مل سکتا ہے۔
+            </h2>
+          </header>
+
+          <SearchBar />
+
+          <ul className="mx-auto mt-6 max-w-sm list-disc space-y-2 pr-5 text-xs leading-6 text-muted-foreground">
+            <li>
+              الفاظ کے درمیان صرف اسپیس دیں۔ ان میں سے کوئی بھی لفظ ملنے پر نتیجہ دکھایا جائے گا۔
+            </li>
+            <li>
+              عبارت کو ڈبل کوٹس (" ") میں لکھیں تا کہ مکمل فقرہ ہی تلاش ہو۔
+            </li>
+          </ul>
+        </Card>
+      </section>
+
+      {/* ---------------------------------------------------------------- */}
+      {/*  Main content grid                                               */}
+      {/* ---------------------------------------------------------------- */}
+      <main className="mx-auto grid w-full max-w-7xl gap-6 px-2 pb-8 sm:px-4 lg:grid-cols-[280px_1fr] lg:gap-8">
+        {/* Sidebar */}
         <aside className="hidden lg:block">
           <Category />
         </aside>
 
-        {/* Center: Latest answers */}
-        <section className="space-y-4">
-          <h2 className="flex items-center gap-2 text-lg font-semibold text-primary">
-            <LayoutList className="h-5 w-5" /> تازہ ترین جوابات
-          </h2>
+        {/* Latest answers + selected list */}
+        <section className="space-y-6">
           <NewAnswers />
           <SelectedList />
         </section>
-
-        {/* Vertical quick bar with tooltips */}
-        {/* <aside className="fixed right-4 z-40 hidden lg:flex flex-col items-top gap-3">
-          <QuickAction icon={HomeIcon} label="سرآغاز" href="/" />
-          <QuickAction icon={LayoutList} label="زمرہ جات" href="/categories" />
-          <QuickAction icon={Layers3} label="تازہ جوابات" href="/latest" />
-          <QuickAction icon={BookOpen} label="کتب" href="/books" />
-          <QuickAction icon={Folder} label="فتوی" href="/fatwa" />
-          <QuickAction icon={HelpCircle} label="سوال پوچھیں" href="/ask" />
-          <QuickAction icon={ThumbsUp} label="پسندیدہ" href="/favorites" />
-        </aside> */}
       </main>
     </div>
   );

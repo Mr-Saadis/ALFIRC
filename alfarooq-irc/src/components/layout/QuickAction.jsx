@@ -10,6 +10,7 @@ import {
   Folder,
   HelpCircle,
   ThumbsUp,
+  Search,
 } from 'lucide-react';
 
 function QuickAction({ href = '#', label, icon: Icon }) {
@@ -43,15 +44,19 @@ function QuickAction({ href = '#', label, icon: Icon }) {
 export default function QuickActionBar() {
   return (
     <div dir="rtl" className="font-arabic">
-      <aside className="fixed right-4 z-40 hidden lg:flex flex-col items-top gap-3">
+      <aside className="fixed right-4 z-40 hidden lg:flex flex-col items-top gap-6">
+       
           <QuickAction icon={HomeIcon} label="سرآغاز" href="/" />
+          <QuickAction icon={Search} label="تلاش" href="/ur/search" />
           <QuickAction icon={LayoutList} label="زمرہ جات" href="/categories" />
           <QuickAction icon={Layers3} label="تازہ جوابات" href="/latest" />
           <QuickAction icon={BookOpen} label="کتب" href="/books" />
           <QuickAction icon={Folder} label="فتوی" href="/fatwa" />
           <QuickAction icon={HelpCircle} label="سوال پوچھیں" href="/ask" />
           <QuickAction icon={ThumbsUp} label="پسندیدہ" href="/favorites" />
+         
         </aside>
+        
     </div>
   );
 }

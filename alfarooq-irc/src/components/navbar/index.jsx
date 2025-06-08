@@ -11,7 +11,7 @@ import AskQuestionBtn   from './AskQuestionBtn'
 export default function Navbar ({ onMenuClick }) {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto flex flex-row-reverse max-w-7xl items-center gap-40 px-4 py-3">
+      <div className="mx-auto flex flex-row-reverse max-w-7xl items-center justify-between gap-60 px-4 py-3">
 
         {/* Mobile burger */}
         <Button
@@ -28,7 +28,7 @@ export default function Navbar ({ onMenuClick }) {
         <Brand />
 
         {/* Desktop search */}
-        <SearchBar />
+        {/* <SearchBar /> */}
 
         {/* Right side */}
         <div className="ml-auto flex items-center gap-2">
@@ -36,7 +36,7 @@ export default function Navbar ({ onMenuClick }) {
           <MobileSearch />
 
           {/* Ask button */}
-          <AskQuestionBtn />
+          {/* <AskQuestionBtn /> */}
         </div>
       </div>
     </header>

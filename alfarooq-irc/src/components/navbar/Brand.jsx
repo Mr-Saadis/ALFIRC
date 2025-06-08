@@ -15,7 +15,7 @@ export default function Brand () {
         Research&nbsp;Center
       </h1>
       <p className="text-[10px] text-muted-foreground mt-[-2px]">
-        Founded &amp; Supervised By:
+        Founded &amp; Supervised By
         <br />
         Shaykh&nbsp;Ahmad&nbsp;Bin&nbsp;Ihtisham
       </p>

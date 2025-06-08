@@ -36,7 +36,7 @@ function CategoryAccordion({ cat, tab }) {
           </div>
         </div>
         <button
-          onClick={() => setOpen(v => !v)}
+          onClick={e => {e.stopPropagation(); setOpen(v => !v)}}
           className="p-1 rounded hover:bg-gray-100 transition"
           aria-label={open ? 'Hide subcategories' : 'Show subcategories'}
         >

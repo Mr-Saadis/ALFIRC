@@ -13,7 +13,7 @@ import { Spinner } from 'flowbite-react';
 const SelectedAnswerCard = ({ answer, onClick, isLoading }) => (
   <li
     dir="rtl"
-    className="relative bg-white p-4 rounded-xl border-2 mt-1 mb-1 border-gray-100 dark:bg-gray-800 transition hover:bg-gray-100 dark:hover:bg-gray-700"
+    className="relative bg-white p-4 pt-2 pb-2 rounded-xl border-2 mb-1 border-gray-100 dark:bg-gray-800 transition hover:bg-gray-100 dark:hover:bg-gray-700"
   >
     {/* per-card loading overlay */}
     {isLoading && (
@@ -29,14 +29,31 @@ const SelectedAnswerCard = ({ answer, onClick, isLoading }) => (
     >
       <div>
         {/* meta row */}
-        <div className="flex flex-row-reverse justify-between items-center mb-3">
-          <span className="text-[12px] font-poppins text-[#6b7280] dark:text-[#6b7280] font-[500] leading-[18px]">
-            {new Date(answer.published).toLocaleDateString('ur-PK')}
-          </span>
+        <div className="flex flex-row-reverse justify-between items-center mb-2">
+          <div className='flex flex-row-reverse gap-2 items-center'>
+            <span className="text-[12px] font-poppins text-[#6b7280] dark:text-[#6b7280] font-[500] leading-[18px]">
+              {new Date(answer.published).toLocaleDateString('ur-PK')}
+            </span>
+            <span>
+              {answer.Assign_T !== null && (
+                <span
+                  className={[
+                    'hover:shadow-md transition duration-300',
+                    answer.Assign_T
+                      ? 'flex items-center gap-4 px-3 py-1.5 rounded-full text-[11px] font-[400] border border-[#FCE96A] bg-[#FDFDEA] text-gray-700'
+                      : 'flex items-center gap-4 px-3 py-1.5 rounded-full text-[11px] font-[400] border border-[#9FDCB4] bg-[#E7F6EC] text-[#063]',
+                  ].join(' ')}
+                >
+                  {answer.Assign_T ? 'تحقیق و تخریج' : 'احکام و مسائل'}
+                </span>
+              )}
+            </span>
+          </div>
           <span className="text-primary text-[12px] dark:text-primary font-[600] leading-[10px]">
             سلسلہ نمبر : <span className="font-poppins">{answer.id}</span>
           </span>
         </div>
+
 
         {/* title */}
         <div className="text-[16px] text-[#111928] dark:text-[#111928] font-[600] leading-[30px] text-right">
@@ -45,7 +62,7 @@ const SelectedAnswerCard = ({ answer, onClick, isLoading }) => (
 
         {/* optional summary */}
         {answer.summary && (
-          <p className="text-gray-600 text-[14px] dark:text-gray-300 font-[500] mb-3 line-clamp-3 leading-[35px] text-right">
+          <p className="text-gray-600 text-[14px] dark:text-gray-300 font-[500] mb-3 line-clamp-2 leading-[35px] text-right">
             {answer.summary}
           </p>
         )}
@@ -81,11 +98,10 @@ const Pagination = ({ page, setPage, hasNext }) => {
             <li key={pg}>
               <button
                 onClick={() => setPage(pg)}
-                className={`px-3 py-1 rounded-md text-sm font-semibold ${
-                  pg === page
-                    ? 'border-2 border-primary text-primary'
-                    : 'text-gray-700'
-                }`}
+                className={`px-3 py-1 rounded-md text-sm font-semibold ${pg === page
+                  ? 'border-2 border-primary text-primary'
+                  : 'text-gray-700'
+                  }`}
               >
                 {pg}
               </button>
@@ -113,8 +129,8 @@ const Pagination = ({ page, setPage, hasNext }) => {
 const SelectedNewAnswers = () => {
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState(null);
-  const [page, setPage]       = useState(1);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(false);
   const [loadingId, setLoadingId] = useState(null);        // card-level spinner
   const limit = 4;
@@ -178,7 +194,7 @@ const SelectedNewAnswers = () => {
           </button>
         </Link>
         <h2 className="text-[19px] flex flex-row-reverse justify-between w-[120px] items-center font-[700] text-primary dark:text-white">
-        اہم سوالات <FaBook className="text-[25px]" />
+          اہم سوالات <FaBook className="text-[25px]" />
         </h2>
       </div>
 

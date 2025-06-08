@@ -1,49 +1,26 @@
-// src/app/api/search/route.js
 import { NextResponse } from 'next/server';
 import { supabase }    from '@/lib/supabase';
 
-/**
- * GET /api/search?q=keyword&page=1&limit=10&assign=true|false
- *
- * Response:
- * {
- *   data:  [{ id, title, summary, published, Assign_T }],
- *   total: 128
- * }
- */
 export async function GET(req) {
-  /* ───── Parse query-string params ─────────────────────────────── */
   const { searchParams } = new URL(req.url);
+  console.log('[search]', searchParams.toString());
 
-  const q         = (searchParams.get('q') || '').trim();   // search text
+  const term = (searchParams.get('q') ?? '')
   const page      = Math.max(1, Number(searchParams.get('page')  || 1));
-  const limit     = Math.min(50, Number(searchParams.get('limit') || 10)); // hard-cap
-  const assignStr = searchParams.get('assign');             // optional true / false
+  const limit     = Math.min(50, Number(searchParams.get('limit') || 10));
   const offset    = (page - 1) * limit;
 
-  /* return early if no search term */
-  if (!q) return NextResponse.json({ data: [], total: 0 });
-
-  /* ───── Build Supabase / Postgres query ───────────────────────── */
-  let query = supabase
-    .from('QnA')
-    .select(
-      'Q_ID, Q_Heading, Ans_summary, Published_At, Assign_T',
-      { count: 'exact' }               // to get total rows
-    )
-    /* `search_vector` = tsvector column you created earlier */
-    .textSearch('search_vector', q, { type: 'websearch' })
-    .order('Published_At', { ascending: false })
-    .range(offset, offset + limit - 1);
-
-  /* optional filter on Assign_T (true / false) */
-  if (assignStr === 'true')  query = query.eq('Assign_T', true);
-  if (assignStr === 'false') query = query.eq('Assign_T', false);
-
   
-  /* ───── Execute ──────────────────────────────────────────────── */
-  const { data, count, error } = await query;
 
+  // Short-circuit if empty
+  if (!term) {
+    return Response.json([], { status: 200 })
+  }
+
+  // Call the Supabase RPC function for searching
+  const { data, error } = await supabase
+    .rpc('search_qna', { search_term: term })  
+   
   if (error) {
     console.error('[search]', error);
     return NextResponse.json(
@@ -52,8 +29,13 @@ export async function GET(req) {
     );
   }
 
-  /* shape the payload for frontend */
-  const rows = data.map((r) => ({
+  // If your RPC returns total count, use it; otherwise, fallback to data.length
+  const total = Array.isArray(data) && data.length > 0 && data[0].total_count !== undefined
+    ? data[0].total_count
+    : (data?.length || 0);
+
+  // Shape the payload for frontend
+  const rows = (data || []).map((r) => ({
     id:        r.Q_ID,
     title:     r.Q_Heading,
     summary:   r.Ans_summary,
@@ -63,6 +45,6 @@ export async function GET(req) {
 
   return NextResponse.json({
     data: rows,
-    total: count ?? rows.length,
+    total,
   });
 }
