@@ -163,18 +163,18 @@ const Cat_Subcat_Answers = ({ catId, subcatId, Assign_T }) => {
   return (
     <div
       dir="rtl"
-      className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-8 pb-8 min-w-full"
+      className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-5 pb-6 min-w-full"
     >
       {/* Header */}
       <div className="flex flex-row-reverse justify-between items-center mb-4 pt-4 pb-4">
         <Link href="/ur/latest">
-          <button className="inline-flex items-center px-3 w-[90px] justify-center gap-3 py-1.5 border border-gray-300 rounded-full hover:bg-gray-100 transition">
-            <FiGrid className="text-lg text-blue-600" />
+          <button className="inline-flex items-center px-3 w-[90px] justify-center gap-2 py-1.5 border border-gray-300 rounded-full hover:bg-gray-100 transition">
+            <FiGrid className="text-[20px] text-blue-600" />
             مزید
           </button>
         </Link>
         <h2 className="text-[21px] flex flex-row-reverse justify-between w-[140px] items-center font-[700] text-primary dark:text-white">
-          نئے جوابات <FaBook className="text-[28px]" />
+          نئے جوابات <FaBook className="text-[25px]" />
         </h2>
       </div>
 

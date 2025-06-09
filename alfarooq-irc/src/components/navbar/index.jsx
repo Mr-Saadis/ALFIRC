@@ -10,33 +10,13 @@ import AskQuestionBtn   from './AskQuestionBtn'
 
 export default function Navbar ({ onMenuClick }) {
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto flex flex-row-reverse max-w-7xl items-center gap-40 px-4 py-3">
-
-        {/* Mobile burger */}
-        <Button
-          size="icon"
-          variant="ghost"
-          className="md:hidden"
-          onClick={onMenuClick}
-        >
-          <Menu className="h-5 w-5" />
-          <span className="sr-only">Open menu</span>
-        </Button>
-
-        {/* Brand */}
-        <Brand />
-
-        {/* Desktop search */}
-        <SearchBar />
-
-        {/* Right side */}
-        <div className="ml-auto flex items-center gap-2">
-          {/* Mobile search sheet */}
-          <MobileSearch />
-
-          {/* Ask button */}
-          <AskQuestionBtn />
+    <header className="sticky top-0 z-40 w-full border-b bg-background/60 backdrop-blur supports-[backdrop-filter]:bg-background/40">
+      <div className='flex justify-start items-center p-2'>
+        <div className="ml-2 flex justify-end cursor-pointer items-center gap-2">
+          <img  src="/images/logo.png"
+            alt="Alfarooq Logo"
+            className="h-8 w-auto md:h-10" />
+        <Brand/>
         </div>
       </div>
     </header>

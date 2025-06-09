@@ -120,7 +120,7 @@ export default function SearchResults() {
   const [page, setPage]       = useState(1);
   const [hasNext, setHasNext] = useState(false);
   const [loadingId, setLoadingId] = useState(null);
-  const limit = 8;
+  const limit = 100;
 
   // Start new search when query changes
   useEffect(() => { setPage(1); }, [query]);

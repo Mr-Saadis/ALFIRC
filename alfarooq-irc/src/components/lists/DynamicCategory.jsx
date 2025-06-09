@@ -116,9 +116,14 @@ export default function DynamicCategory () {
     <div className="flex flex-col md:flex-row gap-4 min-h-screen" dir="rtl">
 
       {/* ───── Sidebar (categories) ───── */}
-      <aside className="relative max-w-sm min-w-sm bg-white rounded-2xl shadow-md p-6 pt-12 flex flex-col">
+      <aside className="relative max-w-[300px] lg:min-w-[300px] min-w-full bg-white rounded-2xl shadow-md p-6 pt-6 flex flex-col">
         {/* tabs */}
-        <ul className="flex flex-row-reverse rtl:space-x-reverse space-x-6 border-b mb-4">
+        <div className="flex justify-between items-center mb-6">
+                <h1 className="text-2xl font-bold">زمرہ جات</h1>
+              </div>
+        
+
+        <ul className="flex flex-row-reverse justify-end rtl:space-x-reverse space-x-6 border-b mb-4">
           {TABS.map(t => (
             <li key={t.key}
                 className={`cursor-pointer pb-2 ${
@@ -151,7 +156,7 @@ export default function DynamicCategory () {
       </aside>
 
       {/* ───── Answers list ───── */}
-      <main className="flex-1 min-w-full">
+      <main className="lg:min-w-[800px] min-w-full">
         <Cat_Subcat_Answers
           catId={catId}
           subcatId={subId}
