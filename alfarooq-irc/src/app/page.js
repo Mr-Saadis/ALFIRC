@@ -8,8 +8,13 @@ import {
 import Category from "@/components/lists/Category";
 import NewAnswers from "@/components/lists/NewAnswers";
 import SelectedList from "@/components/lists/SelectedList";
+import Bookmark from "@/components/lists/Bookmark";
 import AskQuestionBtn from "@/components/navbar/AskQuestionBtn";
 import SearchBar from "@/components/navbar/SearchBar";
+import { ScrollTop } from 'primereact/scrolltop';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+
 
 /* -------------------------------------------------------------------------- */
 /*  Utility: simple card wrapper (JS‑safe, no TS types)                        */
@@ -64,9 +69,17 @@ export default function HomePage() {
               آپ کو جواب تلاش کرنے سے مل سکتا ہے۔
             </h2>
           </header>
+          <div className="flex lg:flex-row flex-col items-center lg:space-y-0 space-y-3 justify-center">
+            <SearchBar />
 
-          <SearchBar />
-
+            <Button asChild className="whitespace-nowrap w-27 h-9">
+              <Link href="/search">
+                <SearchIcon className="mr-2 h-4 w-4" />
+                پیشرفته تلاش
+              </Link>
+            </Button>
+            
+          </div>
           <ul className="mx-auto mt-6 max-w-sm list-disc space-y-2 pr-5 text-xs leading-6 text-muted-foreground">
             <li>
               الفاظ کے درمیان صرف اسپیس دیں۔ ان میں سے کوئی بھی لفظ ملنے پر نتیجہ دکھایا جائے گا۔
@@ -83,8 +96,9 @@ export default function HomePage() {
       {/* ---------------------------------------------------------------- */}
       <main className="mx-auto grid w-full max-w-7xl gap-6 px-2 pb-8 sm:px-4 lg:grid-cols-[280px_1fr] lg:gap-8">
         {/* Sidebar */}
-        <aside className="hidden lg:block">
+        <aside className="hidden lg:block space-y-8">
           <Category />
+          <Bookmark/>
         </aside>
 
         {/* Latest answers + selected list */}
@@ -93,6 +107,9 @@ export default function HomePage() {
           <SelectedList />
         </section>
       </main>
+      <ScrollTop threshold={250} behavior="smooth"
+        className="!right-4 !left-auto !bg-blue-800 text-white h-[35px] w-[35px] rounded-3xl hover:!bg-primary/90" />
+
     </div>
   );
 }

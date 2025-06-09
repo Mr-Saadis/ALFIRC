@@ -14,8 +14,7 @@ import {
 } from 'react-icons/fi'
 import { getCopyableText } from '@/lib/getCopyableText'
 import { toast } from 'sonner'
-import { bookmarkAdd } from '@/lib/analytics'
-
+import { supabase } from '@/lib/supabase'
 
 export default function ActionBar({
   questionId,
@@ -24,41 +23,60 @@ export default function ActionBar({
   goPrev, goNext,
   onCopy,
   setMatches, setCurrent,
-
   question,
   ansDetailed,
   isFormatted,
   onToggleFormat,
   isBookmarked,
-  onToggleBookmark
+  setIsBookmarked
 }) {
   const [searchOpen, setSearchOpen] = useState(false)
   const baseInputId = `find-input-${questionId}`
 
-
-  // ── handlers ──
   const handlePrint = () => window.print()
 
   const handleDownload = () => {
     const text = getCopyableText(ansDetailed)
     const blob = new Blob([text], { type: 'text/plain' })
-    const url  = URL.createObjectURL(blob)
-    const a    = document.createElement('a')
-    a.href     = url
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
     a.download = `question-${questionId}.txt`
     a.click()
     URL.revokeObjectURL(url)
   }
 
-  const Bookmarked = () => {
-  bookmarkAdd(questionId);
-    toast.success("Added to Bookmarks", {
-         // description: "Sunday, December 03, 2023 at 9:00 AM",
+  const handleToggleBookmark = async () => {
+    if (isBookmarked) {
+      const res = await fetch('/api/bookmark', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ questionId })
+      })
+      if (res.ok) {
+        toast.success('Bookmark removed')
+        setIsBookmarked(false)
+      } else {
+        toast.error('Failed to remove bookmark')
+      }
+    } else {
+      const res = await fetch('/api/bookmark', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ questionId })
+      })
+      if (res.ok) {
+        toast.success('Added to Bookmarks', {
           action: {
-            label: "Open",
-            onClick: () => console.log("Undo"),
-          },
+            label: 'Open',
+            onClick: () => console.log('View bookmarks')
+          }
         })
+        setIsBookmarked(true)
+      } else {
+        toast.error('Failed to add bookmark')
+      }
+    }
   }
 
   const handleShare = () => {
@@ -73,18 +91,14 @@ export default function ActionBar({
 
   return (
     <div className="sticky top-5 z-50 mt-5 bottom-0 left-0 right-0 bg-transparent">
-      {/* Top row */}
       <div className="flex justify-around bg-white opacity-85 border rounded-[10px] border-gray-200 flex-row-reverse py-4">
-        <FiPrinter    className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={handlePrint} />
-        <FiShare2     className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={handleShare} />
-        {/* <FiType       className="text-xl cursor-pointer" onClick={onToggleFormat} /> */}
-        <FiBookmark   className={`text-xl cursor-pointer hover:text-[#3333cc] ${isBookmarked ? 'text-yellow-500' : ''}`} onClick={Bookmarked} />
-        {/* <FiGlobe      className="text-xl cursor-pointer" onClick={() => window.location.pathname = `/ur/questions/${questionId}`} /> */}
-        <FiSearch     className="text-xl transition-all cursor-pointer hover:text-[#3333cc]" onClick={() => setSearchOpen(o => !o)} />
-        <FiCopy  className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={onCopy} />
+        <FiPrinter className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={handlePrint} />
+        <FiShare2 className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={handleShare} />
+        <FiBookmark className={`text-xl cursor-pointer hover:text-[#3333cc] ${isBookmarked ? 'text-yellow-500' : ''}`} onClick={handleToggleBookmark} />
+        <FiSearch className="text-xl transition-all cursor-pointer hover:text-[#3333cc]" onClick={() => setSearchOpen(o => !o)} />
+        <FiCopy className="text-xl cursor-pointer hover:text-[#3333cc]" onClick={onCopy} />
       </div>
 
-      {/* Search row */}
       {searchOpen && (
         <div className="flex items-center mt-2 opacity-85 px-4 py-2 shadow-[0px_5px_8px_#00000025] rounded-[8px] bg-white dark:border-gray-700">
           <FiX
@@ -102,11 +116,11 @@ export default function ActionBar({
             <FiChevronUp />
           </button>
           <span className="mx-2 font-mono text-sm">
-            {current+1}/{matches}
+            {current + 1}/{matches}
           </span>
           <button
             onClick={goNext}
-            disabled={current >= matches -1}
+            disabled={current >= matches - 1}
             className="px-2 disabled:text-gray-400 disabled:cursor-not-allowed"
           >
             <FiChevronDown />

@@ -40,7 +40,10 @@ export default function QuestionDetailPage() {
   const [query,    setQuery]    = useState('')
   const [matches,  setMatches]  = useState(0)
   const [current,  setCurrent]  = useState(-1)
+  const [isBookmarked, setIsBookmarked] = useState(false)
 
+
+  
   const contentRef = useRef(null)
 
   // ───────────────── fetch question
@@ -58,7 +61,22 @@ export default function QuestionDetailPage() {
       })
       .catch(err => setError(err.message))
       .finally(()=> setLoading(false))
+
+      // Check if bookmarked (based on cookie session_id)
+fetch(`/api/bookmark?qid=${id}`)
+  .then(r => r.json())
+  .then(data => {
+    if (Array.isArray(data) && data.some(b => b.q_id === +id)) {
+      setIsBookmarked(true)
+    }
+  })
+  .catch(err => console.error('Bookmark check failed', err))
+
+
+
+
   }, [id])
+  
 
   // ───────────────── highlight search term
   useEffect(() => {
@@ -140,29 +158,28 @@ export default function QuestionDetailPage() {
       {/* ───────────────────── White Card */}
       <section className="bg-white shadow-sm rounded-3xl p-4 sm:p-8 lg:p-12">
         <ActionBar
-          question     ={question}
-          questionId   ={id}
-          ansDetailed  ={rawHtml}
-          query        ={query}
-          setQuery     ={setQuery}
-          matches      ={matches}
-          current      ={current}
-          goPrev       ={goPrev}
-          goNext       ={goNext}
-          setMatches   ={setMatches}
-          setCurrent   ={setCurrent}
-          onCopy     =  {() => {
-            const a = getCopyableText(Ans_Detailed);
-            const b = Ans_Summary != null ? `\n*جواب کا خلاصہ*\n${Ans_Summary}\n\n` : "\n\n";
-            const combined = `سلسلہ نمبر : ${Q_ID}\n\n` + `${Q_Heading}` + b + a;
-            // 2) wrap it in RLE … PDF
-            const RLE = "\u202B"; // Right-to-Left Embedding
-            const PDF = "\u202C"; // Pop Directional Formatting
-            const rtlText = RLE + combined + PDF;
-            navigator.clipboard.writeText(rtlText);
-            toast.success('Copied!')
-          }}
-        />
+  questionId   ={id}
+  question     ={question}
+  ansDetailed  ={rawHtml}
+  query        ={query}
+  setQuery     ={setQuery}
+  matches      ={matches}
+  current      ={current}
+  goPrev       ={goPrev}
+  goNext       ={goNext}
+  setMatches   ={setMatches}
+  setCurrent   ={setCurrent}
+  onCopy       ={() => {
+    const a = getCopyableText(Ans_Detailed);
+    const b = Ans_Summary != null ? `\n*جواب کا خلاصہ*\n${Ans_Summary}\n\n` : "\n\n";
+    const combined = `سلسلہ نمبر : ${Q_ID}\n\n${Q_Heading}${b}${a}`;
+    const RLE = "\u202B", PDF = "\u202C";
+    navigator.clipboard.writeText(RLE + combined + PDF);
+    toast.success('Copied!')
+  }}
+  isBookmarked={isBookmarked}
+  setIsBookmarked={setIsBookmarked}
+/>
 
         {/* Meta line */}
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-[13px] md:text-[14px]">

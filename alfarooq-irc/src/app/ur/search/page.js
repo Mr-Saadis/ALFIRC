@@ -4,6 +4,7 @@ import Link from 'next/link';
 import {
     FiHome,
 } from 'react-icons/fi';
+import SearchBar from '@/components/navbar/SearchBar';
 
 export default function SearchPage() {
   return (
@@ -21,6 +22,9 @@ export default function SearchPage() {
                Saad
               </Link>{' '} */}
             </nav>
+            <section className='flex justify-center items-center mb-6'>
+            <SearchBar/>
+            </section>
       <SearchResults />
     </div>
   );
