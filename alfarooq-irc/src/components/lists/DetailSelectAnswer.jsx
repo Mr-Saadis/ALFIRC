@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { FiGrid } from 'react-icons/fi';
 import { FaBook } from 'react-icons/fa';
 import { Spinner } from 'flowbite-react';
-import {BookText} from 'lucide-react';
+import { BookText } from 'lucide-react';
 
 /* --------------------------------------------------------------------------
  * Card (one selected answer)
@@ -134,7 +134,7 @@ const SelectedNewAnswers = () => {
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(false);
   const [loadingId, setLoadingId] = useState(null);        // card-level spinner
-  const limit = 4;
+  const limit = 100;
 
   /* click handler for each card */
   const handleCardClick = useCallback(id => {
@@ -187,13 +187,7 @@ const SelectedNewAnswers = () => {
       className="relative rounded-[24px] min-h-[800px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-4 pb-4 min-w-full"
     >
       {/* header */}
-      <div className="flex flex-row-reverse justify-between items-center mb-4 pt-4 pb-4">
-        <Link href="/ur/select">
-          <button className="inline-flex items-center px-3 w-[90px] justify-center gap-3 py-1.5 border border-gray-300 rounded-full hover:bg-gray-100 transition">
-            <FiGrid className="text-lg text-blue-600" />
-            مزید
-          </button>
-        </Link>
+      <div className="flex flex-row-reverse justify-end items-center mb-4 pt-4 pb-4">
         <h2 className="text-[19px] flex flex-row-reverse justify-between w-[120px] items-center font-[700] text-primary dark:text-white">
           اہم سوالات <BookText className="text-[25px]" />
         </h2>

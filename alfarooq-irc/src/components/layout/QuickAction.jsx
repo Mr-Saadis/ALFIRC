@@ -11,6 +11,7 @@ import {
   HelpCircle,
   ThumbsUp,
   Search,
+  Bookmark,
 } from 'lucide-react';
 
 function QuickAction({ href = '#', label, icon: Icon }) {
@@ -49,11 +50,11 @@ export default function QuickActionBar() {
           <QuickAction icon={HomeIcon} label="سرآغاز" href="/" />
           <QuickAction icon={Search} label="تلاش" href="/ur/search" />
           <QuickAction icon={LayoutList} label="زمرہ جات" href="/categories" />
-          <QuickAction icon={Layers3} label="تازہ جوابات" href="/latest" />
-          <QuickAction icon={BookOpen} label="کتب" href="/books" />
-          <QuickAction icon={Folder} label="فتوی" href="/fatwa" />
+          <QuickAction icon={BookOpen} label="تازہ جوابات" href="/ur/latest" />
+          <QuickAction icon={Bookmark} label="محفوظ جوابات" href="/ur/bookmark" />
+          {/* <QuickAction icon={BookOpen} label="کتب" href="/books" />
+          <QuickAction icon={Folder} label="فتوی" href="/fatwa" /> */}
           <QuickAction icon={HelpCircle} label="سوال پوچھیں" href="/ask" />
-          <QuickAction icon={ThumbsUp} label="پسندیدہ" href="/favorites" />
          
         </aside>
         

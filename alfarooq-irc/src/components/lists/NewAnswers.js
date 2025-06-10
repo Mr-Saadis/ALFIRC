@@ -12,6 +12,7 @@ import {
 } from 'react-icons/fi';
 import { FaBook } from 'react-icons/fa';
 import { Spinner } from 'flowbite-react';
+import {BookTextIcon} from 'lucide-react';
 
 const AnswerCard = ({ answer, isLoading, onClick }) => (
   <li
@@ -176,7 +177,7 @@ const NewAnswers = () => {
   return (
     <div
       dir="rtl"
-      className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-4 pb-4 min-w-full"
+      className="rounded-[24px] bg-white border min-h-[800px] border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-4 pb-4 min-w-full"
     >
       {/* Header */}
       <div className="flex flex-row-reverse justify-between items-center mb-4 pt-4 pb-4">
@@ -187,20 +188,21 @@ const NewAnswers = () => {
           </button>
         </Link>
         <h2 className="text-[19px] flex flex-row-reverse justify-between w-[120px] items-center font-[700] text-primary dark:text-white">
-          نئے جوابات <FaBook className="text-[25px]" />
+          نئے جوابات <BookTextIcon className="text-[25px]" />
         </h2>
       </div>
 
       {/* Loading / Error Overlay */}
       {loading && (
-        <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-white/50 min-w-full">
-          <Spinner aria-label="Loading answers" size="md" className="text-blue-300" />
-        </div>
+         <div className="absolute inset-0 flex items-center justify-center bg-white/50 rounded-2xl">
+                  <Spinner aria-label="Loading answers" size="md" className="text-blue-300" />
+                </div>
       )}
       {error && (
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-red-500 text-lg">{error}</span>
         </div>
+        
       )}
 
       {/* Answers List & Pagination (only show if no loading/error) */}
