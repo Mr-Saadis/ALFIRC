@@ -27,7 +27,7 @@ export default function SearchBar () {
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative md:flex w-auto max-w-md shrink-0 ml-5"
+      className="relative md:flex min-w-3/4 max-w-md shrink-0 ml-5"
     >
       <Input
         dir="rtl"

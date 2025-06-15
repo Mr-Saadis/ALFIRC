@@ -113,7 +113,7 @@ export default function DynamicCategory () {
   }, [activeTab])
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 min-h-screen" dir="rtl">
+    <div className="flex flex-col md:flex-row gap-4 max-h-[600px]" dir="rtl">
 
       {/* ───── Sidebar (categories) ───── */}
       <aside className="relative max-w-[300px] lg:min-w-[300px] min-w-full bg-white rounded-2xl shadow-md p-6 pt-6 flex flex-col">

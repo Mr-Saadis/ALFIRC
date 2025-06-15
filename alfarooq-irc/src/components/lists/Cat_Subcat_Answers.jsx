@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { FiGrid } from 'react-icons/fi';
 import { FaBook } from 'react-icons/fa';
 import { Spinner } from 'flowbite-react';
+import { BookText } from 'lucide-react';
 
 const AnswerCard = ({ answer, isLoading, onClick }) => (
   <li
@@ -59,48 +60,48 @@ const AnswerCard = ({ answer, isLoading, onClick }) => (
   </li>
 );
 
-const Pagination = ({ page, setPage, hasNext }) => {
-  if (page === 1 && !hasNext) return null;
+// const Pagination = ({ page, setPage, hasNext }) => {
+//   if (page === 1 && !hasNext) return null;
 
-  return (
-    <div className="flex justify-center mt-6" dir="rtl">
-      <ul className="flex bg-white rounded-full px-4 py-1 shadow-md border border-gray-100 items-center gap-2 flex-row-reverse">
-        <li>
-          <button
-            onClick={() => setPage((p) => Math.max(p - 1, 1))}
-            disabled={page === 1}
-            className="px-2 font-poppins text-gray-400 hover:text-blue-800 disabled:cursor-not-allowed disabled:text-gray-400"
-          >
-            ›
-          </button>
-        </li>
-        {[page - 1, page, page + 1]
-          .filter((p) => p >= 1 && (p <= page || hasNext))
-          .map((pg) => (
-            <li key={pg}>
-              <button
-                onClick={() => setPage(pg)}
-                className={`px-3 py-1 rounded-md text-sm font-semibold ${
-                  pg === page ? 'border-2 border-primary text-primary' : 'text-gray-700'
-                }`}
-              >
-                {pg}
-              </button>
-            </li>
-          ))}
-        <li>
-          <button
-            onClick={() => setPage((p) => p + 1)}
-            disabled={!hasNext}
-            className="px-2 font-poppins text-gray-700 hover:text-blue-800 disabled:text-gray-400 disabled:cursor-not-allowed"
-          >
-            ‹
-          </button>
-        </li>
-      </ul>
-    </div>
-  );
-};
+//   return (
+//     <div className="flex justify-center mt-6" dir="rtl">
+//       <ul className="flex bg-white rounded-full px-4 py-1 shadow-md border border-gray-100 items-center gap-2 flex-row-reverse">
+//         <li>
+//           <button
+//             onClick={() => setPage((p) => Math.max(p - 1, 1))}
+//             disabled={page === 1}
+//             className="px-2 font-poppins text-gray-400 hover:text-blue-800 disabled:cursor-not-allowed disabled:text-gray-400"
+//           >
+//             ›
+//           </button>
+//         </li>
+//         {[page - 1, page, page + 1]
+//           .filter((p) => p >= 1 && (p <= page || hasNext))
+//           .map((pg) => (
+//             <li key={pg}>
+//               <button
+//                 onClick={() => setPage(pg)}
+//                 className={`px-3 py-1 rounded-md text-sm font-semibold ${
+//                   pg === page ? 'border-2 border-primary text-primary' : 'text-gray-700'
+//                 }`}
+//               >
+//                 {pg}
+//               </button>
+//             </li>
+//           ))}
+//         <li>
+//           <button
+//             onClick={() => setPage((p) => p + 1)}
+//             disabled={!hasNext}
+//             className="px-2 font-poppins text-gray-700 hover:text-blue-800 disabled:text-gray-400 disabled:cursor-not-allowed"
+//           >
+//             ‹
+//           </button>
+//         </li>
+//       </ul>
+//     </div>
+//   );
+// };
 
 const Cat_Subcat_Answers = ({ catId, subcatId, Assign_T }) => {
   const [answers, setAnswers] = useState([]);
@@ -109,7 +110,7 @@ const Cat_Subcat_Answers = ({ catId, subcatId, Assign_T }) => {
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(false);
   const [loadingId, setLoadingId] = useState(null);
-  const limit = 4;
+  const limit = Infinity;
 
   // Memoize click handler for answer cards
   const onCardClick = useCallback((id) => {
@@ -166,15 +167,10 @@ const Cat_Subcat_Answers = ({ catId, subcatId, Assign_T }) => {
       className="rounded-[24px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-5 pb-6 min-w-full"
     >
       {/* Header */}
-      <div className="flex flex-row-reverse justify-between items-center mb-4 pt-4 pb-4">
-        <Link href="/ur/latest">
-          <button className="inline-flex items-center px-3 w-[90px] justify-center gap-2 py-1.5 border border-gray-300 rounded-full hover:bg-gray-100 transition">
-            <FiGrid className="text-[20px] text-blue-600" />
-            مزید
-          </button>
-        </Link>
-        <h2 className="text-[21px] flex flex-row-reverse justify-between w-[140px] items-center font-[700] text-primary dark:text-white">
-          نئے جوابات <FaBook className="text-[25px]" />
+      <div className="flex flex-row-reverse justify-end items-center mb-4 pt-4 pb-4">
+        
+        <h2 className="text-[21px] flex flex-row-reverse justify-between w-[90px] items-center font-[700] text-primary dark:text-white">
+        جوابات <BookText className="text-[25px]" />
         </h2>
       </div>
 
@@ -210,7 +206,7 @@ const Cat_Subcat_Answers = ({ catId, subcatId, Assign_T }) => {
             </p>
           )}
 
-          <Pagination page={page} setPage={setPage} hasNext={hasNext} />
+          {/* <Pagination page={page} setPage={setPage} hasNext={hasNext} /> */}
         </>
       )}
     </div>

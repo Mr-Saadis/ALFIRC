@@ -21,7 +21,7 @@ import Link from 'next/link';
 /* -------------------------------------------------------------------------- */
 function Card({ children }) {
   return (
-    <div className="w-full max-w-xl rounded-[1.25rem] border border-muted/40 bg-background p-6 shadow-sm backdrop-blur-sm sm:p-8 md:p-10">
+    <div className="w-full rounded-[1.25rem] border border-muted/40 bg-background p-6 shadow-sm backdrop-blur-sm sm:p-8 md:p-10">
       {children}
     </div>
   );
