@@ -8,10 +8,10 @@ import { toast } from 'sonner';
 import { formatISO } from 'date-fns';
 
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/Textarea';
+import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
-import { Label } from '@/components/ui/Label';
+import { Label } from '@/components/ui/label';
 
 export default function NewQuestion({ onSuccess }) {
   const router = useRouter();
