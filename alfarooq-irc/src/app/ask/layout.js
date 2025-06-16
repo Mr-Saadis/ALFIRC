@@ -10,17 +10,25 @@ export default function AskLayout({ children }) {
   const session  = useSession()
 
   // show loader while auth status is loading
-  if (session === undefined)
-    return <div className="p-8 text-center">Loading…</div>
-
+  
   // once we know there is **no** session → push to /signin only once
   useEffect(() => {
+
+    if (session === undefined) {
+      // still loading, do nothing
+      return;
+    }
+
     if (session === null) {
       const target = encodeURIComponent('/ask')
       router.replace(`/signin?redirectTo=${target}`)
     }
   }, [session, router])
 
+
+  if (session === undefined)
+    return <div className="p-8 text-center">Loading…</div>
+  
   if (session === null) return null            // wait for redirect
   return children                              // user logged-in
 }
