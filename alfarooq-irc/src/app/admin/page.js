@@ -6,7 +6,7 @@ import { supabaseAdmin } from '@/lib/supabase'
 export default async function AdminQuestionsPage() {
   
   const { data: totalQuestions } = await supabaseAdmin.from('QnA').select('Q_ID', { count: 'exact' })
-  const { data: totalUsers } = await supabaseAdmin.from('AnonymousUser').select('id', { count: 'exact' })
+  const { data: totalUsers } = await supabaseAdmin.from('AnonymousUser').select('session_id', { count: 'exact' })
   const stats = {
     totalQuestions: totalQuestions?.length || 0,
     totalLatest: 10,      // compute from date filter
