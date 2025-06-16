@@ -72,6 +72,7 @@
 'use client'
 
 import { SessionContextProvider } from '@supabase/auth-helpers-react'
+import { Poppins } from "next/font/google";
 import { supabase }               from '@/lib/supabase'
 import './globals.css'
 import Navbar        from '@/components/navbar'
@@ -80,11 +81,20 @@ import QuickAction   from '@/components/layout/QuickAction'
 import { Toaster }   from 'sonner'
 import { usePathname } from 'next/navigation'
 
+
+
+const poppins = Poppins({
+  variable: "--font-Poppins",
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+});
+
 export default function RootLayout({ children }) {
   const pathname = usePathname()
   return (
-    <html lang="ur">
-      <body className="bg-gray-50 antialiased">
+    <html lang="en" className={`${poppins.variable}`}>
+      <body className={` ${poppins.variable} bg-gray-50 ${poppins.variable} antialiased`}>
         <SessionContextProvider supabaseClient={supabase}>
           <Navbar />
           {pathname !== '/admin' &&
