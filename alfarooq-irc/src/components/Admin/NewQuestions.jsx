@@ -9,14 +9,14 @@ import { formatISO } from 'date-fns';
 
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/Select';
-import { Button } from '@/components/ui/Button';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
 export default function NewQuestion({ onSuccess }) {
   const router = useRouter();
 
-  
+
   // form state
   const [qid, setQid] = useState('');
   const [heading, setHeading] = useState('');

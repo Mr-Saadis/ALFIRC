@@ -8,8 +8,8 @@ import {
     TableHead,
     TableBody,
     TableCell,
-} from '@/components/ui/Table';
-import { Input } from '@/components/ui/Input';
+} from '@/components/ui/table';
+import { Input } from '@/components/ui/input';
 // import RowActions from '@/components/ui/RowActions'; // Assuming you have a RowActions component
 import {
     Select,
@@ -25,7 +25,7 @@ import { Calendar } from 'lucide-react';
 import { Edit2, Trash2 } from 'lucide-react'
 import { format } from 'date-fns';
 import { supabaseAdmin } from '@/lib/supabase';
-import { Badge } from '@/components/ui/Badge';
+import { Badge } from '@/components/ui/badge';
 
 export default function QuestionsTable() {
     // ─── State Hooks ────────────────────────────────────────────────────────────
