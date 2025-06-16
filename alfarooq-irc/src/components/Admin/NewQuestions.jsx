@@ -16,6 +16,7 @@ import { Label } from '@/components/ui/label';
 export default function NewQuestion({ onSuccess }) {
   const router = useRouter();
 
+  
   // form state
   const [qid, setQid] = useState('');
   const [heading, setHeading] = useState('');
