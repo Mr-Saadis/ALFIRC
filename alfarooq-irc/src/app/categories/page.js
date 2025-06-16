@@ -1,21 +1,19 @@
-'use client';
+// app/categories/page.js  ← **Server Component**
+export const metadata = { /* …optional meta… */ }
 
-import React, { useState } from 'react';
-import DynamicCategory from '@/components/lists/DynamicCategory';
+import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
 
-export default function CategoryPage({ }) {
-  // Get catId from route params
+// dynamically load the client-only code
+const CategoriesClient = dynamic(
+  () => import('@/components/layout/CategoriesClient'),
+  { suspense: true }
+)
 
+export default function Page() {
   return (
-    <div
-      dir="rtl"
-      className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-6 font-arabic min-h-screen"
-    >
-      {/* Left panel: Categories and subcategories */}
-      <DynamicCategory />
-
-      {/* Right panel: Questions for selected subcategory (or category if none selected) */}
-     
-    </div>
-  );
+    <Suspense fallback={<div> </div>}>
+      <CategoriesClient />
+    </Suspense>
+  )
 }

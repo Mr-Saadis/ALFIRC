@@ -11,10 +11,12 @@ export default function AdminLayout({ children }) {
   const session = useSession()
 
   // Show loader while auth status is loading
-  if (session === undefined)
-    return <div className="p-8 text-center">Loading…</div>
-
+  
   useEffect(() => {
+    if (session === undefined) {
+      // still loading, do nothing
+      return;
+    }
     if (session === null) {
       const target = encodeURIComponent('/admin')
       router.replace(`/signin?redirectTo=${target}`)
@@ -23,19 +25,23 @@ export default function AdminLayout({ children }) {
       const checkUserRole = async () => {
         const userId = session.user.id
         const { data, error } = await supabase
-          .from('AuthenticatedUsers')
-          .select('Role')
-          .eq('user_id', userId)
-          .single()
-
+        .from('AuthenticatedUsers')
+        .select('Role')
+        .eq('user_id', userId)
+        .single()
+        
         if (error || !data || data.Role !== 'Admin') {
-            console.log('Access denied:', error || 'User not found or not an admin')
+          console.log('Access denied:', error || 'User not found or not an admin')
           router.replace('/')
         }
       }
       checkUserRole()
     }
   }, [session, router])
+ 
+ 
+  if (session === undefined)
+    return <div className="p-8 text-center">Loading…</div>
 
   if (session === null) return null // Wait for redirect
   return children // User logged-in and role checked
