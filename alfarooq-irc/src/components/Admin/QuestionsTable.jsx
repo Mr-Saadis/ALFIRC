@@ -19,8 +19,8 @@ import {
     SelectItem,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/Popover';
-// import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter } from '@/components/ui/Dialog';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+// import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter } from '@/components/ui/dialog';
 import { Calendar } from 'lucide-react';
 import { Edit2, Trash2 } from 'lucide-react'
 import { format } from 'date-fns';
@@ -278,7 +278,7 @@ export default function QuestionsTable() {
 }
 
 // import { useState } from 'react'
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from '@/components/ui/Dialog'
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 // import { Button } from '@/components/ui/button'
 import { FiTrash } from 'react-icons/fi'
 // import { supabase } from '@/lib/supabase'
