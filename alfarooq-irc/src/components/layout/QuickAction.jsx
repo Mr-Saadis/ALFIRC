@@ -19,7 +19,7 @@ function QuickAction({ href = '#', label, icon: Icon }) {
 
   return (
     <div
-      className="relative group"
+      className="lg:relative group"
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
     >
@@ -54,6 +54,17 @@ export default function QuickActionBar() {
           <QuickAction icon={Bookmark} label="محفوظ جوابات" href="/ur/bookmark" />
           {/* <QuickAction icon={BookOpen} label="کتب" href="/books" />
           <QuickAction icon={Folder} label="فتوی" href="/fatwa" /> */}
+          <QuickAction icon={HelpCircle} label="سوال پوچھیں" href="/ask" />
+         
+        </aside>
+
+      <aside className="fixed left-1/2 bottom-0  z-40 flex -translate-x-1/2 -translate-y-1/2 gap-2 text-sm lg:hidden">
+       
+          <QuickAction icon={HomeIcon} label="سرآغاز" href="/" />
+          <QuickAction icon={Search} label="تلاش" href="/ur/search" />
+          <QuickAction icon={LayoutList} label="زمرہ جات" href="/categories" />
+          <QuickAction icon={BookOpen} label="تازہ جوابات" href="/ur/latest" />
+          <QuickAction icon={Bookmark} label="محفوظ جوابات" href="/ur/bookmark" />
           <QuickAction icon={HelpCircle} label="سوال پوچھیں" href="/ask" />
          
         </aside>

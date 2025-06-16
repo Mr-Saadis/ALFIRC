@@ -101,6 +101,7 @@ export default function RootLayout({ children }) {
            pathname !== '/admin/questions' &&
            <QuickAction />}
           <Sidebar />
+          
 
           <main className="min-h-screen">{children}</main>
           <Toaster position="bottom-right" />
