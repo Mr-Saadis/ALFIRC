@@ -1,102 +1,107 @@
-// src/app/ask/page.jsx
 'use client'
+
 import { useState } from 'react'
-import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
+import { supabase } from '@/lib/supabase' // Import Supabase client
+import { useSession } from '@supabase/auth-helpers-react'
+import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
+import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
-import { Spinner } from 'flowbite-react'
-import SignOutButton from '@/components/auth/SignOutButton'
+import { toast } from 'sonner'
 
-export default function AskPage () {
-  const [question, setQuestion]   = useState('')
-  const [urgency,  setUrgency]    = useState('normal')
+export default function AskQuestionPage() {
+  const router = useRouter()
+  const session = useSession() // Using useSession to check if user is logged in
+
+  const [body, setBody] = useState('')
+  const [urgency, setUrgency] = useState('normal')
   const [anonymous, setAnonymous] = useState(false)
-  const [submitting, setSubmitting] = useState(false)
+  const [loading, setLoading] = useState(false)
 
+  // Redirect to Sign-In if user is not authenticated
+  if (!session) {
+    router.push('/signin')
+    return <div className="p-8 text-center">Redirecting to sign in...</div>
+  }
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
 
-    if (!question.trim()) {
-      toast.error('سوال لکھنا ضروری ہے')
-      return
+    // Insert the new question into the database
+    const { data, error } = await supabase
+      .from('UserQuestions')
+      .insert([
+        {
+          user_id: session.user.id,   // Linking user_id to the authenticated user
+          body,
+          urgency,
+          anonymous,
+        }
+      ])
+
+    setLoading(false)
+
+    if (error) {
+      toast.error('Failed to submit question: ' + error.message)
+      console.error(error)
+    } else {
+      toast.success('Question submitted successfully!')
+      router.push('/')  // Redirect to the homepage or questions list
     }
-
-    setSubmitting(true)
-    const res = await fetch('/api/questions/new', {
-      method : 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body   : JSON.stringify({ body: question.trim(), urgency, anonymous }),
-      // same-origin already sends cookies, but be explicit:
-      credentials: 'include'
-    })
-    setSubmitting(false)
-
-    if (res.ok) {
-      toast.success('آپ کا سوال جمع ہو گیا ہے')
-      setQuestion('')
-      setUrgency('normal')
-      setAnonymous(false)
-      return
-    }
-
-    /* ---------- safe-parse error text ---------- */
-    let msg = 'Server error'
-    try {
-      const { error } = await res.clone().json()
-      if (error) msg = error
-    } catch (_) {
-      msg = res.statusText || msg
-    }
-    toast.error('خرابی: ' + msg)
   }
 
   return (
-    <div dir="rtl" className="max-w-2xl mx-auto px-4 py-8 font-arabic">
-      <h1 className="text-2xl font-bold mb-4">نیا سوال پوچھیں</h1>
-
+    <div dir="rtl" className="max-w-3xl mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-6">نیا سوال درج کریں</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
-
+        {/* Body */}
         <div>
-          <Label htmlFor="q">اپنا سوال لکھیں</Label>
+          <Label htmlFor="body">سوال</Label>
           <Textarea
-            id="q"
-            rows={6}
-            placeholder="یہاں اپنا سوال درج کریں..."
-            value={question}
-            onChange={e => setQuestion(e.target.value)}
+            id="body"
+            rows={4}
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            required
+            placeholder="سوال درج کریں..."
           />
         </div>
 
+        {/* Urgency */}
         <div>
-          <Label htmlFor="urg">اہمیت منتخب کریں</Label>
-          <select
-            id="urg"
-            value={urgency}
-            onChange={e => setUrgency(e.target.value)}
-            className="w-full mt-2 rounded-md border px-3 py-2"
-          >
-            <option value="normal">نارمل</option>
-            <option value="urgent">فوری</option>
-            <option value="info">معلوماتی</option>
-          </select>
+          <Label htmlFor="urgency">اہمیت</Label>
+          <Select value={urgency} onValueChange={setUrgency}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select urgency" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="normal">Normal</SelectItem>
+              <SelectItem value="urgent">Urgent</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* Anonymous */}
+        <div className="flex items-center">
+          <Label htmlFor="anonymous" className="mr-2">آیا آپ کا نام ظاہر ہو گا؟</Label>
           <input
-            id="anon"
+            id="anonymous"
             type="checkbox"
             checked={anonymous}
-            onChange={() => setAnonymous(!anonymous)}
+            onChange={() => setAnonymous((prev) => !prev)}
           />
-          <Label htmlFor="anon">میرا نام ظاہر نہ کیا جائے</Label>
         </div>
 
-        <Button type="submit" disabled={submitting}>
-          {submitting ? <Spinner size="sm" /> : 'سوال جمع کروائیں'}
-        </Button>
+        <div className="flex justify-end">
+          <Button type="submit" disabled={loading}>
+            {loading ? 'Saving…' : 'Submit Question'}
+          </Button>
+        </div>
       </form>
-       <SignOutButton redirectTo="/signin" />
     </div>
   )
 }

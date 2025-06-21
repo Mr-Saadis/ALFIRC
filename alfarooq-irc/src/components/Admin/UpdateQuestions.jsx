@@ -1,8 +1,9 @@
-// src/components/Admin/NewQuestion.jsx
-'use client';
+// src/components/Admin/UpdateQuestion.jsx
+
+'use client'
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { supabaseAdmin } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { formatISO } from 'date-fns';
@@ -13,18 +14,16 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
-export default function NewQuestion({ onSuccess }) {
+export default function UpdateQuestion() {
   const router = useRouter();
+  const { id } = useParams(); // Get the question ID from the URL params
 
-
-  // form state
+  // Form state
   const [qid, setQid] = useState('');
   const [heading, setHeading] = useState('');
   const [detailed, setDetailed] = useState('');
   const [summary, setSummary] = useState('');
-  const [pubAt, setPubAt] = useState(
-    formatISO(new Date(), { representation: 'date' })
-  );
+  const [pubAt, setPubAt] = useState(formatISO(new Date(), { representation: 'date' }));
   const [user, setUser] = useState('');
   const [assignT, setAssignT] = useState('false');
   const [subcatId, setSubcatId] = useState('not_select'); // Default to "not_select"
@@ -52,6 +51,36 @@ export default function NewQuestion({ onSuccess }) {
     loadSubcats();
   }, []);
 
+  // Fetch question data to prefill the form when page loads
+  useEffect(() => {
+    async function fetchData() {
+      const { data, error } = await supabaseAdmin
+        .from('QnA')
+        .select('*')
+        .eq('Q_ID', id)
+        .single();
+      
+      if (error) {
+        console.error('Error fetching question:', error);
+        toast.error('Failed to fetch question');
+        return;
+      }
+
+      setQid(data.Q_ID);
+      setHeading(data.Q_Heading);
+      setDetailed(data.Ans_Detailed);
+      setSummary(data.Ans_summary);
+      setPubAt(data.Published_At);
+      setUser(data.Q_User);
+      setAssignT(data.Assign_T ? 'true' : 'false');
+      setSubcatId(data.Subcat_ID ?? 'not_select');
+    }
+
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
+
   // 2) handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,25 +99,25 @@ export default function NewQuestion({ onSuccess }) {
 
     const { data, error } = await supabaseAdmin
       .from('QnA')
-      .insert(payload)
+      .update(payload)
+      .eq('Q_ID', qid) // Update the record with the matching Q_ID
       .select()
       .single();
 
     setLoading(false);
 
     if (error) {
-      console.error('Insert QnA error:', error);
-      toast.error('Failed to save question: ' + error.message);
+      console.error('Update QnA error:', error);
+      toast.error('Failed to update question: ' + error.message);
     } else {
-      toast.success('Question saved (Q_ID: ' + data.Q_ID + ')');
-      if (onSuccess) return onSuccess(data);
-      return router.push('/admin');
+      toast.success('Question updated (Q_ID: ' + data.Q_ID + ')');
+      router.push('/admin');
     }
   };
 
   return (
     <div dir="rtl" className="max-w-3xl mx-auto p-4 font-arabic">
-      <h2 className="text-2xl font-bold mb-6">نیا سوال درج کریں</h2>
+      <h2 className="text-2xl font-bold mb-6">سوال کو اپڈیٹ کریں</h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Q_ID */}
@@ -96,7 +125,7 @@ export default function NewQuestion({ onSuccess }) {
           <Label htmlFor="qid">سلسلہ نمبر (Q_ID)</Label>
           <Input
             id="qid" type="number" required
-            value={qid} onChange={e => setQid(e.target.value)}
+            value={qid} onChange={(e) => setQid(e.target.value)}
             placeholder="مثال: 123" className="mt-1"
           />
         </div>
@@ -106,7 +135,7 @@ export default function NewQuestion({ onSuccess }) {
           <Label htmlFor="heading">سوال (Q_Heading)</Label>
           <Input
             id="heading" required
-            value={heading} onChange={e => setHeading(e.target.value)}
+            value={heading} onChange={(e) => setHeading(e.target.value)}
             placeholder="سوال درج کریں…" className="mt-1"
           />
         </div>
@@ -116,7 +145,7 @@ export default function NewQuestion({ onSuccess }) {
           <Label htmlFor="detailed">جواب مفصل (Ans_Detailed)</Label>
           <Textarea
             id="detailed" rows={6} required
-            value={detailed} onChange={e => setDetailed(e.target.value)}
+            value={detailed} onChange={(e) => setDetailed(e.target.value)}
             placeholder="مکمل جواب لکھیں…" className="mt-1"
           />
         </div>
@@ -126,7 +155,7 @@ export default function NewQuestion({ onSuccess }) {
           <Label htmlFor="summary">جواب کا خلاصہ (Ans_summary)</Label>
           <Textarea
             id="summary" rows={3}
-            value={summary} onChange={e => setSummary(e.target.value)}
+            value={summary} onChange={(e) => setSummary(e.target.value)}
             placeholder="اختیاری خلاصہ…" className="mt-1"
           />
         </div>
@@ -136,18 +165,18 @@ export default function NewQuestion({ onSuccess }) {
           <Label htmlFor="pubAt">شائع ہونے کی تاریخ (Published_At)</Label>
           <Input
             id="pubAt" type="date" required
-            value={pubAt} onChange={e => setPubAt(e.target.value)}
+            value={pubAt} onChange={(e) => setPubAt(e.target.value)}
             className="mt-1"
           />
         </div>
 
         {/* Q_User */}
         <div>
-          <Label htmlFor="user">مصنف کا سوال (Q_User)</Label>
-          <Textarea
-            id="user" rows={6}
-            value={user} onChange={e => setUser(e.target.value)}
-            placeholder="مثال: سوال …" className="mt-1"
+          <Label htmlFor="user">مصنف کا نام (Q_User)</Label>
+          <Input
+            id="user"
+            value={user} onChange={(e) => setUser(e.target.value)}
+            placeholder="مثال: ابن حجر…" className="mt-1"
           />
         </div>
 

@@ -31,8 +31,11 @@ export default function Sidebar({ open, onClose }) {
         <Link href="/admin/questions" className="flex items-center gap-2 p-2 rounded hover:bg-gray-100">
           <FiFileText /> <span>New Questions</span>
         </Link>
-        <Link href="/admin/users" className="flex items-center gap-2 p-2 rounded hover:bg-gray-100">
-          <FiUsers /> <span>Users</span>
+        <Link href="/admin/userquestions" className="flex items-center gap-2 p-2 rounded hover:bg-gray-100">
+          <FiFileText /> <span>Users Questions</span>
+        </Link>
+        <Link href="/admin/analytics"  className="flex items-center gap-2 p-2 rounded hover:bg-gray-100">
+          <FiUsers /> <span>Analytics</span>
         </Link>
         <div className='fixed bottom-0 left-0 p-4'>
           

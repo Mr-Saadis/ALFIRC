@@ -26,12 +26,17 @@ import { Edit2, Trash2 } from 'lucide-react'
 import { format } from 'date-fns';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Badge } from '@/components/ui/badge';
+import { useRouter } from 'next/navigation';
+import UpdateQuestions from './UpdateQuestions'; // Assuming you have an UpdateQuestions component
+
 
 export default function QuestionsTable() {
     // ─── State Hooks ────────────────────────────────────────────────────────────
     const [rows, setRows] = useState([]);
     const [filtered, setFiltered] = useState([]);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
+    
 
     const [search, setSearch] = useState('');
     const [searchQ, setSearchQ] = useState('');
@@ -123,7 +128,7 @@ export default function QuestionsTable() {
 
     // ─── Render ─────────────────────────────────────────────────────────────────
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 font-arabic">
             {/* ── Filters ─────────────────────────────────────────── */}
             <div className="flex flex-wrap items-center gap-3">
                 <Input
@@ -237,7 +242,7 @@ export default function QuestionsTable() {
                                     </Badge>
                                 </TableCell>
                                 <TableCell className="text-right space-x-2">
-                                    <Button size="icon" variant="outline" onClick={() => {/* edit logic */ }}>
+                                    <Button size="icon" variant="outline" onClick={() => {router.push(`/admin/updatequestion/${r.Q_ID}`)}}>
                                         <Edit2 />
                                     </Button>
                                     <RowActions
@@ -281,6 +286,7 @@ export default function QuestionsTable() {
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 // import { Button } from '@/components/ui/button'
 import { FiTrash } from 'react-icons/fi'
+
 // import { supabase } from '@/lib/supabase'
 
 function RowActions({ id, onDeleted }) {
