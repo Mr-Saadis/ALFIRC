@@ -4,6 +4,7 @@ import { cookies }      from 'next/headers'
 import { supabase }     from '@/lib/supabase'
 import { v4 as uuidv4 } from 'uuid'
 import { randomUUID }   from 'crypto'
+import { create } from 'domain'
 
 export async function POST(req) {
   // 1) Resolve or create the anon_user_id cookie
@@ -35,9 +36,10 @@ export async function POST(req) {
     .upsert({
       session_id: session_id,
       Q_ID:    questionId,
-      // viewed_at will default to NOW() if you set that in your schema
+      created_at: new Date().toISOString(),
     },
-    { onConflict: ['session_id','Q_ID'] }
+    { onConflict: ['session_id','Q_ID'],
+      }
 
 )
 

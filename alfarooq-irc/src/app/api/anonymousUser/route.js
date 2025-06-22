@@ -49,6 +49,7 @@ export async function POST(req) {
       referrer,
       user_agent,
       ip_hash,
+      last_seen: new Date().toISOString(),
       details: details ?? null
     },
     { onConflict: 'session_id' }
