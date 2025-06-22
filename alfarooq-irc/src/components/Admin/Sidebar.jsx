@@ -37,6 +37,9 @@ export default function Sidebar({ open, onClose }) {
         <Link href="/admin/analytics"  className="flex items-center gap-2 p-2 rounded hover:bg-gray-100">
           <FiUsers /> <span>Analytics</span>
         </Link>
+        <Link href="/admin/selectimp"  className="flex items-center gap-2 p-2 rounded hover:bg-gray-100">
+          <FiUsers /> <span>Selected Importants</span>
+        </Link>
         <div className='fixed bottom-0 left-0 p-4'>
           
         <SignOutButton redirectTo="/signin" />

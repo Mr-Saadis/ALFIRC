@@ -99,6 +99,10 @@ export default function RootLayout({ children }) {
           <Navbar />
           {pathname !== '/admin' &&
            pathname !== '/admin/questions' &&
+           pathname !== '/admin/analytics' &&
+           pathname !== '/admin/selectimp' &&
+           pathname !== '/admin/updatequestion' &&
+           pathname !== '/admin/userquestions' &&
            <QuickAction />}
           <Sidebar />
           
