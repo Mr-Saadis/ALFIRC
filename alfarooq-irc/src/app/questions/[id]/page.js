@@ -130,9 +130,10 @@ export default function QuestionDetailPage() {
       dir="rtl"
       className="
         font-urdutype text-right bg-gray-50
-        mx-auto w-full
+        mx-auto w-full 
         px-3 sm:px-6 lg:px-4
-        py-6 md:py-10 lg:py-12
+        pt-6 md:pt-10 lg:pt-12
+        pb-15 md:pb-15 lg:pb-15
         max-w-4xl lg:max-w-6xl
       "
     >

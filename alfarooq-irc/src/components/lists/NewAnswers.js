@@ -124,7 +124,7 @@ const NewAnswers = () => {
   const [hasNext, setHasNext] = useState(false);
   const [total, setTotal] = useState(0);
   const [loadingId, setLoadingId] = useState(null);
-  const limit = 4;
+  const limit = 6;
 
   // Memoize click handler for answer cards
   const onCardClick = useCallback((id) => {

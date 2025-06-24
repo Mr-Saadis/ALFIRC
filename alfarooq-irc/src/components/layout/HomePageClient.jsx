@@ -55,8 +55,8 @@ function Card({ children }) {
 export default function HomePage() {
   // Intersection observers for each component
   const { ref: catRef, inView: catInView } = useInView({ triggerOnce: true, threshold: 0.1 });
-  const { ref: bookmarkRef, inView: bookmarkInView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const { ref: newAnsRef, inView: newAnsInView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  const { ref: bookmarkRef, inView: bookmarkInView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const { ref: selRef, inView: selInView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
 //  useClientMeta({
