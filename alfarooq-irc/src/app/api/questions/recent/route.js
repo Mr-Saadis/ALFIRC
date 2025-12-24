@@ -13,7 +13,7 @@ export async function GET(req) {
   let query = supabase
     .from('QnA')
     .select('Q_ID, Q_Heading, Ans_summary, Published_At, Subcat_ID, Assign_T', { count: 'exact' })
-    .order('Published_At', { ascending: false });
+    .order('Q_ID', { ascending: false });
 
   if (subcatId) {
     

@@ -56,7 +56,7 @@ export default function QuestionsTable() {
             const { data, error } = await supabaseAdmin
                 .from('QnA')
                 .select('Q_ID, Q_Heading, Published_At, Assign_T, Subcategory(Subcat_Name)')
-                .order('Published_At', { ascending: false });
+                .order('Q_ID', { ascending: false });
 
             if (error) {
                 console.error('Error loading questions:', error);
@@ -282,20 +282,25 @@ export default function QuestionsTable() {
     );
 }
 
-// import { useState } from 'react'
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from '@/components/ui/dialog'
-// import { Button } from '@/components/ui/button'
 import { FiTrash } from 'react-icons/fi'
-
-// import { supabase } from '@/lib/supabase'
+import { toast } from 'sonner';
 
 function RowActions({ id, onDeleted }) {
     const [showDialog, setShowDialog] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
+    
+    const [confirmName, setConfirmName] = useState('') 
 
     const handleDelete = async () => {
+        if (confirmName !== 'SAADIIS') {
+            toast.error('Enter Correct Password to delete.');    
+            return
+        }
+
         setIsDeleting(true)
-        const { error } = await supabaseAdmin
+        
+        const { error } = await supabaseAdmin 
             .from('QnA')
             .delete()
             .eq('Q_ID', id)
@@ -305,22 +310,23 @@ function RowActions({ id, onDeleted }) {
             alert('Failed to delete.')
         } else {
             onDeleted(id)
+            setShowDialog(false)
+            setConfirmName('') // ڈائیلاگ بند ہونے پر نام صاف کر دی
         }
 
         setIsDeleting(false)
-        setShowDialog(false)
     }
 
     return (
-        <div  className="inline-block">
-            <Dialog open={showDialog} onOpenChange={setShowDialog}>
+        <div className="inline-block">
+            <Dialog open={showDialog} onOpenChange={(open) => {
+                setShowDialog(open)
+                if (!open) setConfirmName('') // ڈائیلاگ بند کرنے پر ان پٹ ریسٹ کریں
+            }}>
                 <DialogTrigger asChild>
                     <Button
                         onClick={() => setShowDialog(true)}
-                        className="
-              flex gap-1 items-center px-3 py-1.5 text-[14px] rounded-lg
-               hover:text-red-600 hover:bg-gray-100 cursor-pointer
-            "
+                        className="flex gap-1 items-center px-3 py-1.5 text-[14px] rounded-lg hover:text-red-600 hover:bg-gray-100 cursor-pointer"
                     >
                         <FiTrash size={16} />
                     </Button>
@@ -330,9 +336,23 @@ function RowActions({ id, onDeleted }) {
                     <DialogHeader>
                         <DialogTitle>کیا آپ واقعی حذف کرنا چاہتے ہیں؟</DialogTitle>
                         <DialogDescription>
-                            یہ جواب dsd سے ہٹا دیا جائے گا۔ اس عمل کو واپس نہیں کیا جا سکتا۔
+                            یہ جواب ہٹا دیا جائے گا۔ اس عمل کو واپس نہیں کیا جا سکتا۔
                         </DialogDescription>
                     </DialogHeader>
+
+                    {/* 3. یہاں ان پٹ فیلڈ کا اضافہ کیا گیا ہے */}
+                    <div className="py-4">
+                        <label className="text-sm text-gray-500 mb-2 block">
+                            تصدیق کے لیے <strong>Password</strong> لکھیں:
+                        </label>
+                        <input
+                            type="text"
+                            value={confirmName}
+                            onChange={(e) => setConfirmName(e.target.value)}
+                            placeholder="Password"
+                            className="w-full border p-2 rounded-md outline-none focus:border-red-500"
+                        />
+                    </div>
 
                     <DialogFooter className="flex justify-end gap-2">
                         <Button
@@ -345,7 +365,8 @@ function RowActions({ id, onDeleted }) {
                         <Button
                             variant="destructive"
                             onClick={handleDelete}
-                            disabled={isDeleting}
+                            // 4. بٹن تب تک ڈس ایبل رہے گا جب تک نام SAAD نہ ہو
+                            disabled={isDeleting || confirmName !== 'SAADIIS'}
                         >
                             {isDeleting ? 'حذف ہو رہا ہے...' : 'حذف کریں'}
                         </Button>
