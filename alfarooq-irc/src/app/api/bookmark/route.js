@@ -5,7 +5,8 @@ import { supabase } from '@/lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(req) {
-  const cookieStore = cookies();
+  // تبدیلی 1: await کا اضافہ
+  const cookieStore = await cookies(); 
   const existing = cookieStore.get('anon_user_id');
   const session_id = existing?.value || uuidv4();
 
@@ -43,7 +44,9 @@ export async function POST(req) {
   }
 
   const res = NextResponse.json({ success: true }, { status: 201 });
+  
   if (!existing) {
+    // نوٹ: cookies.set() بھی اب کچھ ورژنز میں async مانگتا ہے، لیکن فی الحال رسپانس کوکیز ایسے ہی سیٹ ہوتی ہیں
     res.cookies.set({
       name: 'anon_user_id',
       value: session_id,
@@ -58,7 +61,8 @@ export async function POST(req) {
 }
 
 export async function GET() {
-  const cookieStore = cookies();
+  // تبدیلی 2: await کا اضافہ
+  const cookieStore = await cookies();
   const existing = cookieStore.get('anon_user_id');
   const session_id = existing?.value;
 
@@ -84,19 +88,23 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  const bookmarks = (data || []).map(row => ({
-    q_id: row.QnA.Q_ID,
-    q_heading: row.QnA.Q_Heading,
-    q_summary: row.QnA.Ans_summary,
-    q_detailed: row.QnA.Ans_Detailed,
-    published_at: row.QnA.Published_At
-  }));
+  // ایک اضافی سیفٹی چیک: اگر سوال ڈیلیٹ ہو گیا ہو تو ایرر نہ آئے
+  const bookmarks = (data || [])
+    .filter(row => row.QnA !== null) // اگر QnA null ہے تو اسے لسٹ سے نکال دیں
+    .map(row => ({
+      q_id: row.QnA.Q_ID,
+      q_heading: row.QnA.Q_Heading,
+      q_summary: row.QnA.Ans_summary,
+      q_detailed: row.QnA.Ans_Detailed,
+      published_at: row.QnA.Published_At
+    }));
 
   return NextResponse.json(bookmarks);
 }
 
 export async function DELETE(req) {
-  const cookieStore = cookies();
+  // تبدیلی 3: await کا اضافہ
+  const cookieStore = await cookies();
   const existing = cookieStore.get('anon_user_id');
   const session_id = existing?.value;
 
