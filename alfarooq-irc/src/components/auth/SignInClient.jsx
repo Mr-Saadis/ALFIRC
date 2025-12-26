@@ -179,7 +179,7 @@ export default function SignInPage() {
             </div>
 
             <p className="text-center text-[10px] lg:text-xs text-blue-200 lg:text-gray-400 mt-4 font-arabic">
-              لاگ ان کر کے آپ <span className={`font-medium cursor-pointer hover:text-white lg:hover:underline ${primaryColorClass} lg:text-inherit`}>شرائط و ضوابط</span> سے اتفاق کرتے ہیں۔
+              لاگ ان کر کے آپ <span className={`font-medium cursor-pointer xl:text-[#3333cc] hover:text-[#3333cc] lg:hover:underline ${primaryColorClass} lg:text-inherit`}>شرائط و ضوابط</span> سے اتفاق کرتے ہیں۔
             </p>
 
           </div>
