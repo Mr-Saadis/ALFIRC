@@ -3,18 +3,29 @@ import DashboardLayout from '@/components/Admin/DashboardLayout'
 import QuestionsTable from '@/components/Admin/QuestionsTable'
 import OverviewCards from '@/components/Admin/OverviewCard'
 import { supabaseAdmin } from '@/lib/supabase'
-import { formatISO, subDays } from 'date-fns'
+// import { formatISO, subDays } from 'date-fns'
+import { subDays } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminQuestionsPage() {
   
-  const today = new Date();
-  const todayStr = formatISO(today, { representation: 'date' });
-  const yesterdayStr = formatISO(subDays(today, 1), { representation: 'date' });
+  // const today = new Date();
+  // const todayStr = formatISO(today, { representation: 'date' });
+  // const yesterdayStr = formatISO(subDays(today, 1), { representation: 'date' });
   
-  // پچھلے 7 دنوں کی تاریخ نکالیں
-  const lastWeekStr = formatISO(subDays(today, 7), { representation: 'date' });
+  // // پچھلے 7 دنوں کی تاریخ نکالیں
+  // const lastWeekStr = formatISO(subDays(today, 7), { representation: 'date' });
+
+
+const todayPK = new Date();
+
+const todayStr = formatInTimeZone(todayPK, "Asia/Karachi", "yyyy-MM-dd");
+const yesterdayStr = formatInTimeZone(subDays(todayPK, 1), "Asia/Karachi", "yyyy-MM-dd");
+const lastWeekStr = formatInTimeZone(subDays(todayPK, 7), "Asia/Karachi", "yyyy-MM-dd");
+
+
 
   const [
     { count: totalQuestions },
@@ -62,6 +73,7 @@ export default async function AdminQuestionsPage() {
   return (
     <DashboardLayout>
       <OverviewCards stats={stats} />
+      
       <QuestionsTable />
     </DashboardLayout>
   )
