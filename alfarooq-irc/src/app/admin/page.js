@@ -26,7 +26,6 @@ const yesterdayStr = formatInTimeZone(subDays(todayPK, 1), "Asia/Karachi", "yyyy
 const lastWeekStr = formatInTimeZone(subDays(todayPK, 7), "Asia/Karachi", "yyyy-MM-dd");
 
 
-
   const [
     { count: totalQuestions },
     { count: totalUsers },
