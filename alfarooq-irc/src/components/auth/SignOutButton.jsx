@@ -28,7 +28,7 @@ export default function SignOutButton ({
       variant="ghost"
       size="sm"
       onClick={handleSignOut}
-      className="flex items-center gap-2 text-md text-red-600"
+      className="flex items-center gap-2 text-md text-red-600 hover:text-[#15185e]"
     >
       <FiLogOut className="text-lg " />
       Sign out
