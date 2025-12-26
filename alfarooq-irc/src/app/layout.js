@@ -94,7 +94,8 @@ export default function RootLayout({ children }) {
   const pathname = usePathname()
   return (
     <html lang="en" className={`${poppins.variable}`}>
-      <body className={` ${poppins.variable} bg-gray-50 ${poppins.variable} antialiased`}>
+      <body className={` ${poppins.variable} bg-gray-50 ${poppins.variable} antialiased`} suppressHydrationWarning={true}>
+        
         <SessionContextProvider supabaseClient={supabase}>
           <Navbar />
           {pathname !== '/admin' &&
