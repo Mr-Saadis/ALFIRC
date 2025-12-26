@@ -46,7 +46,7 @@ export default function QuestionsTable() {
     const [dateTo, setDateTo] = useState('');
 
     const [page, setPage] = useState(1);
-    const pageSize = 10;
+    const pageSize = 20;
 
     // dialog state
     // ─── Fetch Data ─────────────────────────────────────────────────────────────
@@ -54,8 +54,9 @@ export default function QuestionsTable() {
         const fetchQuestions = async () => {
             setLoading(true);
             const { data, error } = await supabaseAdmin
-                .from('QnA')
-                .select('Q_ID, Q_Heading, Published_At, Assign_T, Subcategory(Subcat_Name)')
+                .from('qna_view')
+                .select('Q_ID, Q_Heading, Published_At, Assign_T, Subcat_Name')
+                // Subcategory(Subcat_Name)
                 .order('Q_ID', { ascending: false });
 
             if (error) {
@@ -287,6 +288,7 @@ import { FiTrash } from 'react-icons/fi'
 import { toast } from 'sonner';
 
 function RowActions({ id, onDeleted }) {
+    const routers = useRouter();
     const [showDialog, setShowDialog] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
     
@@ -315,6 +317,7 @@ function RowActions({ id, onDeleted }) {
         }
 
         setIsDeleting(false)
+        routers.refresh();
     }
 
     return (

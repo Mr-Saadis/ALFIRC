@@ -301,6 +301,7 @@ export default function NewQuestion({ onSuccess }) {
     } else {
       toast.success('سوال کامیابی سے محفوظ ہو گیا (Q_ID: ' + data.Q_ID + ')');
       if (onSuccess) return onSuccess(data);
+      router.refresh(); 
       return router.push('/admin');
     }
   };

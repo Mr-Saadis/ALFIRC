@@ -29,6 +29,8 @@ import OverviewCards from '@/components/Admin/OverviewCard'
 import { supabaseAdmin } from '@/lib/supabase'
 import { formatISO, subDays } from 'date-fns'
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminQuestionsPage() {
   
   const today = new Date();
