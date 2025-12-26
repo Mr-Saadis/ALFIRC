@@ -18,13 +18,13 @@ import { ScrollTop } from 'primereact/scrolltop'
 // ——————————————————————————————————————————— helper
 function formatAnsDetails(raw = '') {
   return raw
-    .replace(/\*\*(.+?)\*\*/g, (_, t) => `<h1 class="text-xl font-bold my-4">${t}</h1>`)
-    .replace(/\*(.+?)\*/g, (_, t) => `<span class="font-[700] my-3">${t}</span>`)
-    .replace(/^###$/gm, () => `<hr class="border-gray-300 my-6"/>`)
-    .replace(/\/(.+?)\//g, (_, u) => `<a href="/questions/${u}" class="text-primary hover:underline">${u}</a>`)
-    .replace(/\_([\s\S]+?)\_/g, (_, t) => `<div class="text-primary text-[20px] font-quran bg-blue-50 p-4 rounded-3xl leading-[35px]">${t}</div>`)
-    .replace(/\r?\n\r?\n/g, '</p><p>')
-    .replace(/\r?\n/g, '<br/>')
+    .replace(/\*\*(.+?)\*\*/g, (_, t) => `<h1 class="text-xl font-bold my-4">${t}</h1>`) // main headings
+    .replace(/\*(.+?)\*/g, (_, t) => `<span class="font-[700] my-3">${t}</span>`) // bold text
+    .replace(/^###$/gm, () => `<hr class="border-gray-300 my-6"/>`) // horizontal rule
+    .replace(/\\(.+?)\\/g, (_, u) => `<a href="/questions/${u}" class="text-primary hover:underline">${u}</a>`) // question links
+    .replace(/\_([\s\S]+?)\_/g, (_, t) => `<div class="text-primary text-[20px] font-quran bg-blue-50 p-4 rounded-3xl leading-[35px]">${t}</div>`) // Quranic text
+    .replace(/\r?\n\r?\n/g, '</p><p>') // paragraphs
+    .replace(/\r?\n/g, '<br/>') // line breaks
 }
 
 export default function QuestionDetailPage() {
