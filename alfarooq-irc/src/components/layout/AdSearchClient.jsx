@@ -14,7 +14,7 @@ export default function SearchPage() {
   return (
     <div className="lg:max-w-6xl font-arabic max-w-4xl mx-auto px-4 py-6 space-y-6">
       <nav className="flex flex-row-reverse items-center gap-4 text-gray-600 text-sm">
-        <Link href="/" className="text-blue-600"><FiHome /></Link>
+        <Link href="/" className="text-primary"><FiHome /></Link>
       </nav>
       <section className='flex flex-col justify-center items-center mb-6'>
           <h1 className='text-2xl font-bold text-center mb-4'>پیشرفته تلاش</h1>

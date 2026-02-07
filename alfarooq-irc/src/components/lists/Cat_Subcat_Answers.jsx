@@ -70,7 +70,7 @@ const AnswerCard = ({ answer, isLoading, onClick }) => (
 //           <button
 //             onClick={() => setPage((p) => Math.max(p - 1, 1))}
 //             disabled={page === 1}
-//             className="px-2 font-poppins text-gray-400 hover:text-blue-800 disabled:cursor-not-allowed disabled:text-gray-400"
+//             className="px-2 font-poppins text-gray-400 hover:text-littleprimary disabled:cursor-not-allowed disabled:text-gray-400"
 //           >
 //             ›
 //           </button>
@@ -93,7 +93,7 @@ const AnswerCard = ({ answer, isLoading, onClick }) => (
 //           <button
 //             onClick={() => setPage((p) => p + 1)}
 //             disabled={!hasNext}
-//             className="px-2 font-poppins text-gray-700 hover:text-blue-800 disabled:text-gray-400 disabled:cursor-not-allowed"
+//             className="px-2 font-poppins text-gray-700 hover:text-littleprimary disabled:text-gray-400 disabled:cursor-not-allowed"
 //           >
 //             ‹
 //           </button>

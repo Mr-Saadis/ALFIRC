@@ -101,7 +101,7 @@ export default function SearchResults({ filters }) {
           onClick={() => router.push('/ur/latest')}
           className="inline-flex items-center px-3 gap-2 py-1.5 border border-gray-300 rounded-full hover:bg-gray-100 transition"
         >
-          مزید <FiGrid className="text-lg text-blue-600" />
+          مزید <FiGrid className="text-lg text-primary" />
         </button> */}
       </div>
 

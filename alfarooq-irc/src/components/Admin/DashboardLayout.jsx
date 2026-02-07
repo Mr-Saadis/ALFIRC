@@ -44,11 +44,11 @@ const router = useRouter()
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <Sidebar
+      {/* <Sidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         className="fixed md:relative z-20"
-      />
+      /> */}
   <div dir="rtl" className="font-arabic">
         <aside className="fixed left-1/2 bottom-0  z-40 flex -translate-x-1/2 -translate-y-1/2 gap-2 text-sm lg:hidden">
        

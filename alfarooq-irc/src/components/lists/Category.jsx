@@ -24,7 +24,7 @@ function CategoryAccordion({ cat, tab }) {
           <Link
             onClick={() => setOpen(v => !v)}
             href={`/categories?catID=${cat.id}&assignT=${tab}`}
-            className="text-[16px] font-[600] text-[#111928] hover:text-blue-600 transition"
+            className="text-[16px] font-[600] text-[#111928] hover:text-primary transition"
           >
             {cat.name}
           </Link>
@@ -93,7 +93,7 @@ export default function CategoriesPage() {
         <button
           onClick={() => router.push('/categories')}
           className="inline-flex items-center gap-1 px-3 py-1.5 border rounded-full hover:bg-gray-100 transition">
-          <FiGrid className="text-lg text-blue-600" /> مزید
+          <FiGrid className="text-lg text-primary" /> مزید
         </button>
       </div>
 
@@ -104,7 +104,7 @@ export default function CategoriesPage() {
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
               className={`cursor-pointer  pb-2 ${activeTab === tab.key
-                  ? 'border-b-2 border-blue-600 text-blue-600'
+                  ? 'border-b-2 border-primary text-primary'
                   : 'text-gray-600 hover:text-gray-800'
                 }`}
             >

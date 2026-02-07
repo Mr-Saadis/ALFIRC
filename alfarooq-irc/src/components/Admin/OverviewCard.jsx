@@ -113,7 +113,7 @@ export default function OverviewCards({ stats }) {
       <div className="flex justify-between items-start">
         <div>
           <p className="text-sm font-medium text-gray-500 font-arabic mb-1">{title}</p>
-          <h3 className="text-3xl font-bold text-gray-900 group-hover:text-[#3333cc] transition-colors font-mono">
+          <h3 className="text-3xl font-bold text-gray-900 group-hover:text-primary transition-colors font-mono">
             {value?.toLocaleString() || 0}
           </h3>
         </div>
@@ -140,7 +140,7 @@ export default function OverviewCards({ stats }) {
         title="کل سوالات (Total)" 
         value={stats.totalQuestions} 
         icon={FileText} 
-        colorClass="text-blue-600" 
+        colorClass="text-primary" 
         bgClass="bg-blue-50"
         trend="up"
       />
@@ -164,7 +164,7 @@ export default function OverviewCards({ stats }) {
             <div className="mt-4 pt-4 border-t border-gray-50">
                 <div className="flex items-center justify-between text-xs">
                     <span className="text-gray-400">Last Q-ID:</span>
-                    <span className="font-mono font-bold text-[#3333cc] bg-blue-50 px-2 py-1 rounded">
+                    <span className="font-mono font-bold text-primary bg-blue-50 px-2 py-1 rounded">
                         #{stats.lastQID}
                     </span>
                 </div>
@@ -182,13 +182,13 @@ export default function OverviewCards({ stats }) {
             <div className="flex bg-gray-100 p-1 rounded-lg">
                 <button
                     onClick={() => setShowWeekly(false)}
-                    className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${!showWeekly ? 'bg-white text-[#3333cc] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                    className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${!showWeekly ? 'bg-white text-primary shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
                 >
                     Day
                 </button>
                 <button
                     onClick={() => setShowWeekly(true)}
-                    className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${showWeekly ? 'bg-white text-[#3333cc] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                    className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${showWeekly ? 'bg-white text-primary shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
                 >
                     Week
                 </button>

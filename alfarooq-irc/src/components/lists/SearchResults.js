@@ -72,7 +72,7 @@ function Pagination({ page, setPage, hasNext }) {
           <button
             onClick={() => setPage((p) => Math.max(p - 1, 1))}
             disabled={page === 1}
-            className="px-2 text-gray-400 hover:text-blue-800 disabled:cursor-not-allowed"
+            className="px-2 text-gray-400 hover:text-littleprimary disabled:cursor-not-allowed"
           >
             ›
           </button>
@@ -99,7 +99,7 @@ function Pagination({ page, setPage, hasNext }) {
           <button
             onClick={() => setPage((p) => p + 1)}
             disabled={!hasNext}
-            className="px-2 text-gray-700 hover:text-blue-800 disabled:text-gray-400 disabled:cursor-not-allowed"
+            className="px-2 text-gray-700 hover:text-littleprimary disabled:text-gray-400 disabled:cursor-not-allowed"
           >
             ‹
           </button>
@@ -193,7 +193,7 @@ export default function SearchResults() {
           onClick={() => router.push('/ur/latest')}
           className="inline-flex items-center px-3 gap-2 py-1.5 border border-gray-300 rounded-full hover:bg-gray-100 transition"
         >
-          مزید <FiGrid className="text-lg text-blue-600" />
+          مزید <FiGrid className="text-lg text-primary" />
         </button>
       </div>
 

@@ -86,7 +86,7 @@ export default function SignInPage() {
     })
   }
 
-  const primaryColorClass = "text-[#3333cc]";
+  const primaryColorClass = "text-primary";
   const primaryBorderClass = "hover:border-[#3333cc]";
 
   return (
@@ -162,7 +162,7 @@ export default function SignInPage() {
                     <FcGoogle className="text-xl lg:text-2xl" />
                  </div>
                  <div className="text-left">
-                    <span className={`block text-[10px] lg:text-sm text-gray-500 lg:text-gray-400 font-medium group-hover:text-[#3333cc] transition-colors`}>Continue with</span>
+                    <span className={`block text-[10px] lg:text-sm text-gray-500 lg:text-gray-400 font-medium group-hover:text-primary transition-colors`}>Continue with</span>
                     <span className="block text-sm lg:text-lg font-bold text-gray-800">Google</span>
                  </div>
               </div>
@@ -179,7 +179,7 @@ export default function SignInPage() {
             </div>
 
             <p className="text-center text-[10px] lg:text-xs text-blue-200 lg:text-gray-400 mt-4 font-arabic">
-              لاگ ان کر کے آپ <span className={`font-medium cursor-pointer xl:text-[#3333cc] hover:text-[#3333cc] lg:hover:underline ${primaryColorClass} lg:text-inherit`}>شرائط و ضوابط</span> سے اتفاق کرتے ہیں۔
+              لاگ ان کر کے آپ <span className={`font-medium cursor-pointer xl:text-primary hover:text-primary lg:hover:underline ${primaryColorClass} lg:text-inherit`}>شرائط و ضوابط</span> سے اتفاق کرتے ہیں۔
             </p>
 
           </div>

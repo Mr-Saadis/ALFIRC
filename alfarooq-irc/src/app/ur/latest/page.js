@@ -12,7 +12,7 @@ export default function BookmarkPage() {
     <div className="w-full px-4 py-6 lg:max-w-7xl mx-auto font-arabic">
       {/* Breadcrumb nav */}
       <nav className="flex flex-row-reverse items-center gap-4 text-gray-600 text-sm mb-6">
-        <Link href="/" className="text-blue-600 hover:text-blue-800">
+        <Link href="/" className="text-primary hover:text-littleprimary">
           <FiHome />
         </Link>
         <span className="text-gray-400">/</span>

@@ -224,14 +224,14 @@ export default function UserQuestions() {
         <div className="flex items-center justify-between">
             <div>
                 <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                    <MessageSquare className="text-[#3333cc] w-8 h-8" />
+                    <MessageSquare className="text-primary w-8 h-8" />
                     عوامی سوالات (User Questions)
                 </h2>
                 <p className="text-gray-500 mt-1 text-sm">
                     یہاں وہ سوالات ہیں جو صارفین نے ایپ کے ذریعے پوچھے ہیں۔
                 </p>
             </div>
-            <Badge variant="outline" className="bg-white px-4 py-1 text-[#3333cc] border-[#3333cc]/30">
+            <Badge variant="outline" className="bg-white px-4 py-1 text-primary border-[#3333cc]/30">
                 کل: {questions.length}
             </Badge>
         </div>
@@ -250,7 +250,7 @@ export default function UserQuestions() {
                 // Empty State
                 <div className="flex flex-col items-center justify-center p-20 text-center">
                     <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-4">
-                        <CheckCircle2 className="w-10 h-10 text-[#3333cc]" />
+                        <CheckCircle2 className="w-10 h-10 text-primary" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-800">کوئی نیا سوال نہیں!</h3>
                     <p className="text-gray-500 mt-2">تمام سوالات کے جوابات دیے جا چکے ہیں۔</p>
@@ -286,7 +286,7 @@ export default function UserQuestions() {
                                         <div className="flex items-center gap-3">
                                             <Avatar className="w-9 h-9 border border-gray-200">
                                                 <AvatarImage src={q.anonymous ? null : q.AuthenticatedUsers?.avatar_url} />
-                                                <AvatarFallback className={q.anonymous ? "bg-gray-100" : "bg-blue-100 text-[#3333cc]"}>
+                                                <AvatarFallback className={q.anonymous ? "bg-gray-100" : "bg-blue-100 text-primary"}>
                                                     {q.anonymous ? <EyeOff size={16} /> : <User size={16} />}
                                                 </AvatarFallback>
                                             </Avatar>
@@ -349,7 +349,7 @@ export default function UserQuestions() {
                 <DialogContent className="max-w-lg font-arabic" dir="rtl">
                     <DialogHeader className="border-b border-gray-100 pb-4 mb-2">
                         <DialogTitle className="text-xl font-bold text-gray-800 flex items-center gap-2">
-                            <AlertCircle className="text-[#3333cc]" />
+                            <AlertCircle className="text-primary" />
                             سوال کی تفصیل
                         </DialogTitle>
                         <DialogDescription>
@@ -398,12 +398,12 @@ export default function UserQuestions() {
                     </div>
 
                     <DialogFooter className="border-t border-gray-100 pt-4 gap-2 sm:justify-start">
-                        <Button onClick={handleCopy} variant="outline" className="gap-2 hover:border-[#3333cc] hover:text-[#3333cc]">
+                        <Button onClick={handleCopy} variant="outline" className="gap-2 hover:border-[#3333cc] hover:text-primary">
                             <Copy size={16} /> کاپی کریں
                         </Button>
                         <Button 
                             onClick={(e) => { handleDone(selectedQuestion.id, e); setSelectedQuestion(null); }} 
-                            className="bg-[#3333cc] hover:bg-blue-800 text-white gap-2"
+                            className="bg-primary hover:bg-littleprimary text-white gap-2"
                         >
                             <CheckCircle2 size={16} /> مکمل (Done)
                         </Button>

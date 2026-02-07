@@ -14,6 +14,9 @@ import {
   Bookmark,
 } from 'lucide-react';
 
+import ThemeSwitcher from "@/components/ThemeSwitcher";
+
+
 function QuickAction({ href = '#', label, icon: Icon }) {
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -45,30 +48,35 @@ function QuickAction({ href = '#', label, icon: Icon }) {
 export default function QuickActionBar() {
   return (
     <div dir="rtl" className="font-arabic">
-      <aside className="fixed right-4 z-40 hidden lg:flex flex-col items-top gap-6">
-       
-          <QuickAction icon={HomeIcon} label="سرآغاز" href="/" />
-          <QuickAction icon={Search} label="تلاش" href="/ur/search" />
-          <QuickAction icon={LayoutList} label="زمرہ جات" href="/categories" />
-          <QuickAction icon={BookOpen} label="تازہ جوابات" href="/ur/latest" />
-          <QuickAction icon={Bookmark} label="محفوظ جوابات" href="/ur/bookmark" />
-          {/* <QuickAction icon={BookOpen} label="کتب" href="/books" />
-          <QuickAction icon={Folder} label="فتوی" href="/fatwa" /> */}
-          <QuickAction icon={HelpCircle} label="سوال پوچھیں" href="/ask" />
-         
-        </aside>
-
-      <aside className="fixed left-1/2 bottom-0  z-40 flex -translate-x-1/2 -translate-y-1/2 gap-2 text-sm lg:hidden">
-       
-          <QuickAction icon={HomeIcon} label="سرآغاز" href="/" />
-          <QuickAction icon={Search} label="تلاش" href="/ur/search" />
-          <QuickAction icon={LayoutList} label="زمرہ جات" href="/categories" />
-          <QuickAction icon={BookOpen} label="تازہ جوابات" href="/ur/latest" />
-          <QuickAction icon={Bookmark} label="محفوظ جوابات" href="/ur/bookmark" />
-          <QuickAction icon={HelpCircle} label="سوال پوچھیں" href="/ask" />
-         
-        </aside>
+      <aside className="fixed right-4 z-40 hidden lg:flex top-8 flex-col items-top gap-6">
         
+        <QuickAction icon={HomeIcon} label="سرآغاز" href="/" />
+        <QuickAction icon={Search} label="تلاش" href="/ur/search" />
+        <QuickAction icon={LayoutList} label="زمرہ جات" href="/categories" />
+        <QuickAction icon={BookOpen} label="تازہ جوابات" href="/ur/latest" />
+        <QuickAction icon={Bookmark} label="محفوظ جوابات" href="/ur/bookmark" />
+        {/* <QuickAction icon={BookOpen} label="کتب" href="/books" />
+          <QuickAction icon={Folder} label="فتوی" href="/fatwa" /> */}
+        <QuickAction icon={HelpCircle} label="سوال پوچھیں" href="/ask" />
+        <ThemeSwitcher  />
+
+      </aside>
+
+      <aside className="fixed right-4 z-40 lg:hidden top-8 flex-col items-top gap-6">
+        <QuickAction icon={Search} label="تلاش" href="/ur/search" />
+
+      </aside>
+      <aside className="fixed left-1/2 bottom-0  z-40 flex -translate-x-1/2 -translate-y-1/2 gap-2 text-sm lg:hidden">
+
+        <QuickAction icon={HomeIcon} label="سرآغاز" href="/" />
+        <QuickAction icon={LayoutList} label="زمرہ جات" href="/categories" />
+        <QuickAction icon={BookOpen} label="تازہ جوابات" href="/ur/latest" />
+        <QuickAction icon={Bookmark} label="محفوظ جوابات" href="/ur/bookmark" />
+        <QuickAction icon={HelpCircle} label="سوال پوچھیں" href="/ask" />
+        <ThemeSwitcher/>
+
+      </aside>
+
     </div>
   );
 }

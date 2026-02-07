@@ -16,7 +16,7 @@ import { useInView } from "react-intersection-observer";
 import { useEffect } from 'react';
 
 /* -------------------------------------------------------------------------- */
-/*  Lazy-loaded list components                                               */
+/* Lazy-loaded list components                                               */
 /* -------------------------------------------------------------------------- */
 const Category = dynamic(() => import("@/components/lists/Category"), {
   ssr: false,
@@ -28,7 +28,14 @@ const Bookmark = dynamic(() => import("@/components/lists/Bookmark"), {
   loading: () => <p className="text-sm text-muted-foreground"></p>,
 });
 
+// We keep NewAnswers commented out as per your change
 const NewAnswers = dynamic(() => import("@/components/lists/NewAnswers"), {
+  ssr: false,
+  loading: () => <p className="text-sm text-muted-foreground"></p>,
+});
+
+// IMPORT PATH MUST MATCH FILE LOCATION (src/components/lists/RandomAnswers.js)
+const RandomAnswers = dynamic(() => import("@/components/lists/RandomAnswers"), {
   ssr: false,
   loading: () => <p className="text-sm text-muted-foreground"></p>,
 });
@@ -39,7 +46,7 @@ const SelectedList = dynamic(() => import("@/components/lists/SelectedList"), {
 });
 
 /* -------------------------------------------------------------------------- */
-/*  Utility card wrapper                                                      */
+/* Utility card wrapper                                                      */
 /* -------------------------------------------------------------------------- */
 function Card({ children }) {
   return (
@@ -50,7 +57,7 @@ function Card({ children }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Main Page                                                                 */
+/* Main Page                                                                 */
 /* -------------------------------------------------------------------------- */
 export default function HomePage() {
   // Intersection observers for each component
@@ -59,33 +66,10 @@ export default function HomePage() {
   const { ref: bookmarkRef, inView: bookmarkInView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const { ref: selRef, inView: selInView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
-//  useClientMeta({
-//     title: 'Al-Farooq IRC - سوالات اور جوابات ',
-//     description: 'Al-Farooq Islamic Research Center provides a platform for asking questions and finding answers in Urdu.',
-//     openGraph: {
-//       title: 'Al-Farooq IRC - سوالات اور جوابات',
-//       description: 'Al-Farooq Islamic Research Center provides a platform for asking questions and finding answers in Urdu.',
-//       url: 'https://alfarooq-irc.com',
-//       images: ['https://example.com/og-image.png'], // Replace with your actual image URL
-//       siteName: 'Al-Farooq IRC',
-//     },
-//     twitter: {
-//       card: 'summary_large_image',
-//       title: 'Al-Farooq IRC - سوالات اور جوابات',
-//       description: 'Al-Farooq Islamic Research Center provides a platform for asking questions and finding answers in Urdu.',
-//       images: ['https://example.com/twitter-image.png'], // Replace with your actual image URL
-//       site: '@alfarooq_irc', // Replace with your Twitter handle
-//       creator: '@alfarooq_irc', // Replace with your Twitter handle
-//     },
-//   });
-
-
-
   return (
-    
     <div dir="rtl" className="font-arabic">
       {/* ---------------------------------------------------------------- */}
-      {/*  Hero Section                                                    */}
+      {/* Hero Section                                                    */}
       {/* ---------------------------------------------------------------- */}
       <section className="mx-auto  flex max-w-6xl flex-col gap-6 px-2 py-4 sm:px-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-8">
         <Card>
@@ -95,7 +79,7 @@ export default function HomePage() {
               نیا سوال پوچھیں
             </h1>
             <h2 className="text-base text-muted-foreground">
-              سمجھ نہیں آیا؟ مستند جواب حاصل کریں
+              سمجھ نہیں آیا؟ مستند جواب حاصل کریں
             </h2>
           </header>
 
@@ -121,10 +105,6 @@ export default function HomePage() {
 
           <div className="flex lg:flex-row flex-col items-center lg:space-y-0 space-y-3 justify-center">
             <SearchBar />
-            {/* <Suspense fallback={<div>Loading search…</div>}>
-        <SearchBarClient />
-      </Suspense> */}
-
             <Button asChild className="whitespace-nowrap w-27 h-9">
               <Link href="/search">
                 <SearchIcon className="mr-2 h-4 w-4" />
@@ -138,10 +118,11 @@ export default function HomePage() {
             <li>عبارت کو ڈبل کوٹس (&quot; &quot;) میں لکھیں تا کہ مکمل فقرہ ہی تلاش ہو۔</li>
           </ul>
         </Card>
+        
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/*  Main Content Grid                                               */}
+      {/* Main Content Grid                                               */}
       {/* ---------------------------------------------------------------- */}
       <main className="mx-auto grid w-full max-w-7xl gap-6 px-2 pb-8 sm:px-4 lg:grid-cols-[280px_1fr] lg:gap-8">
         {/* Sidebar */}
@@ -152,15 +133,17 @@ export default function HomePage() {
 
         {/* Answers Section */}
         <section className="space-y-6">
-          <div ref={newAnsRef}>{newAnsInView && <NewAnswers />}</div>
+          {/* We use newAnsRef to trigger loading of RandomAnswers */}
+          <div ref={newAnsRef}>{newAnsInView && <RandomAnswers />}</div>
           <div ref={selRef}>{selInView && <SelectedList />}</div>
+          <div ref={selRef}>{selInView && <NewAnswers />}</div>
         </section>
       </main>
 
       <ScrollTop
         threshold={250}
         behavior="smooth"
-        className="!right-4 !left-auto !bg-blue-800 text-white h-[35px] w-[35px] rounded-3xl hover:!bg-primary/90"
+        className="!right-4 !left-auto !bg-littleprimary text-white h-[35px] w-[35px] rounded-3xl hover:!bg-primary/90"
       />
     </div>
   );

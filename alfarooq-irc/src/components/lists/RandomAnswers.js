@@ -1,26 +1,21 @@
-// src/components/NewAnswers.js
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import {
-  FiExternalLink,
   FiGrid,
-  FiDownload,
-  FiShare,
-  FiBookmark,
+  FiRefreshCw, 
 } from 'react-icons/fi';
-import { FaBook } from 'react-icons/fa';
 import { Spinner } from 'flowbite-react';
-import { BookText } from 'lucide-react';
+import { BookTextIcon } from 'lucide-react';
 
 const AnswerCard = ({ answer, isLoading, onClick }) => (
   <li
     dir="rtl"
-    className="relative bg-white p-4 pt-2 pb-2 rounded-xl border-2  mb-1 border-gray-100 dark:bg-gray-800 transition hover:bg-gray-100 dark:hover:bg-gray-700"
+    className="relative bg-white p-4 pt-2 pb-2 rounded-xl border-2 mb-1 border-gray-100 dark:bg-gray-800 transition hover:bg-gray-100 dark:hover:bg-gray-700"
   >
     {isLoading && (
-      <div className="absolute inset-0 bg-white/50 flex items-center justify-center rounded-xl">
+      <div className="absolute inset-0 bg-white/50 flex items-center justify-center rounded-xl z-10">
         <Spinner size="sm" />
       </div>
     )}
@@ -52,14 +47,9 @@ const AnswerCard = ({ answer, isLoading, onClick }) => (
             </span>
           </div>
 
-
           <span className="text-primary text-[12px] dark:text-primary font-[600] leading-[10px]">
             سلسلہ نمبر : <span className="font-poppins">{answer.id}</span>
           </span>
-
-
-
-
         </div>
         <div className="text-[16px] text-[#111928] dark:text-[#111928] font-[600] leading-[30px] text-right">
           {answer.title}
@@ -116,20 +106,30 @@ const Pagination = ({ page, setPage, hasNext }) => {
   );
 };
 
-const NewAnswers = () => {
+const RandomAnswers = () => {
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(false);
-  const [total, setTotal] = useState(0);
   const [loadingId, setLoadingId] = useState(null);
-  const limit = 100;
+  const [refreshKey, setRefreshKey] = useState(0); 
+  
+  // Create a persistent seed that doesn't change on re-renders, only on explicit refresh
+  const seedRef = useRef(Math.random().toString(36).substring(7));
+  
+  const limit = 6;
 
-  // Memoize click handler for answer cards
   const onCardClick = useCallback((id) => {
     setLoadingId(id);
   }, []);
+
+  // Function to generate a new seed and reset to page 1
+  const handleShuffle = () => {
+    seedRef.current = Math.random().toString(36).substring(7);
+    setPage(1);
+    setRefreshKey(prev => prev + 1); 
+  };
 
   useEffect(() => {
     let isActive = true;
@@ -138,11 +138,10 @@ const NewAnswers = () => {
     async function fetchAnswers() {
       setLoading(true);
       setError(null);
-      setAnswers([]);
-
+      
       try {
         const response = await fetch(
-          `/api/questions/recent?page=${page}&limit=${limit}`,
+          `/api/questions/random?page=${page}&limit=${limit}&seed=${seedRef.current}`,
           { signal: controller.signal }
         );
 
@@ -151,11 +150,10 @@ const NewAnswers = () => {
         }
 
         const json = await response.json();
-        if (!isActive) return; // avoid state updates if unmounted
+        if (!isActive) return;
 
         const { data, total: totalCount } = json;
         setAnswers(data);
-        setTotal(totalCount);
         setHasNext(page * limit < totalCount);
       } catch (err) {
         if (err.name !== 'AbortError') {
@@ -172,38 +170,62 @@ const NewAnswers = () => {
       isActive = false;
       controller.abort();
     };
-  }, [page]);
+  }, [page, refreshKey]); 
 
   return (
     <div
       dir="rtl"
-      className="rounded-[24px] bg-white border min-h-[800px] border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-4 pb-4 min-w-full"
+      className="rounded-[24px] bg-white border min-h-[800px] border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-4 pb-4 min-w-full relative"
     >
       {/* Header */}
-      <div className="flex flex-row-reverse justify-end items-center mb-4 pt-4 pb-4">
-        <h2 className="text-[19px] flex flex-row-reverse justify-between w-[120px] items-center font-[700] text-primary dark:text-white">
-          نئے جوابات <BookText className="text-[25px]" />
+      <div className="flex flex-row-reverse justify-between items-center mb-4 pt-4 pb-4">
+        <div className="flex gap-2">
+            <Link href="/ur/latest">
+                <button className="inline-flex items-center px-3 w-[90px] justify-center gap-3 py-1.5 border border-gray-300 rounded-full hover:bg-gray-100 transition">
+                    <FiGrid className="text-lg text-primary" />
+                    مزید
+                </button>
+            </Link>
+            
+            {/* Shuffle Button */}
+            <button 
+                onClick={handleShuffle}
+                title="نئی ترتیب (Shuffle)"
+                className="inline-flex items-center justify-center w-[40px] h-[35px] border border-gray-300 rounded-full hover:bg-gray-100 transition text-gray-600"
+            >
+                <FiRefreshCw className={`text-lg ${loading ? 'animate-spin' : ''}`} />
+            </button>
+        </div>
+
+        <h2 className="text-[19px] flex flex-row-reverse justify-end gap-2 items-center font-[700] text-primary dark:text-white">
+          منتخب سوالات <BookTextIcon className="text-[25px]" />
         </h2>
       </div>
 
-      {/* Loading / Error Overlay */}
+      {/* Loading Overlay */}
       {loading && (
-         <div className="absolute inset-0 flex items-center justify-center bg-white/50 rounded-2xl">
-                  <Spinner aria-label="Loading answers" size="md" className="text-blue-300" />
-                </div>
-      )}
-      {error && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-red-500 text-lg">{error}</span>
-        </div>
-        
+         <div className="absolute inset-0 top-[80px] z-10 flex items-center justify-center bg-white/60 rounded-2xl dark:bg-gray-900/60">
+            <Spinner aria-label="Loading answers" size="lg" className="text-primary fill-primary" />
+         </div>
       )}
 
-      {/* Answers List & Pagination (only show if no loading/error) */}
-      {!loading && !error && (
+      {/* Error Message */}
+      {error && !loading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-red-500 mb-2">{error}</p>
+            <button onClick={handleShuffle} className="text-primary underline text-sm">
+                دوبارہ کوشش کریں
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Answers List & Pagination */}
+      {!error && (
         <>
           {answers.length > 0 ? (
-            <ul className="flex flex-col gap-4">
+            <ul className={`flex flex-col gap-4 transition-opacity duration-200 ${loading ? 'opacity-50' : 'opacity-100'}`}>
               {answers.map((answer) => (
                 <AnswerCard
                   key={answer.id}
@@ -214,9 +236,11 @@ const NewAnswers = () => {
               ))}
             </ul>
           ) : (
-            <p className="text-center text-gray-600 dark:text-gray-300 font-medium">
-              کوئی جواب دستیاب نہیں۔
-            </p>
+            !loading && (
+                <p className="text-center text-gray-600 dark:text-gray-300 font-medium mt-10">
+                کوئی جواب دستیاب نہیں۔
+                </p>
+            )
           )}
 
           <Pagination page={page} setPage={setPage} hasNext={hasNext} />
@@ -226,4 +250,4 @@ const NewAnswers = () => {
   );
 };
 
-export default NewAnswers;
+export default RandomAnswers;

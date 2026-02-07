@@ -216,7 +216,7 @@ export default function AdminQASelector() {
 
 /* ---------- tiny reusable UI blocks --------- */
 
-const Stat = ({ label, value, color = 'text-blue-600' }) => (
+const Stat = ({ label, value, color = 'text-primary' }) => (
     <div className="bg-white border rounded p-3">
         <div className="text-[0.75rem] text-gray-500">{label}</div>
         <div className={clsx('text-lg font-semibold', color)}>{value}</div>
@@ -235,7 +235,7 @@ const Box = ({
         <div className="bg-white border rounded-lg">
             {/* header */}
             <div
-                className={clsx(colorBg[color] || 'bg-blue-800', 'text-white', 'rounded-t-lg')}
+                className={clsx(colorBg[color] || 'bg-littleprimary', 'text-white', 'rounded-t-lg')}
             >
                 <div className="flex items-center justify-between px-4 py-3  border-b">
                     <h2 className="font-medium">{title}</h2>

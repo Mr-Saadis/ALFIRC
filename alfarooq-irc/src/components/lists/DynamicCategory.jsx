@@ -28,7 +28,7 @@ function CategoryAccordion ({ cat, onCat, onSub }) {
           <button
             type="button"
             onClick={e => { e.stopPropagation(); onCat(cat.id) }}
-            className="text-[16px] font-[600] text-[#111928] hover:text-blue-600"
+            className="text-[16px] font-[600] text-[#111928] hover:text-primary"
           >
             {cat.name}
           </button>
@@ -128,7 +128,7 @@ export default function DynamicCategory () {
             <li key={t.key}
                 className={`cursor-pointer pb-2 ${
                     t.key === activeTab
-                      ? 'border-b-2 border-blue-600 text-blue-600'
+                      ? 'border-b-2 border-primary text-primary'
                       : 'text-gray-600 hover:text-gray-800'
                   }`}
                 onClick={() => { setActiveTab(t.key); pushQS(catId||'', subId||'', t.key) }}

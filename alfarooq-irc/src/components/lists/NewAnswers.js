@@ -84,7 +84,7 @@ const Pagination = ({ page, setPage, hasNext }) => {
           <button
             onClick={() => setPage((p) => Math.max(p - 1, 1))}
             disabled={page === 1}
-            className="px-2 font-poppins text-gray-400 hover:text-blue-800 disabled:cursor-not-allowed disabled:text-gray-400"
+            className="px-2 font-poppins text-gray-400 hover:text-littleprimary disabled:cursor-not-allowed disabled:text-gray-400"
           >
             ›
           </button>
@@ -106,7 +106,7 @@ const Pagination = ({ page, setPage, hasNext }) => {
           <button
             onClick={() => setPage((p) => p + 1)}
             disabled={!hasNext}
-            className="px-2 font-poppins text-gray-700 hover:text-blue-800 disabled:text-gray-400 disabled:cursor-not-allowed"
+            className="px-2 font-poppins text-gray-700 hover:text-littleprimary disabled:text-gray-400 disabled:cursor-not-allowed"
           >
             ‹
           </button>
@@ -183,7 +183,7 @@ const NewAnswers = () => {
       <div className="flex flex-row-reverse justify-between items-center mb-4 pt-4 pb-4">
         <Link href="/ur/latest">
           <button className="inline-flex items-center px-3 w-[90px] justify-center gap-3 py-1.5 border border-gray-300 rounded-full hover:bg-gray-100 transition">
-            <FiGrid className="text-lg text-blue-600" />
+            <FiGrid className="text-lg text-primary" />
             مزید
           </button>
         </Link>

@@ -35,7 +35,7 @@ function BookmarkAccordion({ item, onDelete }) {
         <div className="flex flex-col w-full justify-center items-start gap-2">
           <Link
             href={`/questions/${item.q_id}`}
-            className="text-[16px] font-[600] text-[#111928] line-clamp-2 hover:text-blue-600 transition"
+            className="text-[16px] font-[600] text-[#111928] line-clamp-2 hover:text-primary transition"
           >
             {item.q_heading}
           </Link>
@@ -127,7 +127,7 @@ export default function BookmarkPanel() {
           onClick={() => router.push('/ur/bookmark')}
           className="inline-flex items-center gap-1 px-4 py-1.5 border rounded-full hover:bg-gray-100 transition"
         >
-          <FiGrid className="text-lg text-blue-600" /> تمام
+          <FiGrid className="text-lg text-primary" /> تمام
         </button>
       </div>
 

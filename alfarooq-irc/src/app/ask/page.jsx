@@ -71,7 +71,7 @@
 //   if (!session) {
 //      return (
 //         <div className="h-screen flex items-center justify-center bg-gray-50">
-//             <div className="animate-pulse text-[#3333cc] font-arabic text-xl">لاگ ان چیک کیا جا رہا ہے...</div>
+//             <div className="animate-pulse text-primary font-arabic text-xl">لاگ ان چیک کیا جا رہا ہے...</div>
 //         </div>
 //      )
 //   }
@@ -89,7 +89,7 @@
           
 //           {/* Header */}
 //           <div className="text-center mb-10">
-//             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 text-[#3333cc] mb-4">
+//             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 text-primary mb-4">
 //                <HelpCircle className="w-8 h-8" />
 //             </div>
 //             <h2 className="text-3xl font-bold text-gray-900">نیا سوال پوچھیں</h2>
@@ -103,7 +103,7 @@
 //             {/* Question Body */}
 //             <div className="space-y-2">
 //               <Label htmlFor="body" className="text-base font-semibold text-gray-700 flex items-center gap-2">
-//                  <span className="text-[#3333cc]"><HelpCircle className="w-4 h-4" /></span>
+//                  <span className="text-primary"><HelpCircle className="w-4 h-4" /></span>
 //                  سوال کی تفصیل
 //               </Label>
 //               <div className="relative">
@@ -128,7 +128,7 @@
 //                 {/* Urgency Selection */}
 //                 <div className="space-y-2">
 //                     <Label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-//                         <Clock className="w-4 h-4 text-[#3333cc]" />
+//                         <Clock className="w-4 h-4 text-primary" />
 //                         نوعیت (Urgency)
 //                     </Label>
 //                     <Select value={urgency} onValueChange={setUrgency}>
@@ -166,7 +166,7 @@
 //                              {anonymous ? <UserX className="w-5 h-5" /> : <UserCheck className="w-5 h-5" />}
 //                         </div>
 //                         <div className="text-right">
-//                             <span className={`block text-sm font-bold ${anonymous ? 'text-[#3333cc]' : 'text-gray-700'}`}>
+//                             <span className={`block text-sm font-bold ${anonymous ? 'text-primary' : 'text-gray-700'}`}>
 //                                 خفیہ رکھیں
 //                             </span>
 //                             <span className="text-[10px] text-gray-500">
@@ -185,8 +185,8 @@
 
 //             {/* Disclaimer Box */}
 //             <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 flex items-start gap-3">
-//                 <AlertCircle className="w-5 h-5 text-[#3333cc] mt-0.5 flex-shrink-0" />
-//                 <p className="text-sm text-blue-800 leading-relaxed">
+//                 <AlertCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+//                 <p className="text-sm text-littleprimary leading-relaxed">
 //                    آپ کا سوال علماء کرام کو بھیج دیا جائے گا۔ شرعی مسائل میں احتیاط لازمی ہے۔
 //                 </p>
 //                  {/* جواب آنے پر آپ کو مطلع کر دیا جائے گا۔ */}
@@ -197,7 +197,7 @@
 //               <Button 
 //                 type="submit" 
 //                 disabled={loading}
-//                 className="w-full h-12 text-lg bg-[#3333cc] hover:bg-blue-800 text-white rounded-xl shadow-lg shadow-blue-900/10 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+//                 className="w-full h-12 text-lg bg-[#3333cc] hover:bg-littleprimary text-white rounded-xl shadow-lg shadow-blue-900/10 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
 //               >
 //                 {loading ? (
 //                     <span className="flex items-center gap-2">
@@ -392,7 +392,7 @@
           
 //           {/* Header */}
 //           <div className="text-center mb-10">
-//             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 text-[#3333cc] mb-4">
+//             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 text-primary mb-4">
 //                <HelpCircle className="w-8 h-8" />
 //             </div>
 //             <h2 className="text-3xl font-bold text-gray-900">نیا سوال پوچھیں</h2>
@@ -406,7 +406,7 @@
 //             {/* Question Body */}
 //             <div className="space-y-2">
 //               <Label htmlFor="body" className="text-base font-semibold text-gray-700 flex items-center gap-2">
-//                  <span className="text-[#3333cc]"><HelpCircle className="w-4 h-4" /></span>
+//                  <span className="text-primary"><HelpCircle className="w-4 h-4" /></span>
 //                  سوال کی تفصیل
 //               </Label>
 //               <div className="relative">
@@ -431,7 +431,7 @@
 //                 {/* Urgency Selection */}
 //                 <div className="space-y-2">
 //                     <Label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-//                         <Clock className="w-4 h-4 text-[#3333cc]" />
+//                         <Clock className="w-4 h-4 text-primary" />
 //                         نوعیت (Urgency)
 //                     </Label>
 //                     <Select value={urgency} onValueChange={setUrgency}>
@@ -469,7 +469,7 @@
 //                              {anonymous ? <UserX className="w-5 h-5" /> : <UserCheck className="w-5 h-5" />}
 //                         </div>
 //                         <div className="text-right">
-//                             <span className={`block text-sm font-bold ${anonymous ? 'text-[#3333cc]' : 'text-gray-700'}`}>
+//                             <span className={`block text-sm font-bold ${anonymous ? 'text-primary' : 'text-gray-700'}`}>
 //                                 خفیہ رکھیں
 //                             </span>
 //                             <span className="text-[10px] text-gray-500">
@@ -488,8 +488,8 @@
 
 //             {/* Disclaimer Box */}
 //             <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 flex items-start gap-3">
-//                 <AlertCircle className="w-5 h-5 text-[#3333cc] mt-0.5 flex-shrink-0" />
-//                 <p className="text-sm text-blue-800 leading-relaxed">
+//                 <AlertCircle className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+//                 <p className="text-sm text-littleprimary leading-relaxed">
 //                    آپ کا سوال علماء کرام کو بھیج دیا جائے گا۔ شرعی مسائل میں احتیاط لازمی ہے۔
 //                 </p>
 //                  {/* جواب آنے پر آپ کو مطلع کر دیا جائے گا۔ */}
@@ -500,7 +500,7 @@
 //               <Button 
 //                 type="submit" 
 //                 disabled={loading}
-//                 className="w-full h-12 text-lg bg-[#3333cc] hover:bg-blue-800 text-white rounded-xl shadow-lg shadow-blue-900/10 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+//                 className="w-full h-12 text-lg bg-[#3333cc] hover:bg-littleprimary text-white rounded-xl shadow-lg shadow-blue-900/10 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
 //               >
 //                 {loading ? (
 //                     <span className="flex items-center gap-2">
@@ -675,7 +675,7 @@ export default function AskQuestionPage() {
         {/* یہ وہ حصہ ہے جو موبائل پر ڈیسک ٹاپ جیسا ایفیکٹ لائے گا */}
         <div className="lg:hidden absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
              <div className="absolute top-[-10%] right-[-30%] w-[300px] h-[300px] rounded-full bg-[#3333cc]/30 blur-[80px] animate-pulse"></div>
-             <div className="absolute bottom-[-10%] left-[-30%] w-[300px] h-[300px] rounded-full bg-blue-600/20 blur-[80px] animate-pulse delay-1000"></div>
+             <div className="absolute bottom-[-10%] left-[-30%] w-[300px] h-[300px] rounded-full bg-primary/20 blur-[80px] animate-pulse delay-1000"></div>
              <div className="absolute top-[40%] left-[20%] w-[150px] h-[150px] rounded-full bg-purple-500/10 blur-[60px]"></div>
         </div>
 
@@ -721,7 +721,7 @@ export default function AskQuestionPage() {
               {/* Question Body */}
               <div className="space-y-2">
                 <Label htmlFor="body" className="text-base font-semibold text-white lg:text-gray-700 flex items-center gap-2 font-arabic">
-                   <span className="text-blue-300 lg:text-[#3333cc]"><HelpCircle className="w-4 h-4" /></span>
+                   <span className="text-blue-300 lg:text-primary"><HelpCircle className="w-4 h-4" /></span>
                    سوال کی تفصیل
                 </Label>
                 <div className="relative">
@@ -748,7 +748,7 @@ export default function AskQuestionPage() {
                   {/* Urgency */}
                   <div className="space-y-2">
                       <Label className="text-sm font-semibold text-white lg:text-gray-700 flex items-center gap-2 font-arabic">
-                          <Clock className="w-4 h-4 text-blue-300 lg:text-[#3333cc]" />
+                          <Clock className="w-4 h-4 text-blue-300 lg:text-primary" />
                           نوعیت (Urgency)
                       </Label>
                       <Select value={urgency} onValueChange={setUrgency}>
@@ -783,11 +783,11 @@ export default function AskQuestionPage() {
                           `}
                       >
                           <div className="flex items-center gap-3">
-                              <div className={`p-2 rounded-lg transition-colors ${anonymous ? 'bg-white text-[#3333cc] lg:bg-[#3333cc] lg:text-white' : 'bg-white/20 text-white lg:bg-gray-200 lg:text-gray-500'}`}>
+                              <div className={`p-2 rounded-lg transition-colors ${anonymous ? 'bg-white text-primary lg:bg-[#3333cc] lg:text-white' : 'bg-white/20 text-white lg:bg-gray-200 lg:text-gray-500'}`}>
                                    {anonymous ? <UserX className="w-5 h-5" /> : <UserCheck className="w-5 h-5" />}
                               </div>
                               <div className="text-right">
-                                  <span className={`block text-sm font-bold ${anonymous ? 'text-white lg:text-[#3333cc]' : 'text-white lg:text-gray-700'}`}>
+                                  <span className={`block text-sm font-bold ${anonymous ? 'text-white lg:text-primary' : 'text-white lg:text-gray-700'}`}>
                                       خفیہ رکھیں
                                   </span>
                                   <span className={`text-[10px] ${anonymous ? 'text-blue-100 lg:text-gray-500' : 'text-blue-200 lg:text-gray-500'}`}>
@@ -806,8 +806,8 @@ export default function AskQuestionPage() {
 
               {/* Disclaimer */}
               <div className="bg-blue-900/40 lg:bg-blue-50 p-4 rounded-xl border border-blue-500/30 lg:border-blue-100 flex items-start gap-3">
-                  <AlertCircle className="w-5 h-5 text-blue-200 lg:text-[#3333cc] mt-0.5 flex-shrink-0" />
-                  <p className="text-sm text-blue-100 lg:text-blue-800 leading-relaxed font-arabic">
+                  <AlertCircle className="w-5 h-5 text-blue-200 lg:text-primary mt-0.5 flex-shrink-0" />
+                  <p className="text-sm text-blue-100 lg:text-littleprimary leading-relaxed font-arabic">
                      آپ کا سوال علماء کرام کو بھیج دیا جائے گا۔ جواب آنے پر آپ کو مطلع کر دیا جائے گا۔ شرعی مسائل میں احتیاط لازمی ہے۔
                   </p>
               </div>
@@ -843,7 +843,7 @@ export default function AskQuestionPage() {
                 <SignOutButton 
                     redirectTo="/signin" 
                     // آپ اپنے SignOutButton کو یہاں styling props پاس کر سکتے ہیں یا اسے ایک simple wrapper میں رکھ سکتے ہیں
-                    className="text-white lg:text-[#3333cc] underline hover:text-blue-300 lg:hover:text-blue-800 text-sm font-medium transition-colors"
+                    className="text-white lg:text-primary underline hover:text-blue-300 lg:hover:text-littleprimary text-sm font-medium transition-colors"
                 />
             </div>
         </div>

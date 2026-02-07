@@ -22,7 +22,7 @@ function formatAnsDetails(raw = '') {
     .replace(/\*(.+?)\*/g, (_, t) => `<span class="font-[700] my-3">${t}</span>`) // bold text
     .replace(/^###$/gm, () => `<hr class="border-gray-300 my-6"/>`) // horizontal rule
     .replace(/\\(.+?)\\/g, (_, u) => `<a href="/questions/${u}" class="text-primary hover:underline">${u}</a>`) // question links
-    .replace(/\_([\s\S]+?)\_/g, (_, t) => `<div class="text-primary text-[20px] font-quran bg-blue-50 p-4 rounded-3xl leading-[35px]">${t}</div>`) // Quranic text
+    .replace(/\_([\s\S]+?)\_/g, (_, t) => `<div class="text-primary text-[20px] font-quran bg-lightprimary p-4 rounded-3xl leading-[35px]">${t}</div>`) // Quranic text
     .replace(/\r?\n\r?\n/g, '</p><p>') // paragraphs
     .replace(/\r?\n/g, '<br/>') // line breaks
 }
@@ -209,7 +209,7 @@ export default function QuestionDetailPage() {
                 <Link href={`/categories?catID=${Cat_ID}&assignT=${Assign_T}`} className="border text-[#063] border-[#9FDCB4] bg-[#E7F6EC] px-3 py-1.5 rounded-full">
                   {Cat_Name}
                 </Link>
-                <Link href={`/categories/?catID=${Cat_ID}&subCatID=${subcatId}&assignT=${Assign_T}`} className="border bg-blue-100 text-primary px-3 py-1.5 rounded-full">
+                <Link href={`/categories/?catID=${Cat_ID}&subCatID=${subcatId}&assignT=${Assign_T}`} className="border bg-blue-100 text-blue-600 px-3 py-1.5 rounded-full">
                   {subcatName}
                 </Link>
               </>
@@ -272,7 +272,7 @@ export default function QuestionDetailPage() {
 
       {/* Scroll to top */}
       <ScrollTop threshold={250} behavior="smooth"
-        className="!right-4 !left-auto !bg-blue-800 text-white h-[35px] w-[35px] rounded-3xl hover:!bg-primary/90" />
+        className="!right-4 !left-auto !bg-littleprimary text-white h-[35px] w-[35px] rounded-3xl hover:!bg-primary/90" />
     </article>
   )
 }

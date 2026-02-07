@@ -9,6 +9,7 @@ import {
   FaSearch,
 } from 'react-icons/fa';
 
+
 export default function Header({ onMenuClick }) {
   const router        = useRouter();
   const [term, setTerm] = useState('');
@@ -49,7 +50,8 @@ export default function Header({ onMenuClick }) {
           <p className="text-[10px] text-gray-600 dark:text-gray-400 mt-[-2px]">
             Founded &amp; Supervised By:
             <br />
-            Shaykh&nbsp;Ahmad&nbsp;Bin&nbsp;Ihtisham
+            Abu&nbsp;Zur'ah&nbsp;Ahmad&nbsp;bin&nbsp;Ihtisham&nbsp;Affah&nbsp;Allah&nbsp;Auhu
+            "ابوزرعہ&nbsp;احمد&nbsp;بن&nbsp;احتشام&nbsp;عفا&nbsp;اللہ&nbsp;عنہ"
           </p>
         </div>
       </div>

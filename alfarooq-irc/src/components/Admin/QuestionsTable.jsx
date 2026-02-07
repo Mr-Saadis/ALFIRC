@@ -474,14 +474,14 @@ export default function QuestionsTable() {
                         <div>
                             <h2 className="text-lg font-bold text-gray-800">سوالات کی فہرست</h2>
                             <p className="text-sm text-gray-500 mt-1">
-                                کل سوالات: <span className="font-mono font-medium text-[#3333cc]">{filtered.length}</span>
+                                کل سوالات: <span className="font-mono font-medium text-primary">{filtered.length}</span>
                             </p>
                         </div>
 
                         <div className="flex flex-wrap items-center gap-2 w-full xl:w-auto">
                             {/* Search Inputs (Bug Fixed Here via autoComplete="off") */}
                             <div className="relative group">
-                                <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400 group-focus-within:text-[#3333cc]" />
+                                <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400 group-focus-within:text-primary" />
                                 <Input
                                     placeholder="ID..."
                                     name="search_qid_custom" // Unique Name
@@ -492,7 +492,7 @@ export default function QuestionsTable() {
                                 />
                             </div>
                             <div className="relative group flex-grow xl:flex-grow-0">
-                                <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400 group-focus-within:text-[#3333cc]" />
+                                <Search className="absolute right-3 top-2.5 h-4 w-4 text-gray-400 group-focus-within:text-primary" />
                                 <Input
                                     placeholder="عنوان تلاش کریں..."
                                     name="search_title_custom" // Unique Name
@@ -531,7 +531,7 @@ export default function QuestionsTable() {
                             {/* Date Picker */}
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <Button variant="outline" className={`bg-white ${dateFrom ? 'border-[#3333cc] text-[#3333cc]' : 'text-gray-600'}`}>
+                                    <Button variant="outline" className={`bg-white ${dateFrom ? 'border-[#3333cc] text-primary' : 'text-gray-600'}`}>
                                         <Calendar size={16} className="mr-2" />
                                         {dateFrom ? 'Date Selected' : 'Date'}
                                     </Button>
@@ -590,7 +590,7 @@ export default function QuestionsTable() {
                             ) : (
                                 paged.map((r) => (
                                     <TableRow key={r.Q_ID} className="group hover:bg-blue-50/30 transition-colors border-b border-gray-100 last:border-0">
-                                        <TableCell className="text-center font-mono font-medium text-gray-500 group-hover:text-[#3333cc]">
+                                        <TableCell className="text-center font-mono font-medium text-gray-500 group-hover:text-primary">
                                             {r.Q_ID}
                                         </TableCell>
                                         <TableCell className="text-right max-w-[300px]">
@@ -616,7 +616,7 @@ export default function QuestionsTable() {
                                                 <Button 
                                                     size="icon" 
                                                     variant="ghost" 
-                                                    className="h-8 w-8 text-gray-500 hover:text-[#3333cc] hover:bg-blue-100 transition-all"
+                                                    className="h-8 w-8 text-gray-500 hover:text-primary hover:bg-blue-100 transition-all"
                                                     onClick={() => router.push(`/admin/updatequestion/${r.Q_ID}`)}
                                                 >
                                                     <Edit2 size={16} />
@@ -648,7 +648,7 @@ export default function QuestionsTable() {
                             size="sm"
                             disabled={page === 1}
                             onClick={() => setPage((p) => Math.max(p - 1, 1))}
-                            className="bg-white hover:border-[#3333cc] hover:text-[#3333cc]"
+                            className="bg-white hover:border-[#3333cc] hover:text-primary"
                         >
                             <ChevronLeft size={16} className="mr-1" /> Previous
                         </Button>
@@ -657,7 +657,7 @@ export default function QuestionsTable() {
                             size="sm"
                             disabled={page >= Math.ceil(filtered.length / pageSize)}
                             onClick={() => setPage((p) => p + 1)}
-                            className="bg-white hover:border-[#3333cc] hover:text-[#3333cc]"
+                            className="bg-white hover:border-[#3333cc] hover:text-primary"
                         >
                             Next <ChevronRight size={16} className="ml-1" />
                         </Button>

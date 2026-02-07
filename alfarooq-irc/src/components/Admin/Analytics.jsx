@@ -371,7 +371,7 @@
 //                                 key={range}
 //                                 onClick={() => setTimeRange(range)}
 //                                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${timeRange === range
-//                                     ? 'bg-blue-600 text-white'
+//                                     ? 'bg-primary text-white'
 //                                     : 'bg-white text-gray-600 hover:bg-gray-100'
 //                                     }`}
 //                             >
@@ -563,7 +563,7 @@
 //                                             {question.Q_User === 'system' ? 'System' : 'User'}
 //                                         </td> */}
 //                                         <td className="py-3 px-4">
-//                                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+//                                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-littleprimary">
 //                                                 {question.category || 'عام'}
 //                                             </span>
 //                                         </td>
@@ -822,7 +822,7 @@ const Analytics = () => {
     const StatCard = ({ title, value, icon: Icon, trend }) => (
         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110">
-                <Icon className="w-24 h-24 text-[#3333cc]" />
+                <Icon className="w-24 h-24 text-primary" />
             </div>
             <div className="flex items-start justify-between relative z-10">
                 <div>
@@ -831,7 +831,7 @@ const Analytics = () => {
                         {loading ? "..." : value?.toLocaleString()}
                     </h3>
                 </div>
-                <div className="p-3 bg-[#3333cc]/5 rounded-xl text-[#3333cc]">
+                <div className="p-3 bg-[#3333cc]/5 rounded-xl text-primary">
                     <Icon className="w-6 h-6" />
                 </div>
             </div>
@@ -866,7 +866,7 @@ const Analytics = () => {
             <div className="min-h-screen bg-gray-50/50 p-8 flex items-center justify-center">
                 <div className="flex flex-col items-center">
                     <div className="w-12 h-12 border-4 border-[#3333cc]/30 border-t-[#3333cc] rounded-full animate-spin mb-4"></div>
-                    <p className="text-[#3333cc] font-medium animate-pulse">Loading Analytics...</p>
+                    <p className="text-primary font-medium animate-pulse">Loading Analytics...</p>
                 </div>
             </div>
         );
@@ -1053,7 +1053,7 @@ const Analytics = () => {
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="p-6 border-b border-gray-100 flex justify-between items-center">
                         <h3 className="text-lg font-bold text-gray-900 font-arabic">بہترین کارکردگی والے سوالات (Top Questions)</h3>
-                        <button className="text-sm text-[#3333cc] font-medium hover:underline">سب دیکھیں</button>
+                        <button className="text-sm text-primary font-medium hover:underline">سب دیکھیں</button>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-right" dir="rtl">
@@ -1073,7 +1073,7 @@ const Analytics = () => {
                                             <p className="font-medium text-gray-900 font-arabic line-clamp-1">{q.Q_Heading}</p>
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-[#3333cc] border border-blue-100 font-arabic">
+                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-primary border border-blue-100 font-arabic">
                                                 {q.category || 'عام'}
                                             </span>
                                         </td>
