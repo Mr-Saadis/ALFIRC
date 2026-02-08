@@ -1,6 +1,6 @@
 // src/app/api/questions/[id]/similarQuestions/route.js
 import { NextResponse } from 'next/server'
-import { supabase }    from '@/lib/supabase'
+import { supabase }     from '@/lib/supabase'
 
 export async function GET(req, context) {
   const { params } = context
@@ -15,33 +15,27 @@ export async function GET(req, context) {
       .single()
 
     if (fetchErr) {
-      console.error(`Error fetching Q_ID=${id} subcategory:`, fetchErr)
-      return NextResponse.json(
-        { error: `Could not find question ${id}` },
-        { status: 404 }
-      )
+      return NextResponse.json({ error: `Could not find question ${id}` }, { status: 404 })
     }
 
     const subcatId = question.Subcat_ID
 
-    // 2) Fetch up to 10 other questions in that same subcategory
+    // 2) Fetch RANDOM questions from the SAME subcategory
+    // We use the 'get_random_qna' function you created in the DB
+    // We generate a random seed here so every refresh gives different results
+    const seed = Math.random().toString(36).substring(7);
+
     const { data: similar, error: simErr } = await supabase
-      .from('QnA')
-      .select('Q_ID, Q_Heading, Ans_summary, Published_At, Subcat_ID')
-      .eq('Subcat_ID', subcatId)
-      .neq('Q_ID', id)                         // exclude the current question
-      .order('Published_At', { ascending: false })
-      .limit(3)
+      .rpc('get_random_qna', { 
+        seed: seed, 
+        subcat_id_filter: subcatId 
+      })
+      .neq('Q_ID', id) // Exclude the current question we are reading
+      .limit(3)        // Only get 3
 
     if (simErr) {
-      console.error(
-        `Error fetching similar questions for Subcat_ID=${subcatId}:`,
-        simErr
-      )
-      return NextResponse.json(
-        { error: 'Error loading similar questions' },
-        { status: 500 }
-      )
+      console.error(`Error fetching random similar questions:`, simErr)
+      return NextResponse.json({ error: 'Error loading similar questions' }, { status: 500 })
     }
 
     // 3) Shape the response
@@ -55,10 +49,7 @@ export async function GET(req, context) {
 
     return NextResponse.json({ similar: results })
   } catch (err) {
-    console.error(`Unexpected error in /questions/${id}/similarQuestions:`, err)
-    return NextResponse.json(
-      { error: 'Unexpected error' },
-      { status: 500 }
-    )
+    console.error(`Unexpected error:`, err)
+    return NextResponse.json({ error: 'Unexpected error' }, { status: 500 })
   }
 }
