@@ -102,7 +102,7 @@ export default function DynamicCategory () {
   const chooseCat = id => { setCatId(id); setSubId(null); pushQS(id,null,activeTab) }
   const chooseSub = id => { setSubId(id); setCatId(null); pushQS(null,id,activeTab) }
 
-  /* tab change => refetch */
+  /* tab change => refetch categories sidebar */
   useEffect(() => {
     setLoading(true)
     fetch(`/api/categories_sub?assign=${activeTab}`)
@@ -122,7 +122,6 @@ export default function DynamicCategory () {
                 <h1 className="text-2xl font-bold">زمرہ جات</h1>
               </div>
         
-
         <ul className="flex flex-row-reverse justify-end rtl:space-x-reverse space-x-6 border-b mb-4">
           {TABS.map(t => (
             <li key={t.key}
@@ -131,7 +130,15 @@ export default function DynamicCategory () {
                       ? 'border-b-2 border-primary text-primary'
                       : 'text-gray-600 hover:text-gray-800'
                   }`}
-                onClick={() => { setActiveTab(t.key); pushQS(catId||'', subId||'', t.key) }}
+                // ───────────────────────────────────────────────
+                // CHANGED HERE: Reset catId and subId to NULL when tab is clicked
+                // ───────────────────────────────────────────────
+                onClick={() => { 
+                    setActiveTab(t.key); 
+                    setCatId(null); 
+                    setSubId(null); 
+                    pushQS(null, null, t.key) 
+                }}
             >
               {t.label}
             </li>
@@ -157,6 +164,7 @@ export default function DynamicCategory () {
 
       {/* ───── Answers list ───── */}
       <main className="lg:min-w-[800px] min-w-full">
+        {/* If catId/subcatId are null, this component should load ALL for that Assign_T */}
         <Cat_Subcat_Answers
           catId={catId}
           subcatId={subId}

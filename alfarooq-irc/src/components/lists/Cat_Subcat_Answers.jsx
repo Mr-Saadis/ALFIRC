@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
-import { FiGrid } from 'react-icons/fi';
-import { FaBook } from 'react-icons/fa';
 import { Spinner } from 'flowbite-react';
 import { BookText } from 'lucide-react';
 
@@ -60,49 +58,6 @@ const AnswerCard = ({ answer, isLoading, onClick }) => (
   </li>
 );
 
-// const Pagination = ({ page, setPage, hasNext }) => {
-//   if (page === 1 && !hasNext) return null;
-
-//   return (
-//     <div className="flex justify-center mt-6" dir="rtl">
-//       <ul className="flex bg-white rounded-full px-4 py-1 shadow-md border border-gray-100 items-center gap-2 flex-row-reverse">
-//         <li>
-//           <button
-//             onClick={() => setPage((p) => Math.max(p - 1, 1))}
-//             disabled={page === 1}
-//             className="px-2 font-poppins text-gray-400 hover:text-littleprimary disabled:cursor-not-allowed disabled:text-gray-400"
-//           >
-//             ›
-//           </button>
-//         </li>
-//         {[page - 1, page, page + 1]
-//           .filter((p) => p >= 1 && (p <= page || hasNext))
-//           .map((pg) => (
-//             <li key={pg}>
-//               <button
-//                 onClick={() => setPage(pg)}
-//                 className={`px-3 py-1 rounded-md text-sm font-semibold ${
-//                   pg === page ? 'border-2 border-primary text-primary' : 'text-gray-700'
-//                 }`}
-//               >
-//                 {pg}
-//               </button>
-//             </li>
-//           ))}
-//         <li>
-//           <button
-//             onClick={() => setPage((p) => p + 1)}
-//             disabled={!hasNext}
-//             className="px-2 font-poppins text-gray-700 hover:text-littleprimary disabled:text-gray-400 disabled:cursor-not-allowed"
-//           >
-//             ‹
-//           </button>
-//         </li>
-//       </ul>
-//     </div>
-//   );
-// };
-
 const Cat_Subcat_Answers = ({ catId, subcatId, Assign_T }) => {
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -110,7 +65,10 @@ const Cat_Subcat_Answers = ({ catId, subcatId, Assign_T }) => {
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(false);
   const [loadingId, setLoadingId] = useState(null);
-  const limit = Infinity;
+  
+  // CHANGED: Infinity causes NaN errors in backend offset calculation. 
+  // Used a safe high number to load "all".
+  const limit = 9999;
 
   // Memoize click handler for answer cards
   const onCardClick = useCallback((id) => {
@@ -130,6 +88,7 @@ const Cat_Subcat_Answers = ({ catId, subcatId, Assign_T }) => {
         let url = `/api/questions/bySubcategory?page=${page}&limit=${limit}`;
         if (catId) url += `&catId=${catId}`;
         if (subcatId) url += `&subcatId=${subcatId}`;
+        // Ensure we pass the boolean as a string in the URL
         if (Assign_T !== undefined) url += `&assign=${Assign_T}`;
 
         const response = await fetch(url, { signal: controller.signal });
@@ -159,7 +118,8 @@ const Cat_Subcat_Answers = ({ catId, subcatId, Assign_T }) => {
       isActive = false;
       controller.abort();
     };
-  }, [page, catId, subcatId]);
+  // CHANGED: Added Assign_T to dependency array so tabs trigger a refresh
+  }, [page, catId, subcatId, Assign_T]);
 
   return (
     <div
@@ -205,8 +165,6 @@ const Cat_Subcat_Answers = ({ catId, subcatId, Assign_T }) => {
               کوئی جواب دستیاب نہیں۔
             </p>
           )}
-
-          {/* <Pagination page={page} setPage={setPage} hasNext={hasNext} /> */}
         </>
       )}
     </div>
