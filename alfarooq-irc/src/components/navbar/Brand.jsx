@@ -17,8 +17,6 @@ export default function Brand () {
       <h2 className="text-[10px] text-muted-foreground mt-[-2px]">
         Founded &amp; Supervised By
         <br />
-        {/* Shaykh&nbsp;Ahmad&nbsp;Bin&nbsp;Ihtisham */}
-       {/* Abu&nbsp;Zur'ah&nbsp;Ahmad&nbsp;bin&nbsp;Ihtisham&nbsp;Affah&nbsp;Allah&nbsp;Auhu */}
        <p className="text-[12px] leading-6 font-arabic">
     ابوزرعہ&nbsp;احمد&nbsp;بن&nbsp;احتشام&nbsp;عفا&nbsp;اللہ&nbsp;عنہ
 </p>
