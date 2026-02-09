@@ -44,23 +44,18 @@ const router = useRouter()
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      {/* <Sidebar
+      <Sidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         className="fixed md:relative z-20"
-      /> */}
+      />
   <div dir="rtl" className="font-arabic">
         <aside className="fixed left-1/2 bottom-0  z-40 flex -translate-x-1/2 -translate-y-1/2 gap-2 text-sm lg:hidden">
        
           <QuickAction icon={HomeIcon} label="سرآغاز" href="/admin" />
-          {/* <QuickAction icon={Search} label="تلاش" href="/ur/search" /> */}
           <QuickAction icon={LayoutList} label="NewQuesrions" href="/admin/questions" />
-          {/* <QuickAction icon={FiLogOut} label="SignOut" onClick={handleSignOut} /> */}
           
-          {/* <QuickAction icon={BookOpen} label="تازہ جوابات" href="/ur/latest" />
-          <QuickAction icon={Bookmark} label="محفوظ جوابات" href="/ur/bookmark" />
-          <QuickAction icon={HelpCircle} label="سوال پوچھیں" href="/ask" />
-          */}
+          
         </aside>
         
     </div>
