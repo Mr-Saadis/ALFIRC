@@ -186,19 +186,19 @@ export default function ActionBar({
             text-align: center;
             text-decoration: underline;
             font-size: 26px;
-            margin: 30px 0 20px 0;
+            margin: 20px 0 10px 0;
             font-weight: bold;
           }
 
           .main-text {
-            line-height: 2.4;
-            font-size: 22px;
+            line-height: 1.5;
+            font-size: 20px;
             text-align: justify;
           }
 
           /* ─── Footer ─── */
           .web-footer {
-            margin-top: 80px;
+            margin-top: 10px;
             border-top: 1px solid #ccc;
             padding-top: 15px;
             text-align: center;
