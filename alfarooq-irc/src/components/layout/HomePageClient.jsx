@@ -67,11 +67,11 @@ export default function HomePage() {
   const { ref: selRef, inView: selInView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <div dir="rtl" className="font-arabic">
+    <div dir="rtl" className="font-arabic pb-8">
       {/* ---------------------------------------------------------------- */}
       {/* Hero Section                                                    */}
       {/* ---------------------------------------------------------------- */}
-      <section className="mx-auto  flex max-w-6xl flex-col gap-6 px-2 py-4 sm:px-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-8">
+      <section className="mx-auto flex max-w-6xl flex-col gap-6 px-2 py-4 sm:px-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-8">
         <Card>
           <header className="text-center">
             <h1 className="mb-4 flex items-center justify-center gap-2 text-2xl font-bold text-primary">

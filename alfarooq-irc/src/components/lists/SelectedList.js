@@ -134,7 +134,7 @@ const SelectedNewAnswers = () => {
   const [page, setPage] = useState(1);
   const [hasNext, setHasNext] = useState(false);
   const [loadingId, setLoadingId] = useState(null);        // card-level spinner
-  const limit = 4;
+  const limit = 3;
 
   /* click handler for each card */
   const handleCardClick = useCallback(id => {
@@ -184,7 +184,7 @@ const SelectedNewAnswers = () => {
   return (
     <div
       dir="rtl"
-      className="relative rounded-[24px] min-h-[800px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-4 pb-4 min-w-full"
+      className="relative rounded-[24px] max-h-[700px] bg-white border border-gray-100 dark:bg-[#11192880] dark:border-[#11192880] shadow-md p-4 pt-4 pb-4 min-w-full"
     >
       {/* header */}
       <div className="flex flex-row-reverse justify-between items-center mb-4 pt-4 pb-4">
