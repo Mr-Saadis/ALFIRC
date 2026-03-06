@@ -8,7 +8,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@
 import { Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Textarea } from '@/components/ui/textarea' // Textarea امپورٹ کیا گیا ہے
+import { Textarea } from '@/components/ui/textarea' 
 import { toast } from 'sonner'
 import { Trash2, Copy, Eye, EyeOff, User, Clock, AlertCircle, CheckCircle2, MessageSquare, Send } from 'lucide-react'
 
@@ -252,8 +252,11 @@ export default function UserQuestions() {
                     setReplyText('');
                 }
             }}>
-                <DialogContent className="max-w-xl font-arabic" dir="rtl">
-                    <DialogHeader className="border-b border-gray-100 pb-4 mb-2">
+                {/* 🌟 یہاں کلاسز کو اپڈیٹ کیا گیا ہے تاکہ سکرول آ سکے 🌟 */}
+                <DialogContent className="max-w-xl font-arabic flex flex-col max-h-[90vh] p-0 overflow-hidden" dir="rtl">
+                    
+                    {/* ہیڈر: سکرول سے باہر فکس رہے گا */}
+                    <DialogHeader className="px-6 pt-6 pb-4 border-b border-gray-100 shrink-0">
                         <DialogTitle className="text-xl font-bold text-gray-800 flex items-center gap-2">
                             <AlertCircle className="text-primary" />
                             سوال کی تفصیل اور جواب
@@ -263,7 +266,9 @@ export default function UserQuestions() {
                         </DialogDescription>
                     </DialogHeader>
 
-                    <div className="space-y-5 py-2">
+                    {/* درمیان کا حصہ: یہ حصہ ضرورت پڑنے پر سکرول ہوگا */}
+                    <div className="p-6 space-y-5 overflow-y-auto flex-1">
+                        
                         {/* User Details Block */}
                         <div className="flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-100">
                             <div className="flex items-center gap-4">
@@ -299,18 +304,18 @@ export default function UserQuestions() {
                         {/* Question Body */}
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-gray-500">سوال:</label>
-                            <div className="bg-blue-50/50 p-5 rounded-xl border border-blue-100 text-gray-800 leading-8 text-lg whitespace-pre-wrap max-h-[150px] overflow-y-auto">
+                            <div className="bg-blue-50/50 p-5 rounded-xl border border-blue-100 text-gray-800 leading-8 text-lg whitespace-pre-wrap max-h-[200px] overflow-y-auto">
                                 {selectedQuestion.body}
                             </div>
                         </div>
 
-                        {/* Reply Textarea (New Implementation) */}
+                        {/* Reply Textarea */}
                         <div className="space-y-2 pt-2 border-t border-gray-100">
                             <label className="text-sm font-bold text-primary flex items-center gap-2">
                                 <MessageSquare size={16} /> جواب تحریر کریں:
                             </label>
                             <Textarea
-                                rows={5}
+                                rows={6}
                                 value={replyText}
                                 onChange={(e) => setReplyText(e.target.value)}
                                 placeholder="بسم اللہ الرحمٰن الرحیم..."
@@ -319,7 +324,8 @@ export default function UserQuestions() {
                         </div>
                     </div>
 
-                    <DialogFooter className="border-t border-gray-100 pt-4 flex sm:justify-between items-center w-full">
+                    {/* فوٹر: بٹن ہمیشہ نیچے فکس رہیں گے */}
+                    <DialogFooter className="px-6 py-4 border-t border-gray-100 flex sm:justify-between items-center w-full bg-gray-50/50 shrink-0">
                         <Button onClick={handleCopy} variant="ghost" className="text-gray-500 hover:text-primary gap-2">
                             <Copy size={16} /> سوال کاپی کریں
                         </Button>
@@ -348,6 +354,7 @@ export default function UserQuestions() {
                             </Button>
                         </div>
                     </DialogFooter>
+                    
                 </DialogContent>
             </Dialog>
         )}

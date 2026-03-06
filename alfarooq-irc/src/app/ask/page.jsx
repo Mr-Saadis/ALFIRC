@@ -68,6 +68,31 @@ const VerseRotator = ({ textColorClass = "text-blue-100" }) => {
     );
 };
 
+// --- 3. Link Parser Helper (لنکس کو کلک ایبل بنانے کے لیے) ---
+const renderWithLinks = (text) => {
+    if (!text) return null;
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const parts = text.split(urlRegex);
+    
+    return parts.map((part, i) => {
+        if (part.match(urlRegex)) {
+            return (
+                <a 
+                    key={i} 
+                    href={part} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="font-sans text-green-300 lg:text-green-700 hover:text-white lg:hover:text-green-900 underline underline-offset-4 transition-colors break-all"
+                    dir="ltr" 
+                >
+                    {part}
+                </a>
+            );
+        }
+        return part;
+    });
+};
+
 export default function AskQuestionPage() {
   const router = useRouter()
   const session = useSession()
@@ -164,7 +189,7 @@ export default function AskQuestionPage() {
       {/* ========================================== */}
       {/* RIGHT SIDE: FORM AREA (Mobile + Desktop) */}
       {/* ========================================== */}
-      <div className="w-full lg:w-1/2 flex flex-col items-center py-10 px-4 sm:px-8 relative bg-[#0a0a2a] lg:bg-gray-50 overflow-y-auto overflow-x-hidden">
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-4 sm:p-8 relative bg-[#0a0a2a] lg:bg-gray-50 overflow-y-auto overflow-x-hidden">
 
         {/* 🌟 MOBILE BACKGROUND EFFECTS 🌟 */}
         <div className="lg:hidden absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
@@ -189,20 +214,13 @@ export default function AskQuestionPage() {
         {/* ======================================================== */}
         <div className={`
             w-full max-w-2xl relative z-10 rounded-2xl overflow-hidden transition-all duration-300
-            
-            /* Mobile Styles: Glass Effect */
             bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl
-            
-            /* Desktop Styles: White Card with Shadow */
             lg:bg-white lg:shadow-[0_20px_50px_rgba(0,0,0,0.1)] lg:border lg:border-gray-100
         `}>
           
-          {/* Top Blue Strip */}
           <div className="h-2 w-full"></div>
 
           <div className="p-6 md:p-8">
-            
-            {/* Form Header */}
             <div className="text-center mb-8">
                <h2 className="text-2xl font-bold text-white lg:text-gray-900 mb-2 font-arabic">نیا سوال درج کریں</h2>
                <p className="text-sm text-blue-100 lg:text-gray-500 font-arabic">
@@ -211,8 +229,6 @@ export default function AskQuestionPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              
-              {/* Question Body */}
               <div className="space-y-2">
                 <Label htmlFor="body" className="text-base font-semibold text-white lg:text-gray-700 flex items-center gap-2 font-arabic">
                    <span className="text-blue-300 lg:text-primary"><HelpCircle className="w-4 h-4" /></span>
@@ -226,9 +242,7 @@ export default function AskQuestionPage() {
                       onChange={(e) => setBody(e.target.value)}
                       required
                       placeholder="اپنا سوال یہاں لکھیں..."
-                      className="resize-none text-base p-4 rounded-xl transition-all
-                      bg-white/90 focus:bg-white text-gray-900 placeholder:text-gray-500
-                      lg:bg-gray-50 lg:focus:bg-white lg:border-gray-200 lg:focus:border-[#3333cc] lg:focus:ring-[#3333cc]/20"
+                      className="resize-none text-base p-4 rounded-xl transition-all bg-white/90 focus:bg-white text-gray-900 placeholder:text-gray-500 lg:bg-gray-50 lg:focus:bg-white lg:border-gray-200 lg:focus:border-[#3333cc] lg:focus:ring-[#3333cc]/20"
                   />
                 </div>
                 <p className="text-xs text-blue-200 lg:text-gray-400 mr-1">
@@ -236,61 +250,33 @@ export default function AskQuestionPage() {
                 </p>
               </div>
 
-              {/* Grid for Select & Toggle */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  
-                  {/* Urgency */}
                   <div className="space-y-2">
                       <Label className="text-sm font-semibold text-white lg:text-gray-700 flex items-center gap-2 font-arabic">
-                          <Clock className="w-4 h-4 text-blue-300 lg:text-primary" />
-                          نوعیت (Urgency)
+                          <Clock className="w-4 h-4 text-blue-300 lg:text-primary" /> نوعیت (Urgency)
                       </Label>
                       <Select value={urgency} onValueChange={setUrgency}>
                           <SelectTrigger className="h-12 rounded-xl border-0 lg:border lg:border-gray-200 bg-white/90 lg:bg-gray-50 text-gray-900 focus:ring-[#3333cc]/20">
                              <SelectValue placeholder="اہمیت منتخب کریں" />
                           </SelectTrigger>
                           <SelectContent>
-                              <SelectItem value="normal">
-                                  <div className="flex items-center gap-2">
-                                      <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                                      عام (Normal)
-                                  </div>
-                              </SelectItem>
-                              <SelectItem value="urgent">
-                                   <div className="flex items-center gap-2">
-                                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                                      فوری (Urgent)
-                                  </div>
-                              </SelectItem>
+                              <SelectItem value="normal"><div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-green-500"></span>عام (Normal)</div></SelectItem>
+                              <SelectItem value="urgent"><div className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>فوری (Urgent)</div></SelectItem>
                           </SelectContent>
                       </Select>
                   </div>
 
-                  {/* Anonymous Toggle */}
                   <div className="space-y-2">
-                      <div 
-                          onClick={() => setAnonymous(!anonymous)}
-                          className={`cursor-pointer group relative flex items-center justify-between p-3 rounded-xl border-2 transition-all duration-200 mt-7
-                          ${anonymous 
-                              ? 'border-[#3333cc] bg-[#3333cc] lg:bg-blue-50/30' 
-                              : 'border-white/20 lg:border-gray-100 bg-white/10 lg:bg-gray-50/50 hover:border-blue-200'}
-                          `}
-                      >
+                      <div onClick={() => setAnonymous(!anonymous)} className={`cursor-pointer group relative flex items-center justify-between p-3 rounded-xl border-2 transition-all duration-200 mt-7 ${anonymous ? 'border-[#3333cc] bg-[#3333cc] lg:bg-blue-50/30' : 'border-white/20 lg:border-gray-100 bg-white/10 lg:bg-gray-50/50 hover:border-blue-200'}`}>
                           <div className="flex items-center gap-3">
                               <div className={`p-2 rounded-lg transition-colors ${anonymous ? 'bg-white text-primary lg:bg-[#3333cc] lg:text-white' : 'bg-white/20 text-white lg:bg-gray-200 lg:text-gray-500'}`}>
                                    {anonymous ? <UserX className="w-5 h-5" /> : <UserCheck className="w-5 h-5" />}
                               </div>
                               <div className="text-right">
-                                  <span className={`block text-sm font-bold ${anonymous ? 'text-white lg:text-primary' : 'text-white lg:text-gray-700'}`}>
-                                      خفیہ رکھیں
-                                  </span>
-                                  <span className={`text-[10px] ${anonymous ? 'text-blue-100 lg:text-gray-500' : 'text-blue-200 lg:text-gray-500'}`}>
-                                      {anonymous ? 'نام ظاہر نہیں ہوگا' : 'نام ظاہر ہوگا'}
-                                  </span>
+                                  <span className={`block text-sm font-bold ${anonymous ? 'text-white lg:text-primary' : 'text-white lg:text-gray-700'}`}>خفیہ رکھیں</span>
+                                  <span className={`text-[10px] ${anonymous ? 'text-blue-100 lg:text-gray-500' : 'text-blue-200 lg:text-gray-500'}`}>{anonymous ? 'نام ظاہر نہیں ہوگا' : 'نام ظاہر ہوگا'}</span>
                               </div>
                           </div>
-                          
-                          {/* Visual Checkbox */}
                           <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${anonymous ? 'border-white lg:border-[#3333cc]' : 'border-white/50 lg:border-gray-300'}`}>
                               {anonymous && <div className="w-2.5 h-2.5 rounded-full bg-white lg:bg-[#3333cc]" />}
                           </div>
@@ -298,7 +284,6 @@ export default function AskQuestionPage() {
                   </div>
               </div>
 
-              {/* Disclaimer */}
               <div className="bg-blue-900/40 lg:bg-blue-50 p-4 rounded-xl border border-blue-500/30 lg:border-blue-100 flex items-start gap-3">
                   <AlertCircle className="w-5 h-5 text-blue-200 lg:text-primary mt-0.5 flex-shrink-0" />
                   <p className="text-sm text-blue-100 lg:text-littleprimary leading-relaxed font-arabic">
@@ -306,25 +291,9 @@ export default function AskQuestionPage() {
                   </p>
               </div>
 
-              {/* Submit Button */}
               <div className="pt-2">
-                <Button 
-                    type="submit" 
-                    disabled={loading}
-                    className="w-full h-12 text-lg rounded-xl shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 font-arabic font-bold
-                    bg-white text-[#15185e] hover:bg-gray-100
-                    lg:bg-[#15185e] lg:text-white lg:hover:bg-[#0d1063]/95"
-                >
-                    {loading ? (
-                        <span className="flex items-center gap-2">
-                            <span className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
-                            بھیجا جا رہا ہے...
-                        </span>
-                    ) : (
-                        <>
-                           سوال ارسال کریں <Send className="w-5 h-5 rotate-180" />
-                        </>
-                    )}
+                <Button type="submit" disabled={loading} className="w-full h-12 text-lg rounded-xl shadow-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2 font-arabic font-bold bg-white text-[#15185e] hover:bg-gray-100 lg:bg-[#15185e] lg:text-white lg:hover:bg-[#0d1063]/95">
+                    {loading ? <span className="flex items-center gap-2"><span className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></span>بھیجا جا رہا ہے...</span> : <>سوال ارسال کریں <Send className="w-5 h-5 rotate-180" /></>}
                 </Button>
               </div>
 
@@ -333,21 +302,18 @@ export default function AskQuestionPage() {
         </div>
 
         {/* ======================================================== */}
-        {/* NEW SECTION: PAST QUESTIONS HISTORY */}
+        {/* PAST QUESTIONS HISTORY */}
         {/* ======================================================== */}
         <div className="w-full max-w-2xl mt-12 mb-6 relative z-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
             <div className="flex items-center gap-3 mb-6 px-2">
                 <MessageCircle className="w-6 h-6 text-white lg:text-[#3333cc]" />
-                <h3 className="text-xl font-bold text-white lg:text-gray-900 font-arabic">
-                    آپ کے سابقہ سوالات
-                </h3>
+                <h3 className="text-xl font-bold text-white lg:text-gray-900 font-arabic">آپ کے سابقہ سوالات</h3>
             </div>
 
             {loadingHistory ? (
                 <div className="text-center py-10 bg-white/5 backdrop-blur-md lg:bg-white rounded-2xl border border-white/10 lg:border-gray-100">
                     <span className="animate-pulse text-blue-200 lg:text-[#3333cc] font-arabic flex items-center justify-center gap-2">
-                        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
-                        لوڈ ہو رہا ہے...
+                        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></div>لوڈ ہو رہا ہے...
                     </span>
                 </div>
             ) : pastQuestions.length === 0 ? (
@@ -359,34 +325,27 @@ export default function AskQuestionPage() {
                     {pastQuestions.map((q) => (
                         <div key={q.id} className="bg-white/10 backdrop-blur-xl border border-white/20 lg:bg-white lg:border-gray-100 rounded-2xl p-5 lg:shadow-sm transition-all hover:shadow-md">
                             
-                            {/* Question Header (Urgency & Date) */}
                             <div className="flex justify-between items-start mb-4">
-                                <span className={`text-[10px] md:text-xs px-3 py-1 rounded-full font-bold font-arabic ${
-                                    q.urgency === 'urgent' 
-                                    ? 'bg-red-500/20 text-red-200 lg:bg-red-50 lg:text-red-600 border border-red-500/30 lg:border-red-100' 
-                                    : 'bg-blue-500/20 text-blue-200 lg:bg-blue-50 lg:text-blue-600 border border-blue-500/30 lg:border-blue-100'
-                                }`}>
+                                <span className={`text-[10px] md:text-xs px-3 py-1 rounded-full font-bold font-arabic ${q.urgency === 'urgent' ? 'bg-red-500/20 text-red-200 lg:bg-red-50 lg:text-red-600 border border-red-500/30 lg:border-red-100' : 'bg-blue-500/20 text-blue-200 lg:bg-blue-50 lg:text-blue-600 border border-blue-500/30 lg:border-blue-100'}`}>
                                     {q.urgency === 'urgent' ? 'فوری مسئلہ' : 'عام مسئلہ'}
                                 </span>
-                                
                                 <span className="text-xs text-blue-200/70 lg:text-gray-400 font-sans tracking-wide" dir="ltr">
                                     {new Date(q.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                                 </span>
                             </div>
                             
-                            {/* User's Question */}
                             <p className="text-white lg:text-gray-800 font-arabic text-base md:text-lg leading-relaxed mb-5 whitespace-pre-wrap">
                                 {q.body}
                             </p>
 
-                            {/* Admin's Answer Box */}
                             {q.answer ? (
                                 <div className="mt-4 bg-[#102a1b]/80 border border-green-500/30 lg:bg-green-50 lg:border-green-200 rounded-xl p-4 md:p-5 relative shadow-inner">
                                     <div className="absolute top-0 right-5 -translate-y-1/2 bg-green-500 text-white text-[11px] px-3 py-1 rounded-full flex items-center gap-1 font-arabic shadow-md border border-green-400">
                                         <CheckCircle2 className="w-3.5 h-3.5" /> جواب موصول
                                     </div>
                                     <p className="text-sm md:text-base text-green-50 lg:text-green-900 font-arabic leading-relaxed mt-2 whitespace-pre-wrap">
-                                        {q.answer}
+                                        {/* یہاں ہم نے renderWithLinks کا فنکشن استعمال کیا ہے */}
+                                        {renderWithLinks(q.answer)}
                                     </p>
                                 </div>
                             ) : (
@@ -401,9 +360,6 @@ export default function AskQuestionPage() {
             )}
         </div>
 
-        {/* ======================================================== */}
-        {/* ACCOUNT SWITCHER */}
-        {/* ======================================================== */}
         <div className="relative z-10 mt-4 mb-8 opacity-80 hover:opacity-100 transition-opacity">
             <div className="flex items-center justify-center gap-2">
                 <span className="text-blue-200 lg:text-gray-500 text-sm font-arabic">اکاؤنٹ تبدیل کرنا ہے؟</span>
