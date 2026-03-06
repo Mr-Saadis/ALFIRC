@@ -1,3 +1,4 @@
+//app/components/auth/SignOutButton.jsx
 'use client'
 
 import { supabase } from '@/lib/supabase'

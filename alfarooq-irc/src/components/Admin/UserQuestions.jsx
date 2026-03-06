@@ -1,138 +1,3 @@
-// 'use client'
-
-// import { useEffect, useState } from 'react'
-// import { supabase } from '@/lib/supabase'
-// import { useRouter } from 'next/navigation'
-// import { Button } from '@/components/ui/button'
-// import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
-// import { toast } from 'sonner'
-// import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle } from '@/components/ui/dialog'
-
-// export default function UserQuestions() {
-//   const [questions, setQuestions] = useState([])
-//   const [loading, setLoading] = useState(true)
-//   const [selectedQuestion, setSelectedQuestion] = useState(null)
-//   const router = useRouter()
-
-//   // Fetch questions from the database
-//   useEffect(() => {
-//     async function fetchQuestions() {
-//       const { data, error } = await supabase
-//         .from('UserQuestions')
-//         .select('*')
-//         .order('created_at', { ascending: false })
-
-//       if (error) {
-//         console.error('Error fetching questions:', error)
-//         toast.error('Failed to fetch questions')
-//       } else {
-//         setQuestions(data)
-//       }
-
-//       setLoading(false)
-//     }
-
-//     fetchQuestions()
-//   }, [])
-
-//   // Delete question after admin clicks "Done"
-//   const handleDone = async (id) => {
-//     const { error } = await supabase
-//       .from('UserQuestions')
-//       .delete()
-//       .eq('id', id)
-
-//     if (error) {
-//       console.error('Error deleting question:', error)
-//       toast.error('Failed to delete question')
-//     } else {
-//       setQuestions(questions.filter((q) => q.id !== id))
-//       toast.success('Question marked as done')
-//     }
-//   }
-
-//   // Handle showing the dialog with question details
-//   const handleRowClick = (question) => {
-//     setSelectedQuestion(question)
-//   }
-
-//   // Handle copying question content
-//   const handleCopy = () => {
-//     if (selectedQuestion) {
-//       navigator.clipboard.writeText(selectedQuestion.body)
-//       toast.success('Question copied to clipboard!')
-//     }
-//   }
-
-//   return (
-//     <div className="max-w-7xl mx-auto p-6">
-//       <h2 className="text-3xl font-bold mb-6">User Questions</h2>
-
-//       {loading ? (
-//         <div>Loading...</div>
-//       ) : (
-//         <Table>
-//           <TableHeader>
-//             <TableRow>
-//               <TableHead>Question</TableHead>
-//               <TableHead>User</TableHead>
-//               <TableHead>Urgency</TableHead>
-//               <TableHead>Actions</TableHead>
-//             </TableRow>
-//           </TableHeader>
-//           <TableBody>
-//             {questions.map((question) => (
-//               <TableRow key={question.id} onClick={() => handleRowClick(question)}>
-//                 <TableCell>{question.body}</TableCell>
-//                 <TableCell>{question.user_id}</TableCell>
-//                 <TableCell>{question.urgency}</TableCell>
-//                 <TableCell>
-//                   <Button
-//                     variant="outline"
-//                     color="red"
-//                     onClick={() => handleDone(question.id)}
-//                   >
-//                     Mark as Done
-//                   </Button>
-//                 </TableCell>
-//               </TableRow>
-//             ))}
-//           </TableBody>
-//         </Table>
-//       )}
-
-//       {/* Dialog for showing the question details */}
-//       {selectedQuestion && (
-//         <Dialog open={true} onOpenChange={() => setSelectedQuestion(null)}>
-//           <DialogTrigger>
-//             <div></div>
-//           </DialogTrigger>
-//           <DialogContent className="max-w-md w-full p-6">
-//             <DialogHeader>
-//               <DialogTitle>Question Details</DialogTitle>
-//             </DialogHeader>
-//             <p><strong>Question:</strong> {selectedQuestion.body}</p>
-//             <p><strong>Urgency:</strong> {selectedQuestion.urgency}</p>
-//             <p><strong>Anonymous:</strong> {selectedQuestion.anonymous ? 'Yes' : 'No'}</p>
-
-//             <DialogFooter className="flex gap-4 justify-end">
-//               <Button onClick={handleCopy} variant="outline" color="green">
-//                 Copy Question
-//               </Button>
-//               <Button onClick={() => setSelectedQuestion(null)} color="gray">
-//                 Close
-//               </Button>
-//             </DialogFooter>
-//           </DialogContent>
-//         </Dialog>
-//       )}
-//     </div>
-//   )
-// }
-
-
-
-
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -140,18 +5,23 @@ import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Textarea } from '@/components/ui/textarea' // Textarea امپورٹ کیا گیا ہے
 import { toast } from 'sonner'
-import { Trash2, Copy, Eye, EyeOff, User, Clock, AlertCircle, CheckCircle2, MessageSquare } from 'lucide-react'
+import { Trash2, Copy, Eye, EyeOff, User, Clock, AlertCircle, CheckCircle2, MessageSquare, Send } from 'lucide-react'
 
 export default function UserQuestions() {
   const [questions, setQuestions] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedQuestion, setSelectedQuestion] = useState(null)
   
-  // Fetch questions with User Data
+  // نئے اسٹیٹس جواب لکھنے کے لیے
+  const [replyText, setReplyText] = useState('')
+  const [submittingReply, setSubmittingReply] = useState(false)
+  
+  // Fetch questions with User Data (صرف وہ سوال جن کا جواب نہیں دیا گیا)
   useEffect(() => {
     async function fetchQuestions() {
       const { data, error } = await supabase
@@ -164,6 +34,7 @@ export default function UserQuestions() {
                 avatar_url
             )
         `)
+        .is('answer', null) // صرف بغیر جواب والے سوالات لائیں
         .order('created_at', { ascending: false })
 
       if (error) {
@@ -178,11 +49,9 @@ export default function UserQuestions() {
     fetchQuestions()
   }, [])
 
-  // Delete/Done Handler
-  const handleDone = async (id, e) => {
-    e.stopPropagation(); // Prevent row click opening dialog
-    
-    // Optimistic UI update (Delete from UI immediately)
+  // Delete Handler (اگر سوال فضول ہو اور ایڈمن ڈیلیٹ کرنا چاہے)
+  const handleDelete = async (id, e) => {
+    e.stopPropagation(); 
     const originalQuestions = [...questions];
     setQuestions(questions.filter((q) => q.id !== id));
 
@@ -192,11 +61,38 @@ export default function UserQuestions() {
       .eq('id', id)
 
     if (error) {
-      setQuestions(originalQuestions); // Revert if failed
+      setQuestions(originalQuestions); 
       console.error('Error deleting:', error)
       toast.error('مسئلہ آ گیا، دوبارہ کوشش کریں')
     } else {
-      toast.success('سوال مکمل (Done) مارک کر دیا گیا')
+      toast.success('سوال ڈیلیٹ کر دیا گیا')
+      if (selectedQuestion?.id === id) setSelectedQuestion(null);
+    }
+  }
+
+  // Reply / Done Handler (جواب کو ڈیٹا بیس میں محفوظ کرنے کے لیے)
+  const handleReplySubmit = async () => {
+    if (!replyText.trim()) {
+        toast.error('براہ کرم جواب تحریر کریں!')
+        return;
+    }
+
+    setSubmittingReply(true)
+    const { error } = await supabase
+        .from('UserQuestions')
+        .update({ answer: replyText })
+        .eq('id', selectedQuestion.id)
+
+    setSubmittingReply(false)
+
+    if (error) {
+        toast.error('مسئلہ: ' + error.message)
+    } else {
+        toast.success('جواب کامیابی سے ارسال کر دیا گیا!')
+        // لسٹ میں سے سوال ہٹا دیں کیونکہ اب یہ پینڈنگ نہیں رہا
+        setQuestions(questions.filter((q) => q.id !== selectedQuestion.id))
+        setSelectedQuestion(null)
+        setReplyText('')
     }
   }
 
@@ -215,6 +111,11 @@ export default function UserQuestions() {
     })
   }
 
+  const openDialog = (q) => {
+      setSelectedQuestion(q)
+      setReplyText(q.answer || '')
+  }
+
   return (
     <div className="min-h-screen bg-gray-50/50 p-6 lg:p-10 font-arabic" dir="rtl">
       
@@ -228,11 +129,11 @@ export default function UserQuestions() {
                     عوامی سوالات (User Questions)
                 </h2>
                 <p className="text-gray-500 mt-1 text-sm">
-                    یہاں وہ سوالات ہیں جو صارفین نے ایپ کے ذریعے پوچھے ہیں۔
+                    یہاں وہ سوالات ہیں جن کا جواب دینا ابھی باقی ہے۔
                 </p>
             </div>
             <Badge variant="outline" className="bg-white px-4 py-1 text-primary border-[#3333cc]/30">
-                کل: {questions.length}
+                کل التواء: {questions.length}
             </Badge>
         </div>
 
@@ -252,7 +153,7 @@ export default function UserQuestions() {
                     <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-4">
                         <CheckCircle2 className="w-10 h-10 text-primary" />
                     </div>
-                    <h3 className="text-xl font-bold text-gray-800">کوئی نیا سوال نہیں!</h3>
+                    <h3 className="text-xl font-bold text-gray-800">الحمدللہ! کوئی نیا سوال نہیں</h3>
                     <p className="text-gray-500 mt-2">تمام سوالات کے جوابات دیے جا چکے ہیں۔</p>
                 </div>
             ) : (
@@ -272,7 +173,7 @@ export default function UserQuestions() {
                                 <TableRow 
                                     key={q.id} 
                                     className="cursor-pointer hover:bg-blue-50/40 transition-colors group"
-                                    onClick={() => setSelectedQuestion(q)}
+                                    onClick={() => openDialog(q)}
                                 >
                                     {/* Question Body */}
                                     <TableCell className="py-4 align-top">
@@ -328,11 +229,11 @@ export default function UserQuestions() {
                                         <Button
                                             variant="ghost"
                                             size="sm"
-                                            className="text-gray-400 hover:text-green-600 hover:bg-green-50 transition-all gap-2"
-                                            onClick={(e) => handleDone(q.id, e)}
+                                            className="text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all gap-2"
+                                            onClick={(e) => handleDelete(q.id, e)}
+                                            title="سوال ڈیلیٹ کریں"
                                         >
-                                            <CheckCircle2 size={18} />
-                                            <span className="hidden sm:inline">Done</span>
+                                            <Trash2 size={18} />
                                         </Button>
                                     </TableCell>
                                 </TableRow>
@@ -343,70 +244,109 @@ export default function UserQuestions() {
             )}
         </div>
 
-        {/* ─── Detail Dialog ─────────────────────────────── */}
+        {/* ─── Detail & Reply Dialog ─────────────────────────────── */}
         {selectedQuestion && (
-            <Dialog open={!!selectedQuestion} onOpenChange={() => setSelectedQuestion(null)}>
-                <DialogContent className="max-w-lg font-arabic" dir="rtl">
+            <Dialog open={!!selectedQuestion} onOpenChange={(open) => {
+                if (!open) {
+                    setSelectedQuestion(null);
+                    setReplyText('');
+                }
+            }}>
+                <DialogContent className="max-w-xl font-arabic" dir="rtl">
                     <DialogHeader className="border-b border-gray-100 pb-4 mb-2">
                         <DialogTitle className="text-xl font-bold text-gray-800 flex items-center gap-2">
                             <AlertCircle className="text-primary" />
-                            سوال کی تفصیل
+                            سوال کی تفصیل اور جواب
                         </DialogTitle>
                         <DialogDescription>
-                            پوچھے گئے سوال کی مکمل معلومات نیچے موجود ہیں۔
+                            پوچھے گئے سوال کا مطالعہ کریں اور نیچے اپنا جواب تحریر کریں۔
                         </DialogDescription>
                     </DialogHeader>
 
-                    <div className="space-y-6 py-2">
+                    <div className="space-y-5 py-2">
                         {/* User Details Block */}
-                        <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-xl border border-gray-100">
-                            <Avatar className="w-12 h-12 border-2 border-white shadow-sm">
-                                <AvatarImage src={!selectedQuestion.anonymous && selectedQuestion.AuthenticatedUsers?.avatar_url} />
-                                <AvatarFallback className="bg-[#3333cc] text-white">
-                                    {selectedQuestion.anonymous ? <EyeOff /> : <User />}
-                                </AvatarFallback>
-                            </Avatar>
-                            <div>
-                                <h4 className="font-bold text-gray-900 text-lg">
-                                    {selectedQuestion.anonymous ? "خفیہ صارف" : selectedQuestion.AuthenticatedUsers?.full_name}
-                                </h4>
-                                <p className="text-sm text-gray-500 font-sans">
-                                    {selectedQuestion.anonymous ? "شناخت ظاہر نہیں کی گئی" : selectedQuestion.AuthenticatedUsers?.email}
-                                </p>
+                        <div className="flex items-center justify-between bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <div className="flex items-center gap-4">
+                                <Avatar className="w-12 h-12 border-2 border-white shadow-sm">
+                                    <AvatarImage src={!selectedQuestion.anonymous && selectedQuestion.AuthenticatedUsers?.avatar_url} />
+                                    <AvatarFallback className="bg-[#3333cc] text-white">
+                                        {selectedQuestion.anonymous ? <EyeOff /> : <User />}
+                                    </AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <h4 className="font-bold text-gray-900 text-lg">
+                                        {selectedQuestion.anonymous ? "خفیہ صارف" : selectedQuestion.AuthenticatedUsers?.full_name}
+                                    </h4>
+                                    <p className="text-sm text-gray-500 font-sans">
+                                        {selectedQuestion.anonymous ? "شناخت ظاہر نہیں کی گئی" : selectedQuestion.AuthenticatedUsers?.email}
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            {/* Meta Data */}
+                            <div className="flex flex-col gap-2 items-end">
+                                <div className={`flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md border ${selectedQuestion.urgency === 'urgent' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-green-50 text-green-600 border-green-100'}`}>
+                                    <AlertCircle size={14} />
+                                    {selectedQuestion.urgency === 'urgent' ? 'فوری نوعیت' : 'عام نوعیت'}
+                                </div>
+                                <div className="flex items-center gap-1.5 text-xs text-gray-500 font-sans">
+                                    <Clock size={14} />
+                                    {formatDate(selectedQuestion.created_at)}
+                                </div>
                             </div>
                         </div>
 
                         {/* Question Body */}
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-gray-500">سوال:</label>
-                            <div className="bg-blue-50/50 p-5 rounded-xl border border-blue-100 text-gray-800 leading-8 text-lg">
+                            <div className="bg-blue-50/50 p-5 rounded-xl border border-blue-100 text-gray-800 leading-8 text-lg whitespace-pre-wrap max-h-[150px] overflow-y-auto">
                                 {selectedQuestion.body}
                             </div>
                         </div>
 
-                        {/* Meta Data */}
-                        <div className="flex gap-4">
-                            <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-100 px-3 py-1.5 rounded-lg">
-                                <Clock size={16} />
-                                <span className="font-sans">{formatDate(selectedQuestion.created_at)}</span>
-                            </div>
-                            <div className={`flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg border ${selectedQuestion.urgency === 'urgent' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-green-50 text-green-600 border-green-100'}`}>
-                                <AlertCircle size={16} />
-                                {selectedQuestion.urgency === 'urgent' ? 'فوری نوعیت' : 'عام نوعیت'}
-                            </div>
+                        {/* Reply Textarea (New Implementation) */}
+                        <div className="space-y-2 pt-2 border-t border-gray-100">
+                            <label className="text-sm font-bold text-primary flex items-center gap-2">
+                                <MessageSquare size={16} /> جواب تحریر کریں:
+                            </label>
+                            <Textarea
+                                rows={5}
+                                value={replyText}
+                                onChange={(e) => setReplyText(e.target.value)}
+                                placeholder="بسم اللہ الرحمٰن الرحیم..."
+                                className="resize-none text-base p-4 border-gray-200 focus:border-[#3333cc] focus:ring-[#3333cc]/20 rounded-xl"
+                            />
                         </div>
                     </div>
 
-                    <DialogFooter className="border-t border-gray-100 pt-4 gap-2 sm:justify-start">
-                        <Button onClick={handleCopy} variant="outline" className="gap-2 hover:border-[#3333cc] hover:text-primary">
-                            <Copy size={16} /> کاپی کریں
+                    <DialogFooter className="border-t border-gray-100 pt-4 flex sm:justify-between items-center w-full">
+                        <Button onClick={handleCopy} variant="ghost" className="text-gray-500 hover:text-primary gap-2">
+                            <Copy size={16} /> سوال کاپی کریں
                         </Button>
-                        <Button 
-                            onClick={(e) => { handleDone(selectedQuestion.id, e); setSelectedQuestion(null); }} 
-                            className="bg-primary hover:bg-littleprimary text-white gap-2"
-                        >
-                            <CheckCircle2 size={16} /> مکمل (Done)
-                        </Button>
+                        
+                        <div className="flex gap-2">
+                            <Button 
+                                variant="outline" 
+                                onClick={() => { setSelectedQuestion(null); setReplyText(''); }}
+                            >
+                                منسوخ کریں
+                            </Button>
+                            <Button 
+                                onClick={handleReplySubmit} 
+                                disabled={submittingReply}
+                                className="bg-[#3333cc] hover:bg-[#15185e] text-white gap-2"
+                            >
+                                {submittingReply ? (
+                                    <>
+                                        <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span> بھیجا جا رہا ہے...
+                                    </>
+                                ) : (
+                                    <>
+                                        جواب ارسال کریں <Send size={16} className="rotate-180" />
+                                    </>
+                                )}
+                            </Button>
+                        </div>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
