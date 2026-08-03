@@ -19,6 +19,8 @@ const poppins = Poppins({
   display: "swap",
 });
 
+// Metadata removed as this is a client component
+
 export default function RootLayout({ children }) {
   const pathname = usePathname()
   

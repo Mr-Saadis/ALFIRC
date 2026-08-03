@@ -12,6 +12,7 @@ import SimilarQuestions from '@/components/lists/questions/Similar'
 import { recordAnonymousEvent, recordView } from '@/lib/analytics'
 import { getCopyableText } from '@/lib/getCopyableText'
 import { highlightHtml } from '@/lib/highlightHtml'
+import DOMPurify from 'isomorphic-dompurify'
 import { toast } from 'sonner'
 import { ScrollTop } from 'primereact/scrolltop'
 
@@ -81,7 +82,7 @@ export default function QuestionDetailPage() {
   // ───────────────── highlight search term
   useEffect(() => {
     const [marked, count] = highlightHtml(rawHtml, query)
-    setHtml(marked)
+    setHtml(DOMPurify.sanitize(marked))
     setMatches(count)
     setCurrent(count ? 0 : -1)
   }, [query, rawHtml])
