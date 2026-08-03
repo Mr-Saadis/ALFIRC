@@ -43,9 +43,10 @@ export default function RootLayout({ children }) {
             }
 
             <main className="min-h-screen">
-              <Analytics/>
-                {children}
+              {children}
             </main>
+            
+            <Analytics />
             
             <Toaster position="bottom-right" />
             
