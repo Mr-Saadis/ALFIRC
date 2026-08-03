@@ -10,6 +10,7 @@ import QuickAction from '@/components/layout/QuickAction'
 import { Toaster } from 'sonner'
 import { usePathname } from 'next/navigation'
 import { ThemeProvider } from "@/context/ThemeContext"; // Ensure path is correct
+import { Analytics } from "@vercel/analytics/next"
 
 const poppins = Poppins({
   variable: "--font-Poppins",
@@ -42,6 +43,7 @@ export default function RootLayout({ children }) {
             }
 
             <main className="min-h-screen">
+              <Analytics/>
                 {children}
             </main>
             
